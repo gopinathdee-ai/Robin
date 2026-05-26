@@ -24,7 +24,7 @@ function createPrismaClient() {
   const adapter = new PrismaPg(pool)
 
   return new PrismaClient({
-    adapter: adapter as any,
+    adapter,
     log:
       process.env.NEXT_PUBLIC_DEV_MODE === 'true'
         ? ['query', 'error', 'warn']

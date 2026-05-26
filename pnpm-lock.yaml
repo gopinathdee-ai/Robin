@@ -130,10 +130,10 @@ importers:
   packages/db:
     dependencies:
       '@prisma/adapter-pg':
-        specifier: ^5.14.0
+        specifier: ^5.22.0
         version: 5.22.0(pg@8.21.0)
       '@prisma/client':
-        specifier: ^5.14.0
+        specifier: ^5.22.0
         version: 5.22.0(prisma@5.22.0)
       '@supabase/supabase-js':
         specifier: ^2.106.1
@@ -149,7 +149,7 @@ importers:
         specifier: ^20.12.0
         version: 20.19.41
       prisma:
-        specifier: ^5.14.0
+        specifier: ^5.22.0
         version: 5.22.0
       tsx:
         specifier: ^4.9.3
