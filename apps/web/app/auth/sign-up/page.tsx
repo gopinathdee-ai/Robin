@@ -1,6 +1,5 @@
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
-import { prisma } from '@trades/db'
 import Link from 'next/link'
 import { ChevronRight } from 'lucide-react'
 import { DevModeBanner } from '@/components/DevModeBanner'
@@ -11,6 +10,7 @@ async function createAndSignUp() {
   'use server'
 
   try {
+    const { prisma } = await import('@trades/db')
     const user = await prisma.user.create({
       data: {
         email: `dev-${Date.now()}@local.test`,
@@ -44,6 +44,7 @@ async function continueAs(formData: FormData) {
 
 async function getRecentUsers() {
   try {
+    const { prisma } = await import('@trades/db')
     return await prisma.user.findMany({
       take: 5,
       orderBy: { createdAt: 'desc' },
