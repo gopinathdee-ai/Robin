@@ -19,7 +19,16 @@ if (fs.existsSync(rootEnv)) {
   console.log('\n✅ Environment files synced from root .env\n')
 } else {
   console.log('  ⚠ Root .env not found.')
-  console.log('  → Create it: cp .env.example .env')
-  console.log('  → Then update DATABASE_URL with your Supabase credentials\n')
-  process.exit(1)
+  
+  // Check if we are in a CI/Cloud environment where .env files are typically not used
+  const isCI = process.env.CI || process.env.VERCEL || process.env.GITHUB_ACTIONS
+  
+  if (isCI) {
+    console.log('  ℹ CI environment detected. Skipping .env sync as environment variables should be provided by the platform.\n')
+    process.exit(0)
+  } else {
+    console.log('  → Create it: cp .env.example .env')
+    console.log('  → Then update DATABASE_URL with your Supabase credentials\n')
+    process.exit(1)
+  }
 }
