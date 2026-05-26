@@ -10,26 +10,36 @@ export const dynamic = 'force-dynamic'
 async function createAndSignUp() {
   'use server'
 
-  const user = await prisma.user.create({
-    data: {
-      email: `dev-${Date.now()}@local.test`,
-      displayName: 'Dev User',
-      status: 'onboarding',
-      onboardingStep: 0,
-    },
-  })
+  try {
+    const user = await prisma.user.create({
+      data: {
+        email: `dev-${Date.now()}@local.test`,
+        displayName: 'Dev User',
+        status: 'onboarding',
+        onboardingStep: 0,
+      },
+    })
 
-  const store = await cookies()
-  store.set('dev-user-id', user.id, { httpOnly: true, path: '/', maxAge: 86400 })
-  redirect('/onboarding/role')
+    const store = await cookies()
+    store.set('dev-user-id', user.id, { httpOnly: true, path: '/', maxAge: 86400 })
+    redirect('/onboarding/role')
+  } catch (error) {
+    console.error('Error creating user:', error)
+    throw error
+  }
 }
 
 async function continueAs(formData: FormData) {
   'use server'
-  const userId = formData.get('userId') as string
-  const store = await cookies()
-  store.set('dev-user-id', userId, { httpOnly: true, path: '/', maxAge: 86400 })
-  redirect('/onboarding/role')
+  try {
+    const userId = formData.get('userId') as string
+    const store = await cookies()
+    store.set('dev-user-id', userId, { httpOnly: true, path: '/', maxAge: 86400 })
+    redirect('/onboarding/role')
+  } catch (error) {
+    console.error('Error continuing as user:', error)
+    throw error
+  }
 }
 
 async function getRecentUsers() {

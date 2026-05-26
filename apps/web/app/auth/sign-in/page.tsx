@@ -13,38 +13,48 @@ function getNextOnboardingStep(step: number): string {
 async function createAndSignIn() {
   'use server'
 
-  const user = await prisma.user.create({
-    data: {
-      email: `dev-${Date.now()}@local.test`,
-      displayName: 'Dev User',
-      status: 'onboarding',
-      onboardingStep: 0,
-    },
-  })
+  try {
+    const user = await prisma.user.create({
+      data: {
+        email: `dev-${Date.now()}@local.test`,
+        displayName: 'Dev User',
+        status: 'onboarding',
+        onboardingStep: 0,
+      },
+    })
 
-  const store = await cookies()
-  store.set('dev-user-id', user.id, { httpOnly: true, path: '/', maxAge: 86400 })
-  redirect('/onboarding/role')
+    const store = await cookies()
+    store.set('dev-user-id', user.id, { httpOnly: true, path: '/', maxAge: 86400 })
+    redirect('/onboarding/role')
+  } catch (error) {
+    console.error('Error creating user:', error)
+    throw error
+  }
 }
 
 async function signInAs(formData: FormData) {
   'use server'
-  const userId = formData.get('userId') as string
+  try {
+    const userId = formData.get('userId') as string
 
-  const user = await prisma.user.findUnique({
-    where: { id: userId },
-    select: { status: true, onboardingStep: true },
-  })
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { status: true, onboardingStep: true },
+    })
 
-  const store = await cookies()
-  store.set('dev-user-id', userId, { httpOnly: true, path: '/', maxAge: 86400 })
+    const store = await cookies()
+    store.set('dev-user-id', userId, { httpOnly: true, path: '/', maxAge: 86400 })
 
-  if (user?.status === 'active') {
-    redirect('/profile')
-  } else if (user?.status === 'onboarding') {
-    redirect(getNextOnboardingStep(user.onboardingStep))
-  } else {
-    redirect('/onboarding/role')
+    if (user?.status === 'active') {
+      redirect('/profile')
+    } else if (user?.status === 'onboarding') {
+      redirect(getNextOnboardingStep(user.onboardingStep))
+    } else {
+      redirect('/onboarding/role')
+    }
+  } catch (error) {
+    console.error('Error signing in:', error)
+    throw error
   }
 }
 
