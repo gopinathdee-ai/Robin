@@ -7,7 +7,7 @@ export async function GET(
 ) {
   try {
     const { id } = await params
-    const isDev = process.env.NODE_ENV === 'development'
+    const isDev = process.env.NEXT_PUBLIC_DEV_MODE === 'true'
 
     const content = await prisma.content.findUnique({
       where: { id },

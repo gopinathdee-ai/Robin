@@ -81,7 +81,7 @@ export async function GET(req: NextRequest) {
     const page = Math.max(1, Number(req.nextUrl.searchParams.get('page') ?? 1))
     const limit = Math.min(100, Math.max(1, Number(req.nextUrl.searchParams.get('limit') ?? 20)))
 
-    const isDev = process.env.NODE_ENV === 'development'
+    const isDev = process.env.NEXT_PUBLIC_DEV_MODE === 'true'
 
     const where: Prisma.ContentWhereInput = {
       status: isDev ? { in: ['published', 'pending_review', 'flagged'] as any } : 'published',
