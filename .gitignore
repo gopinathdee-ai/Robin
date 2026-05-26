@@ -1,0 +1,32 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Environment — NEVER commit this
+.env
+.env.local
+.env.production
+
+# Next.js build output
+apps/web/.next/
+apps/web/out/
+
+# TypeScript build output
+apps/api/dist/
+
+# Temp files
+tmp/
+temp/
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/settings.json
+*.swp

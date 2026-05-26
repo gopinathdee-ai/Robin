@@ -1,0 +1,29 @@
+{
+  "name": "trades-platform",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@8.15.0",
+  "scripts": {
+    "postinstall": "pnpm setup:env && pnpm --filter @trades/db generate",
+    "setup:env": "node scripts/setup-env.js",
+    "dev": "pnpm --filter @trades/web dev",
+    "build": "pnpm --filter @trades/web build",
+    "lint": "pnpm --filter @trades/web lint",
+    "typecheck": "pnpm --filter @trades/web typecheck",
+    "db:migrate": "pnpm --filter @trades/db migrate",
+    "db:migrate:dev": "pnpm --filter @trades/db migrate:dev",
+    "db:seed:mandatory": "pnpm --filter @trades/db seed:mandatory",
+    "db:seed:optional": "pnpm --filter @trades/db seed:optional",
+    "db:reset:destroy": "pnpm --filter @trades/db reset:destroy",
+    "db:reset:destroy:recreate": "pnpm --filter @trades/db reset:destroy:recreate",
+    "db:reset:soft": "pnpm --filter @trades/db reset:soft",
+    "db:studio": "pnpm --filter @trades/db studio"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "dependencies": {
+    "@supabase/supabase-js": "^2.106.1"
+  }
+}

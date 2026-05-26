@@ -1,0 +1,117 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --trades-primary: #c8511b;
+    --trades-dark: #2c1a0e;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Large tap targets for job-site use */
+  button, a, [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3.5 text-base font-semibold text-white transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2;
+    background-color: #c8511b;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.08), 0 1px 2px -1px rgba(0, 0, 0, 0.04);
+  }
+
+  .btn-primary:hover {
+    background-color: #a03e10;
+    box-shadow: 0 0 24px rgba(200, 81, 27, 0.25);
+  }
+
+  .btn-primary-white {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3.5 text-base font-semibold transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2;
+    color: #c8511b;
+    background-color: white;
+  }
+
+  .btn-primary-white:hover {
+    background-color: #fdf3ec;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border-2 px-6 py-3 text-base font-semibold transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed;
+    border-color: #c8511b;
+    color: #c8511b;
+  }
+
+  .btn-secondary:hover {
+    background-color: #fdf3ec;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 text-base font-medium transition-all active:scale-[0.98];
+    color: #7a4523;
+  }
+
+  .btn-ghost:hover {
+    background-color: #faf5f0;
+  }
+
+  .card {
+    @apply rounded-2xl border bg-white p-6 transition-all duration-300;
+    border-color: #f0dece;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.08), 0 1px 2px -1px rgba(0, 0, 0, 0.04);
+  }
+
+  .card-hover {
+    @apply hover:shadow-lg hover:-translate-y-1;
+  }
+
+  .glass {
+    @apply backdrop-blur-sm border rounded-xl;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  .badge {
+    @apply inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-xs font-medium border;
+    background-color: #fdf3ec;
+    color: #c8511b;
+    border-color: #fae3d0;
+  }
+
+  .section-heading {
+    @apply text-3xl sm:text-4xl font-bold leading-tight;
+    color: #1a1007;
+  }
+
+  .input {
+    @apply w-full rounded-xl bg-white px-4 py-3 text-base transition-colors focus:outline-none focus:ring-2;
+    border: 1px solid #e0c4a8;
+    color: #1a1007;
+  }
+
+  .input::placeholder {
+    color: #c89870;
+  }
+
+  .input:focus {
+    border-color: #c8511b;
+    box-shadow: 0 0 0 2px rgba(200, 81, 27, 0.1);
+  }
+
+  /* Progress bar used across onboarding */
+  .progress-bar {
+    @apply h-2 w-full overflow-hidden rounded-full;
+    background-color: #f0dece;
+  }
+
+  .progress-fill {
+    @apply h-full rounded-full transition-all duration-500;
+    background-color: #c8511b;
+  }
+}

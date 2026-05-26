@@ -1,0 +1,604 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ── Enums ────────────────────────────────────────────────────────
+
+enum UserRole {
+  apprentice
+  journeyperson
+  master
+  employer_admin
+  union_admin
+  platform_admin
+}
+
+enum AccountStatus {
+  onboarding
+  active
+  suspended
+  deactivated
+}
+
+enum InstitutionType {
+  union
+  employer
+  college
+  apprenticeship_board
+  online_provider
+}
+
+enum ContentType {
+  question
+  answer
+  post
+}
+
+enum ContentStatus {
+  draft
+  pending_review
+  published
+  flagged
+  removed
+}
+
+enum CredentialType {
+  contribution
+  peer_endorsed
+  mentor_eligible
+  mentorship_given
+  mentorship_received
+  self_reported
+  audit_verified
+  red_seal
+}
+
+enum MentorshipStatus {
+  requested
+  active
+  completed
+  declined
+  abandoned
+}
+
+enum ReputationEventType {
+  post_published
+  answer_accepted
+  content_upvoted
+  peer_endorsement_received
+  audit_passed
+  audit_failed
+  mentorship_completed
+  mentee_milestone_achieved
+  credential_issued
+  penalty_applied
+}
+
+enum EndorsementStatus {
+  pending
+  accepted
+  rejected
+  flagged
+}
+
+enum AuditOutcome {
+  passed
+  failed
+  escalated
+}
+
+enum AuditTrigger {
+  random
+  new_high_volume
+  domain_expansion
+  pattern_flag
+}
+
+enum NotificationType {
+  endorsement_received
+  mentorship_requested
+  mentorship_accepted
+  mentorship_milestone
+  content_upvoted
+  answer_accepted
+  credential_issued
+  mentor_eligible
+  audit_result
+}
+
+enum UserDocumentType {
+  RED_SEAL
+  SAFETY_WHMIS
+  SAFETY_FALL_PROTECTION
+  SAFETY_FIRST_AID
+  OTHER
+
+  @@map("user_document_type")
+}
+
+enum UserDocumentStatus {
+  PENDING
+  VERIFIED
+  REJECTED
+
+  @@map("user_document_status")
+}
+
+// ── Reference Data ──────────────────────────────────────────────
+
+model Trade {
+  id              String   @id @default(uuid())
+  code            String   @unique
+  name            String
+  isRedSeal       Boolean  @default(true) @map("is_red_seal")
+  provinceCode    String?  @map("province_code")
+  isActive        Boolean  @default(true) @map("is_active")
+  createdAt       DateTime @default(now()) @map("created_at")
+
+  specialisations TradeSpecialisation[]
+  expertiseTopics ExpertiseTopic[]
+  userTrades      UserTrade[]
+  credentials     Credential[]
+  mentorships     MentorshipRelationship[]
+  content         Content[]
+
+  @@map("trades")
+}
+
+model TradeSpecialisation {
+  id        String   @id @default(uuid())
+  tradeId   String   @map("trade_id")
+  name      String
+  isActive  Boolean  @default(true) @map("is_active")
+
+  trade      Trade  @relation(fields: [tradeId], references: [id], onDelete: Cascade)
+  userTrades UserTrade[]
+
+  @@map("trade_specialisations")
+}
+
+model ExpertiseTopic {
+  id          String   @id @default(uuid())
+  tradeId     String?  @map("trade_id")
+  name        String
+  slug        String   @unique
+  description String?
+  isActive    Boolean  @default(true) @map("is_active")
+
+  trade               Trade?                @relation(fields: [tradeId], references: [id], onDelete: SetNull)
+  peerEndorsements    PeerEndorsement[]
+  content             Content[]
+  credentials         Credential[]
+  mentorshipMilestones MentorshipMilestone[]
+
+  @@map("expertise_topics")
+}
+
+// ── Users & Identity ─────────────────────────────────────────────
+
+model User {
+  id               String         @id @default(uuid())
+  auth0Id          String?        @unique @map("auth0_id")
+  email            String         @unique
+  displayName      String         @map("display_name")
+  avatarUrl        String?        @map("avatar_url")
+  role             UserRole       @default(apprentice)
+  status           AccountStatus  @default(onboarding)
+  provinceCode     String?        @map("province_code")
+  yearsExperience  Int?           @map("years_experience")
+  employerName     String?        @map("employer_name")
+  unionLocalId     String?        @map("union_local_id")
+  bio              String?
+  onboardingStep   Int            @default(0) @map("onboarding_step")
+  onboardingDone   Boolean        @default(false) @map("onboarding_done")
+  lastActiveAt     DateTime?      @map("last_active_at")
+  createdAt        DateTime       @default(now()) @map("created_at")
+  updatedAt        DateTime       @updatedAt @map("updated_at")
+
+  unionLocal        Institution?              @relation("union_members", fields: [unionLocalId], references: [id], onDelete: SetNull)
+  trades            UserTrade[]
+  reputationScore   ReputationScore?
+  reputationEvents  ReputationEvent[]
+  institutionMembers InstitutionMember[]
+  content           Content[]
+  contentVotes      ContentVote[]
+  endorsementsGiven PeerEndorsement[]        @relation("endorser")
+  endorsementsReceived PeerEndorsement[]     @relation("recipient")
+  mentorships       MentorshipRelationship[] @relation("mentor")
+  mentees           MentorshipRelationship[] @relation("mentee")
+  mentorshipReviews MentorshipReview[]
+  credentials       Credential[]
+  contentAudits     ContentAudit[]
+  notifications     Notification[]
+  uploadedDocuments UserDocument[]
+  notificationPreferences NotificationPreferences?
+  bookmarks         Bookmark[]
+
+  @@index([auth0Id])
+  @@index([email])
+  @@index([status])
+  @@map("users")
+}
+
+model UserTrade {
+  id               String    @id @default(uuid())
+  userId           String    @map("user_id")
+  tradeId          String    @map("trade_id")
+  specialisationId String?   @map("specialisation_id")
+  isPrimary        Boolean   @default(false) @map("is_primary")
+  verifiedAt       DateTime? @map("verified_at")
+  redSealNumber    String?   @map("red_seal_number")
+  createdAt        DateTime  @default(now()) @map("created_at")
+
+  user           User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  trade          Trade                 @relation(fields: [tradeId], references: [id])
+  specialisation TradeSpecialisation?  @relation(fields: [specialisationId], references: [id])
+
+  @@unique([userId, tradeId])
+  @@map("user_trades")
+}
+
+// ── Institutions ─────────────────────────────────────────────────
+
+model Institution {
+  id           String          @id @default(uuid())
+  type         InstitutionType
+  name         String
+  provinceCode String?         @map("province_code")
+  websiteUrl   String?         @map("website_url")
+  logoUrl      String?         @map("logo_url")
+  isPartner    Boolean         @default(false) @map("is_partner")
+  isActive     Boolean         @default(true) @map("is_active")
+  createdAt    DateTime        @default(now()) @map("created_at")
+
+  members      InstitutionMember[]
+  unionMembers User[]            @relation("union_members")
+  credentials  Credential[]
+
+  @@map("institutions")
+}
+
+model InstitutionMember {
+  id            String    @id @default(uuid())
+  institutionId String    @map("institution_id")
+  userId        String    @map("user_id")
+  memberNumber  String?   @map("member_number")
+  role          String?
+  joinedAt      DateTime? @map("joined_at")
+  createdAt     DateTime  @default(now()) @map("created_at")
+
+  institution Institution @relation(fields: [institutionId], references: [id], onDelete: Cascade)
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([institutionId, userId])
+  @@map("institution_members")
+}
+
+// ── Reputation System ────────────────────────────────────────────
+
+model ReputationScore {
+  userId                String   @id @map("user_id")
+  totalScore            Int      @default(0) @map("total_score")
+  contentScore          Int      @default(0) @map("content_score")
+  peerEndorsementScore  Int      @default(0) @map("peer_endorsement_score")
+  mentorshipScore       Int      @default(0) @map("mentorship_score")
+  auditScore            Int      @default(0) @map("audit_score")
+  mentorEligible        Boolean  @default(false) @map("mentor_eligible")
+  mentorEligibleAt      DateTime? @map("mentor_eligible_at")
+  tier                  String   @default("apprentice")
+  calculatedAt          DateTime @default(now()) @updatedAt @map("calculated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("reputation_scores")
+}
+
+model ReputationEvent {
+  id           String              @id @default(uuid())
+  userId       String              @map("user_id")
+  eventType    ReputationEventType @map("event_type")
+  points       Int
+  referenceId  String?             @map("reference_id")
+  metadata     Json?
+  createdAt    DateTime            @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt(sort: Desc)])
+  @@map("reputation_events")
+}
+
+model PeerEndorsement {
+  id           String             @id @default(uuid())
+  endorserId   String             @map("endorser_id")
+  recipientId  String             @map("recipient_id")
+  topicId      String             @map("topic_id")
+  rationale    String
+  status       EndorsementStatus  @default(pending)
+  weight       Decimal            @default(1.0)
+  isSameTrade  Boolean            @default(false) @map("is_same_trade")
+  reviewedAt   DateTime?          @map("reviewed_at")
+  createdAt    DateTime           @default(now()) @map("created_at")
+
+  endorser  User           @relation("endorser", fields: [endorserId], references: [id])
+  recipient User           @relation("recipient", fields: [recipientId], references: [id])
+  topic     ExpertiseTopic @relation(fields: [topicId], references: [id])
+
+  @@index([recipientId, status])
+  @@map("peer_endorsements")
+}
+
+// ── Content ──────────────────────────────────────────────────────
+
+model Content {
+  id             String        @id @default(uuid())
+  authorId       String        @map("author_id")
+  type           ContentType
+  parentId       String?       @map("parent_id")
+  tradeId        String?       @map("trade_id")
+  topicId        String?       @map("topic_id")
+  title          String?
+  body           String
+  status         ContentStatus @default(pending_review)
+  upvoteCount    Int           @default(0) @map("upvote_count")
+  viewCount      Int           @default(0) @map("view_count")
+  isAccepted     Boolean       @default(false) @map("is_accepted")
+  aiQualityScore Decimal?      @map("ai_quality_score")
+  aiDomainScore  Decimal?      @map("ai_domain_score")
+  aiScreenedAt   DateTime?     @map("ai_screened_at")
+  publishedAt    DateTime?     @map("published_at")
+  createdAt      DateTime      @default(now()) @map("created_at")
+  updatedAt      DateTime      @updatedAt @map("updated_at")
+
+  author           User                  @relation(fields: [authorId], references: [id])
+  parent           Content?              @relation("answers", fields: [parentId], references: [id], onDelete: Cascade)
+  answers          Content[]             @relation("answers")
+  trade            Trade?                @relation(fields: [tradeId], references: [id])
+  topic            ExpertiseTopic?       @relation(fields: [topicId], references: [id])
+  votes            ContentVote[]
+  bookmarks        Bookmark[]
+  aiScreeningResults AiScreeningResult[]
+  audits           ContentAudit[]
+
+  @@index([authorId])
+  @@index([tradeId, topicId, status])
+  @@index([parentId])
+  @@map("content")
+}
+
+model ContentVote {
+  id        String   @id @default(uuid())
+  contentId String   @map("content_id")
+  voterId   String   @map("voter_id")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  content Content @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  voter   User    @relation(fields: [voterId], references: [id])
+
+  @@unique([contentId, voterId])
+  @@map("content_votes")
+}
+
+model Bookmark {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  contentId String   @map("content_id")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  content Content @relation(fields: [contentId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, contentId])
+  @@index([userId, createdAt(sort: Desc)])
+  @@map("bookmarks")
+}
+
+model AiScreeningResult {
+  id            String   @id @default(uuid())
+  contentId     String   @map("content_id")
+  qualityScore  Decimal  @map("quality_score")
+  domainScore   Decimal  @map("domain_score")
+  flags         String[]
+  modelUsed     String   @map("model_used")
+  promptVersion String   @map("prompt_version")
+  rawResponse   Json?    @map("raw_response")
+  screenedAt    DateTime @default(now()) @map("screened_at")
+
+  content Content @relation(fields: [contentId], references: [id], onDelete: Cascade)
+
+  @@map("ai_screening_results")
+}
+
+model ContentAudit {
+  id          String       @id @default(uuid())
+  contentId   String       @map("content_id")
+  auditorId   String       @map("auditor_id")
+  triggerType AuditTrigger @map("trigger_type")
+  outcome     AuditOutcome
+  notes       String?
+  auditedAt   DateTime     @default(now()) @map("audited_at")
+
+  content  Content @relation(fields: [contentId], references: [id])
+  auditor  User    @relation(fields: [auditorId], references: [id])
+
+  @@map("content_audits")
+}
+
+// ── Credentials ──────────────────────────────────────────────────
+
+model Credential {
+  id                String         @id @default(uuid())
+  holderId          String         @map("holder_id")
+  issuedBy          String?        @map("issued_by")
+  type              CredentialType
+  name              String
+  description       String?
+  tradeId           String?        @map("trade_id")
+  topicId           String?        @map("topic_id")
+  badgeUrl          String?        @map("badge_url")
+  imageUrl          String?        @map("image_url")
+  criteriaUrl       String?        @map("criteria_url")
+  issuedAt          DateTime       @default(now()) @map("issued_at")
+  expiresAt         DateTime?      @map("expires_at")
+  revokedAt         DateTime?      @map("revoked_at")
+  revocationReason  String?        @map("revocation_reason")
+  ob3Assertion      Json?          @map("ob3_assertion")
+  verificationHash  String?        @map("verification_hash")
+  isPublic          Boolean        @default(true) @map("is_public")
+  createdAt         DateTime       @default(now()) @map("created_at")
+
+  holder   User         @relation(fields: [holderId], references: [id])
+  issuer   Institution? @relation(fields: [issuedBy], references: [id])
+  trade    Trade?       @relation(fields: [tradeId], references: [id])
+  topic    ExpertiseTopic? @relation(fields: [topicId], references: [id])
+
+  @@index([holderId, type])
+  @@index([isPublic, issuedAt(sort: Desc)])
+  @@map("credentials")
+}
+
+model UserDocument {
+  id              String               @id @default(uuid())
+  userId          String               @map("user_id")
+  documentType    UserDocumentType     @map("document_type")
+  fileName        String               @map("file_name")
+  fileUrl         String               @map("file_url")
+  fileSize        Int                  @map("file_size")
+  mimeType        String               @map("mime_type")
+  storagePath     String?              @map("storage_path")
+  status          UserDocumentStatus   @default(PENDING)
+  verifiedAt      DateTime?            @map("verified_at")
+  verifiedById    String?              @map("verified_by_id")
+  rejectionReason String?              @map("rejection_reason")
+  notes           String?
+  createdAt       DateTime             @default(now()) @map("created_at")
+  updatedAt       DateTime             @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([status])
+  @@map("user_documents")
+}
+
+// ── Mentorship ───────────────────────────────────────────────────
+
+model MentorshipRelationship {
+  id          String             @id @default(uuid())
+  mentorId    String             @map("mentor_id")
+  menteeId    String             @map("mentee_id")
+  tradeId     String?            @map("trade_id")
+  status      MentorshipStatus   @default(requested)
+  goals       String
+  requestNote String?            @map("request_note")
+  startedAt   DateTime?          @map("started_at")
+  completedAt DateTime?          @map("completed_at")
+  createdAt   DateTime           @default(now()) @map("created_at")
+  updatedAt   DateTime           @updatedAt @map("updated_at")
+
+  mentor     User                    @relation("mentor", fields: [mentorId], references: [id])
+  mentee     User                    @relation("mentee", fields: [menteeId], references: [id])
+  trade      Trade?                  @relation(fields: [tradeId], references: [id])
+  milestones MentorshipMilestone[]
+  reviews    MentorshipReview[]
+
+  @@map("mentorship_relationships")
+}
+
+model MentorshipMilestone {
+  id             String   @id @default(uuid())
+  relationshipId String   @map("relationship_id")
+  title          String
+  description    String?
+  achievedAt     DateTime? @map("achieved_at")
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  relationship MentorshipRelationship @relation(fields: [relationshipId], references: [id], onDelete: Cascade)
+  topic        ExpertiseTopic?        @relation(fields: [topicId], references: [id])
+  topicId      String?
+
+  @@map("mentorship_milestones")
+}
+
+model MentorshipReview {
+  id             String   @id @default(uuid())
+  relationshipId String   @map("relationship_id")
+  reviewerId     String   @map("reviewer_id")
+  rating         Int
+  reviewText     String?  @map("review_text")
+  isPublic       Boolean  @default(true) @map("is_public")
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  relationship MentorshipRelationship @relation(fields: [relationshipId], references: [id])
+  reviewer     User                   @relation(fields: [reviewerId], references: [id])
+
+  @@unique([relationshipId, reviewerId])
+  @@map("mentorship_reviews")
+}
+
+// ── Notification Preferences ─────────────────────────────────────
+
+model NotificationPreferences {
+  id                 String   @id @default(uuid())
+  userId             String   @unique @map("user_id")
+  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  weeklyDigest       Boolean  @default(true) @map("weekly_digest")
+  endorsements       Boolean  @default(true)
+  credentialUpdates  Boolean  @default(true) @map("credential_updates")
+  communityActivity  Boolean  @default(false) @map("community_activity")
+  marketing          Boolean  @default(false)
+  createdAt          DateTime @default(now()) @map("created_at")
+  updatedAt          DateTime @updatedAt @map("updated_at")
+
+  @@map("notification_preferences")
+}
+
+// ── Notifications ────────────────────────────────────────────────
+
+model Notification {
+  id          String           @id @default(uuid())
+  userId      String           @map("user_id")
+  type        NotificationType
+  title       String
+  body        String?
+  referenceId String?          @map("reference_id")
+  isRead      Boolean          @default(false) @map("is_read")
+  createdAt   DateTime         @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, isRead, createdAt(sort: Desc)])
+  @@map("notifications")
+}
+
+// ── Platform Configuration ───────────────────────────────────────
+
+model PlatformSettings {
+  id                            String   @id @default("singleton")
+
+  // Endorsement Gate Thresholds (Production values)
+  endorsementMinContributions   Int      @default(20) @map("endorsement_min_contributions")
+  endorsementMinReputation      Int      @default(50) @map("endorsement_min_reputation")
+  endorsementMinAccountAgeDays  Int      @default(60) @map("endorsement_min_account_age_days")
+  endorsementCooldownDays       Int      @default(30) @map("endorsement_cooldown_days")
+
+  // Reputation Thresholds
+  mentorTierThreshold           Int      @default(750) @map("mentor_tier_threshold")
+
+  // Content Review
+  contentReviewSLAHours         Int      @default(24) @map("content_review_sla_hours")
+
+  // Audit Trail
+  updatedAt     DateTime @updatedAt @map("updated_at")
+  updatedBy     String?  @map("updated_by")
+
+  @@map("platform_settings")
+}

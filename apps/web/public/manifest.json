@@ -1,0 +1,17 @@
+{
+  "name": "Trades Platform",
+  "short_name": "Trades",
+  "description": "Your skills record. Built to last a career.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#c8511b",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

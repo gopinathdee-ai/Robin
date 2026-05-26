@@ -1,0 +1,49 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx tsc *)",
+      "Bash(pnpm test:unit components/community/__tests__/ContentCard.test.tsx)",
+      "Bash(pnpm test:unit components/community/__tests__/)",
+      "Bash(pnpm --filter @trades/web test:unit)",
+      "Bash(pnpm --filter @trades/web test:e2e)",
+      "Bash(pnpm test *)",
+      "Bash(vitest --run)",
+      "Bash(rm -rf apps/web/.next)",
+      "Bash(pnpm --filter @trades/web build)",
+      "Bash(timeout 10 pnpm --filter @trades/web dev)",
+      "Bash(lsof -ti:3000)",
+      "Bash(timeout 15 pnpm --filter @trades/web dev -- -p 3001)",
+      "Bash(curl -s http://localhost:3000/api/users/me/summary -H \"x-dev-user-id: test-user\")",
+      "Bash(pnpm --filter @trades/db exec prisma migrate dev --name add_user_documents)",
+      "Bash(pnpm typecheck *)",
+      "Bash(pnpm build *)",
+      "Bash(pnpm --filter @trades/web run)",
+      "Bash(pnpm --filter @trades/web run test:unit)",
+      "Bash(npx prisma *)",
+      "Bash(pnpm --filter @trades/db exec prisma migrate dev --name add_notification_preferences)",
+      "Bash(pnpm run *)",
+      "Bash(pnpm --filter @trades/db exec prisma migrate dev --name add_bookmarks)",
+      "Bash(ls -la c:\\\\\\\\MyApps\\\\\\\\trades-platform)",
+      "Bash(pnpm exec *)",
+      "Bash(pnpm --filter @trades/web exec vitest run)",
+      "Bash(pnpm db:migrate -- --name add_platform_settings)",
+      "Bash(npx ts-node *)",
+      "Bash(xargs grep -l \"Loading\")",
+      "Bash(pnpm dev *)",
+      "Bash(pnpm --filter @trades/web exec tsc --noEmit components/community/CreatePostModal.tsx)",
+      "Bash(pnpm test:unit -- dashboard)",
+      "Bash(pnpm test:unit -- page.test.tsx)",
+      "Bash(pnpm test:unit -- page.test.tsx --run)",
+      "Bash(pnpm test:unit page.test.tsx)",
+      "Bash(pnpm test:unit \"trades\")",
+      "Bash(ls -la \"C:\\\\MyApps\\\\trades-platform\\\\apps\\\\web\\\\app\\\\community\" 2>nul | head -20)",
+      "Bash(ls -la \"C:\\\\MyApps\\\\trades-platform\\\\apps\\\\web\\\\app\\\\community\\\\[id]\" 2>nul)",
+      "Bash(Remove-Item \"c:\\\\MyApps\\\\trades-platform\\\\packages\\\\db\\\\.env\" -Force)",
+      "Bash(xargs cat)",
+      "Bash(pnpm prisma *)"
+    ],
+    "additionalDirectories": [
+      "c:\\MyApps\\trades-platform"
+    ]
+  }
+}

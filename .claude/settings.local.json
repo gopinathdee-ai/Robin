@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pnpm --filter @trades/web exec vitest --run)",
+      "Bash(git commit -m ' *)"
+    ]
+  }
+}
