@@ -56,6 +56,8 @@ async function getRecentUsers() {
   })
 }
 
+export const dynamic = 'force-dynamic'
+
 export default async function SignInPage() {
   const recentUsers = await getRecentUsers()
 
