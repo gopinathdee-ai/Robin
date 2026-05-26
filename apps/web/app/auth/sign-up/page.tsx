@@ -43,11 +43,16 @@ async function continueAs(formData: FormData) {
 }
 
 async function getRecentUsers() {
-  return await prisma.user.findMany({
-    take: 5,
-    orderBy: { createdAt: 'desc' },
-    select: { id: true, displayName: true, status: true },
-  })
+  try {
+    return await prisma.user.findMany({
+      take: 5,
+      orderBy: { createdAt: 'desc' },
+      select: { id: true, displayName: true, status: true },
+    })
+  } catch (error) {
+    console.error('Failed to fetch recent users:', error)
+    return []
+  }
 }
 
 export default async function SignUpPage() {
