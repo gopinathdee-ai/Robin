@@ -10,7 +10,6 @@ vi.mock('next/headers', () => ({
 
 describe('requireAuth', () => {
   beforeEach(() => {
-    vi.stubEnv('NODE_ENV', 'development')
     vi.stubEnv('NEXT_PUBLIC_DEV_MODE', 'true')
   })
 
