@@ -5,6 +5,8 @@ import Link from 'next/link'
 import { ChevronRight } from 'lucide-react'
 import { DevModeBanner } from '@/components/DevModeBanner'
 
+export const dynamic = 'force-dynamic'
+
 async function createAndSignUp() {
   'use server'
 
