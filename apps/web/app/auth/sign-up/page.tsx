@@ -56,7 +56,8 @@ async function getRecentUsers() {
 }
 
 export default async function SignUpPage() {
-  const recentUsers = await getRecentUsers()
+  const isDevMode = process.env.NEXT_PUBLIC_DEV_MODE === 'true'
+  const recentUsers = isDevMode ? await getRecentUsers() : []
 
   return (
     <div className="min-h-screen bg-white flex items-center justify-center p-4">
