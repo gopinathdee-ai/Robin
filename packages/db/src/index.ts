@@ -23,7 +23,7 @@ function createPrismaClient() {
 
   const adapter = new PrismaPg(pool)
 
-  return new PrismaClient({
+  return new (PrismaClient as any)({
     adapter,
     log:
       process.env.NEXT_PUBLIC_DEV_MODE === 'true'
