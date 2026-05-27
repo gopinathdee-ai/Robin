@@ -171,7 +171,7 @@ function CommunityContent() {
             </Link>
           </div>
         ) : (
-          <div className="space-y-4">
+          <div className="space-y-3">
             {content.map((item) => (
               <ContentCard
                 key={item.id}
