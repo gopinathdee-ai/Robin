@@ -165,7 +165,7 @@ export function ContentCard({
           <span className="flex items-center gap-1">
             <FontAwesomeIcon icon={faThumbsUp} /> {upvotes} upvotes
           </span>
-          {type === 'question' && answersCount !== undefined && (
+          {answersCount !== undefined && (
             <span className="flex items-center gap-1">
               <FontAwesomeIcon icon={faComments} /> {answersCount} answers
             </span>
