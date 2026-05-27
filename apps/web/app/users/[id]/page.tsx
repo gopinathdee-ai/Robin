@@ -204,7 +204,7 @@ export default function PublicProfilePage() {
                 </p>
                 <Link
                   href={`/profile/endorsements?user=${user.id}`}
-                  className="inline-block px-4 py-2 bg-trades-500 text-white rounded-lg hover:bg-trades-600 text-sm font-medium"
+                  className="inline-flex items-center justify-center px-4 py-2 bg-trades-500 text-white rounded-lg hover:bg-trades-600 text-sm font-medium"
                 >
                   View All Endorsements
                 </Link>

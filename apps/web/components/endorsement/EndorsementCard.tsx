@@ -116,14 +116,14 @@ export function EndorsementCard({ endorsement, canAccept, onAccept, onReject }: 
             <button
               onClick={handleAccept}
               disabled={loading}
-              className="px-3 py-1 bg-green-100 text-green-700 rounded text-xs font-medium hover:bg-green-200 disabled:opacity-50"
+              className="flex items-center justify-center px-3 py-1 bg-green-100 text-green-700 rounded text-xs font-medium hover:bg-green-200 disabled:opacity-50"
             >
               Accept
             </button>
             <button
               onClick={handleReject}
               disabled={loading}
-              className="px-3 py-1 bg-red-100 text-red-700 rounded text-xs font-medium hover:bg-red-200 disabled:opacity-50"
+              className="flex items-center justify-center px-3 py-1 bg-red-100 text-red-700 rounded text-xs font-medium hover:bg-red-200 disabled:opacity-50"
             >
               Reject
             </button>

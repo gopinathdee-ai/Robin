@@ -95,7 +95,7 @@ export default function OnboardingSuccessPage() {
           </button>
           <button
             onClick={() => router.push('/community')}
-            className="w-full py-3 px-4 border border-ink-300 text-ink-900 rounded-lg font-semibold hover:bg-ink-50 transition-colors min-h-[44px]"
+            className="w-full flex items-center justify-center py-3 px-4 border border-ink-300 text-ink-900 rounded-lg font-semibold hover:bg-ink-50 transition-colors min-h-[44px]"
           >
             Browse community
           </button>

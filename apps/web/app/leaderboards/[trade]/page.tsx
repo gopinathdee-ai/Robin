@@ -98,7 +98,7 @@ export default function LeaderboardPage() {
       <div className="mb-6 flex gap-2">
         <Link
           href={`/leaderboards/${trade}?sort=score`}
-          className={`rounded px-4 py-2 text-sm font-medium transition-colors ${
+          className={`flex items-center justify-center rounded px-4 py-2 text-sm font-medium transition-colors ${
             sort === 'score'
               ? 'bg-trades-500 text-white'
               : 'bg-trades-100 text-trades-900 hover:bg-trades-200'
@@ -108,7 +108,7 @@ export default function LeaderboardPage() {
         </Link>
         <Link
           href={`/leaderboards/${trade}?sort=recent`}
-          className={`rounded px-4 py-2 text-sm font-medium transition-colors ${
+          className={`flex items-center justify-center rounded px-4 py-2 text-sm font-medium transition-colors ${
             sort === 'recent'
               ? 'bg-trades-500 text-white'
               : 'bg-trades-100 text-trades-900 hover:bg-trades-200'
@@ -118,7 +118,7 @@ export default function LeaderboardPage() {
         </Link>
         <Link
           href={`/leaderboards/${trade}?sort=endorsed`}
-          className={`rounded px-4 py-2 text-sm font-medium transition-colors ${
+          className={`flex items-center justify-center rounded px-4 py-2 text-sm font-medium transition-colors ${
             sort === 'endorsed'
               ? 'bg-trades-500 text-white'
               : 'bg-trades-100 text-trades-900 hover:bg-trades-200'
@@ -141,7 +141,7 @@ export default function LeaderboardPage() {
             {page > 1 && (
               <Link
                 href={`/leaderboards/${trade}?page=${page - 1}&sort=${sort}`}
-                className="rounded px-4 py-2 text-sm font-medium bg-trades-100 text-trades-900 hover:bg-trades-200 transition-colors"
+                className="flex items-center justify-center rounded px-4 py-2 text-sm font-medium bg-trades-100 text-trades-900 hover:bg-trades-200 transition-colors"
               >
                 Previous
               </Link>
@@ -149,7 +149,7 @@ export default function LeaderboardPage() {
             {page < data.pages && (
               <Link
                 href={`/leaderboards/${trade}?page=${page + 1}&sort=${sort}`}
-                className="rounded px-4 py-2 text-sm font-medium bg-trades-500 text-white hover:bg-trades-600 transition-colors"
+                className="flex items-center justify-center rounded px-4 py-2 text-sm font-medium bg-trades-500 text-white hover:bg-trades-600 transition-colors"
               >
                 Next
               </Link>

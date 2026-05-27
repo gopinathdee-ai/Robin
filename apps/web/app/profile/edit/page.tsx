@@ -219,13 +219,13 @@ export default function ProfileEditPage() {
                 <button
                   type="submit"
                   disabled={saving}
-                  className="px-6 py-2 bg-trades-500 text-white rounded-lg font-medium hover:bg-trades-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex items-center justify-center px-6 py-2 bg-trades-500 text-white rounded-lg font-medium hover:bg-trades-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {saving ? 'Saving...' : 'Save Changes'}
                 </button>
                 <Link
                   href="/profile"
-                  className="px-6 py-2 border border-ink-300 text-ink-900 rounded-lg font-medium hover:bg-ink-50 transition-colors"
+                  className="flex items-center justify-center px-6 py-2 border border-ink-300 text-ink-900 rounded-lg font-medium hover:bg-ink-50 transition-colors"
                 >
                   Cancel
                 </Link>

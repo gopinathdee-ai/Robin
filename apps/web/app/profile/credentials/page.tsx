@@ -99,7 +99,7 @@ export default function CredentialsPage() {
                   </p>
                   <button
                     onClick={() => setShowUploadForm(true)}
-                    className="px-6 py-3 bg-trades-500 text-white rounded-lg font-medium hover:bg-trades-600 transition-colors inline-block min-h-[44px]"
+                    className="flex items-center justify-center px-6 py-3 bg-trades-500 text-white rounded-lg font-medium hover:bg-trades-600 transition-colors min-h-[44px]"
                   >
                     Upload Your First Credential
                   </button>
@@ -110,7 +110,7 @@ export default function CredentialsPage() {
                     {!showUploadForm && (
                       <button
                         onClick={() => setShowUploadForm(true)}
-                        className="px-4 py-2.5 bg-trades-100 text-trades-700 rounded-lg font-medium hover:bg-trades-200 transition-colors min-h-[44px]"
+                        className="flex items-center justify-center px-4 py-2.5 bg-trades-100 text-trades-700 rounded-lg font-medium hover:bg-trades-200 transition-colors min-h-[44px]"
                       >
                         + Upload New Credential
                       </button>
