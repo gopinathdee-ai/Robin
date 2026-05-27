@@ -192,7 +192,7 @@ export default function ProfilePage() {
             <div className="flex gap-3">
               <Link
                 href="/profile/edit"
-                className="px-4 py-2 border border-ink-300 text-ink-900 rounded-lg hover:bg-ink-50 transition-colors text-sm font-medium"
+                className="flex items-center justify-center px-4 py-2 border border-ink-300 text-ink-900 rounded-lg hover:bg-ink-50 transition-colors text-sm font-medium"
               >
                 Edit profile
               </Link>
@@ -211,7 +211,7 @@ export default function ProfilePage() {
               <h2 className="text-lg font-semibold text-ink-900">Credentials</h2>
               <Link
                 href="/profile/credentials"
-                className="px-4 py-2 border border-trades-300 text-trades-900 rounded-lg hover:bg-trades-50 transition-colors text-sm font-medium"
+                className="flex items-center justify-center px-4 py-2 border border-trades-300 text-trades-900 rounded-lg hover:bg-trades-50 transition-colors text-sm font-medium"
               >
                 Manage
               </Link>
