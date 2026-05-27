@@ -65,7 +65,11 @@ async function fetchData(path: string, userId?: string) {
       credentials: 'include',
       next: { revalidate: 60 }
     })
-    if (!res.ok) throw new Error(`HTTP ${res.status}`)
+    if (!res.ok) {
+      const errorText = await res.text()
+      console.error(`API Error ${path}:`, res.status, errorText)
+      throw new Error(`HTTP ${res.status}: ${errorText.substring(0, 200)}`)
+    }
     return await res.json()
   } catch (error) {
     console.error(`Failed to fetch ${path}:`, error)
