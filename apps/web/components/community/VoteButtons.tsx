@@ -2,6 +2,8 @@
 
 import { useState } from 'react'
 import { Button } from '@/components/ui/Button'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faThumbsUp } from '@fortawesome/free-solid-svg-icons'
 
 interface VoteButtonsProps {
   contentId: string
@@ -41,7 +43,7 @@ export function VoteButtons({ contentId, initialUpvotes }: VoteButtonsProps) {
         size="sm"
         className={userVoted ? 'bg-trades-500 text-white border-trades-500 hover:bg-trades-600' : ''}
       >
-        👍 {upvotes}
+        <FontAwesomeIcon icon={faThumbsUp} /> {upvotes}
       </Button>
     </div>
   )

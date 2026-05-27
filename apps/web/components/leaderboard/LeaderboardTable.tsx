@@ -1,6 +1,8 @@
 'use client'
 
 import Link from 'next/link'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faMedal } from '@fortawesome/free-solid-svg-icons'
 
 interface LeaderboardItem {
   rank: number
@@ -62,9 +64,9 @@ export function LeaderboardTable({ items, currentUserRank }: LeaderboardTablePro
                 <td className="px-4 py-3">
                   <div className="flex items-center gap-2">
                     <span className="text-sm font-bold text-trades-600">{item.rank}</span>
-                    {item.rank === 1 && <span>🥇</span>}
-                    {item.rank === 2 && <span>🥈</span>}
-                    {item.rank === 3 && <span>🥉</span>}
+                    {item.rank === 1 && <FontAwesomeIcon icon={faMedal} className="text-yellow-500" />}
+                    {item.rank === 2 && <FontAwesomeIcon icon={faMedal} className="text-gray-400" />}
+                    {item.rank === 3 && <FontAwesomeIcon icon={faMedal} className="text-orange-600" />}
                   </div>
                 </td>
                 <td className="px-4 py-3">

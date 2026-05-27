@@ -1,6 +1,8 @@
 'use client'
 
 import { useState } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSearch } from '@fortawesome/free-solid-svg-icons'
 
 interface SearchBoxProps {
   onSearch: (query: string) => void
@@ -25,7 +27,9 @@ export function SearchBox({ onSearch, placeholder = 'What do you want to know?' 
         onChange={handleChange}
         className="w-full px-4 py-3 border border-ink-300 rounded-lg focus:outline-none focus:border-trades-500 focus:ring-1 focus:ring-trades-500"
       />
-      <span className="absolute right-4 top-3.5 text-ink-400">🔍</span>
+      <span className="absolute right-4 top-3.5 text-ink-400">
+        <FontAwesomeIcon icon={faSearch} />
+      </span>
     </div>
   )
 }

@@ -3,6 +3,8 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { BookOpen, Award, MessageSquarePlus, ChevronRight, ArrowRight } from 'lucide-react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faAward as faBadge } from '@fortawesome/free-solid-svg-icons'
 import { OnboardingShell } from '@/components/onboarding/OnboardingShell'
 
 // Screens 1.4 / 1.5 / 1.6 — Onboarding Tutorial
@@ -186,7 +188,9 @@ export default function TutorialPage() {
       {/* Submission success */}
       {submitted && (
         <div className="mb-6 rounded-xl bg-green-50 border border-green-200 p-4 text-center">
-          <div className="text-2xl mb-2">🏅</div>
+          <div className="text-2xl mb-2 text-green-600">
+            <FontAwesomeIcon icon={faBadge} />
+          </div>
           <p className="font-semibold text-green-800">First contribution earned!</p>
           <p className="text-sm text-green-600 mt-1">
             Your answer is in review. Your first credential is on its way.
