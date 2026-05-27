@@ -7,12 +7,12 @@
     ".": "./src/index.ts"
   },
   "scripts": {
-    "migrate": "prisma migrate deploy",
-    "migrate:dev": "prisma migrate dev",
-    "studio": "prisma studio",
-    "generate": "prisma generate",
+    "migrate": "prisma migrate deploy --config ./prisma.config.ts",
+    "migrate:dev": "prisma migrate dev --config ./prisma.config.ts",
+    "studio": "prisma studio --config ./prisma.config.ts",
+    "generate": "prisma generate --config ./prisma.config.ts",
     "reset:destroy": "tsx scripts/reset-destroy.ts",
-    "reset:destroy:recreate": "prisma generate && tsx scripts/reset-destroy-recreate.ts",
+    "reset:destroy:recreate": "prisma generate --config ./prisma.config.ts && tsx scripts/reset-destroy-recreate.ts",
     "reset:soft": "tsx scripts/reset-soft.ts",
     "seed:mandatory": "tsx scripts/seed-mandatory.ts",
     "seed:optional": "tsx scripts/seed-optional.ts"
