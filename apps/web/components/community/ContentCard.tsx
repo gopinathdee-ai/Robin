@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { formatDistanceToNow } from 'date-fns'
 import { Bookmark } from 'lucide-react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faThumbsUp, faComments } from '@fortawesome/free-solid-svg-icons'
 
 interface ContentCardProps {
   id: string
@@ -160,9 +162,13 @@ export function ContentCard({
 
         {/* Metrics */}
         <div className="flex items-center gap-4 text-sm text-ink-600">
-          <span>👍 {upvotes} upvotes</span>
-          {type === 'question' && answersCount !== undefined && (
-            <span>💬 {answersCount} answers</span>
+          <span className="flex items-center gap-1">
+            <FontAwesomeIcon icon={faThumbsUp} /> {upvotes} upvotes
+          </span>
+          {answersCount !== undefined && (
+            <span className="flex items-center gap-1">
+              <FontAwesomeIcon icon={faComments} /> {answersCount} answers
+            </span>
           )}
         </div>
       </div>

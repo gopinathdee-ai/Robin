@@ -59,7 +59,7 @@ export async function GET(req: NextRequest) {
         upvotes: bookmark.content.upvoteCount,
         createdAt: bookmark.content.createdAt.toISOString(),
         status: bookmark.content.status,
-        answersCount: bookmark.content.type === 'question' ? answersCount : undefined,
+        answersCount,
         bookmarkedAt: bookmark.createdAt.toISOString(),
       }
     })
