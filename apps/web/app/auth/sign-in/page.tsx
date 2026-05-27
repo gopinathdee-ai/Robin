@@ -123,17 +123,17 @@ export default async function SignInPage() {
 
               <div className="space-y-2">
                 {recentUsers.map((user) => (
-                  <form key={user.id} action={signInAs}>
+                  <form key={user.id} action={signInAs} className="w-full">
                     <input type="hidden" name="userId" value={user.id} />
                     <button
                       type="submit"
-                      className="w-full text-left p-3 rounded-lg border border-ink-200 hover:border-trades-300 hover:bg-trades-50 transition-all flex items-center justify-between group"
+                      className="w-full text-left p-3 rounded-lg border border-ink-200 hover:border-trades-300 hover:bg-trades-50 transition-all flex items-center justify-between group focus:outline-none focus:ring-2 focus:ring-trades-500"
                     >
-                      <div>
+                      <div className="flex-1 min-w-0 pointer-events-none">
                         <p className="text-sm font-medium text-ink-900">{user.displayName}</p>
                         <p className="text-xs text-ink-500 capitalize">{user.status}</p>
                       </div>
-                      <ChevronRight className="h-4 w-4 text-ink-400 group-hover:text-trades-500" />
+                      <ChevronRight className="h-4 w-4 text-ink-400 group-hover:text-trades-500 flex-shrink-0 pointer-events-none" />
                     </button>
                   </form>
                 ))}
