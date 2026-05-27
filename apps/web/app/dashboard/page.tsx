@@ -54,11 +54,25 @@ interface SummaryData {
 
 async function fetchData(path: string, userId?: string) {
   try {
+    // Build absolute URL for server-side fetch
+    let baseUrl = process.env.NEXT_PUBLIC_APP_URL
+    if (!baseUrl) {
+      // In Vercel, use the vercel URL
+      if (process.env.VERCEL_URL) {
+        baseUrl = `https://${process.env.VERCEL_URL}`
+      } else {
+        // Local development
+        baseUrl = 'http://localhost:3000'
+      }
+    }
+
+    const url = `${baseUrl}${path}`
     const headers: Record<string, string> = {}
     if (userId) {
       headers['x-dev-user-id'] = userId
     }
-    const res = await fetch(path, {
+
+    const res = await fetch(url, {
       headers,
       credentials: 'include',
       next: { revalidate: 60 }
