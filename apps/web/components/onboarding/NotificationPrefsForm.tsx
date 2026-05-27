@@ -93,114 +93,94 @@ export function NotificationPrefsForm({
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="space-y-4">
         {/* Weekly Digest */}
-        <div className="flex items-start gap-4 rounded-lg border border-trades-200 bg-white p-4">
+        <label className="flex items-start gap-4 rounded-lg border border-trades-200 bg-white p-4 cursor-pointer hover:bg-trades-50 transition-colors">
           <input
             type="checkbox"
-            id="weeklyDigest"
             checked={prefs.weeklyDigest}
             onChange={() => handleToggle('weeklyDigest')}
             className="mt-1 h-5 w-5 cursor-pointer rounded border-trades-300 text-trades-500"
           />
           <div className="flex-1">
-            <label
-              htmlFor="weeklyDigest"
-              className="block font-medium text-ink-900 cursor-pointer"
-            >
+            <span className="block font-medium text-ink-900">
               Weekly Digest
-            </label>
+            </span>
             <p className="text-sm text-ink-600 mt-1">
               A weekly summary of activity in your trade
             </p>
           </div>
-        </div>
+        </label>
 
         {/* Endorsements */}
-        <div className="flex items-start gap-4 rounded-lg border border-trades-200 bg-white p-4">
+        <label className="flex items-start gap-4 rounded-lg border border-trades-200 bg-white p-4 cursor-pointer hover:bg-trades-50 transition-colors">
           <input
             type="checkbox"
-            id="endorsements"
             checked={prefs.endorsements}
             onChange={() => handleToggle('endorsements')}
             className="mt-1 h-5 w-5 cursor-pointer rounded border-trades-300 text-trades-500"
           />
           <div className="flex-1">
-            <label
-              htmlFor="endorsements"
-              className="block font-medium text-ink-900 cursor-pointer"
-            >
+            <span className="block font-medium text-ink-900">
               Endorsements
-            </label>
+            </span>
             <p className="text-sm text-ink-600 mt-1">
               When someone endorses your expertise
             </p>
           </div>
-        </div>
+        </label>
 
         {/* Credential Updates */}
-        <div className="flex items-start gap-4 rounded-lg border border-trades-200 bg-white p-4">
+        <label className="flex items-start gap-4 rounded-lg border border-trades-200 bg-white p-4 cursor-pointer hover:bg-trades-50 transition-colors">
           <input
             type="checkbox"
-            id="credentialUpdates"
             checked={prefs.credentialUpdates}
             onChange={() => handleToggle('credentialUpdates')}
             className="mt-1 h-5 w-5 cursor-pointer rounded border-trades-300 text-trades-500"
           />
           <div className="flex-1">
-            <label
-              htmlFor="credentialUpdates"
-              className="block font-medium text-ink-900 cursor-pointer"
-            >
+            <span className="block font-medium text-ink-900">
               Credential Updates
-            </label>
+            </span>
             <p className="text-sm text-ink-600 mt-1">
               When your credentials are verified or need attention
             </p>
           </div>
-        </div>
+        </label>
 
         {/* Community Activity */}
-        <div className="flex items-start gap-4 rounded-lg border border-trades-200 bg-white p-4">
+        <label className="flex items-start gap-4 rounded-lg border border-trades-200 bg-white p-4 cursor-pointer hover:bg-trades-50 transition-colors">
           <input
             type="checkbox"
-            id="communityActivity"
             checked={prefs.communityActivity}
             onChange={() => handleToggle('communityActivity')}
             className="mt-1 h-5 w-5 cursor-pointer rounded border-trades-300 text-trades-500"
           />
           <div className="flex-1">
-            <label
-              htmlFor="communityActivity"
-              className="block font-medium text-ink-900 cursor-pointer"
-            >
+            <span className="block font-medium text-ink-900">
               Community Activity
-            </label>
+            </span>
             <p className="text-sm text-ink-600 mt-1">
               Replies and upvotes on your posts
             </p>
           </div>
-        </div>
+        </label>
 
         {/* Marketing */}
-        <div className="flex items-start gap-4 rounded-lg border border-trades-200 bg-white p-4">
+        <label className="flex items-start gap-4 rounded-lg border border-trades-200 bg-white p-4 cursor-pointer hover:bg-trades-50 transition-colors">
           <input
             type="checkbox"
-            id="marketing"
             checked={prefs.marketing}
             onChange={() => handleToggle('marketing')}
             className="mt-1 h-5 w-5 cursor-pointer rounded border-trades-300 text-trades-500"
           />
           <div className="flex-1">
-            <label
-              htmlFor="marketing"
-              className="block font-medium text-ink-900 cursor-pointer"
-            >
+            <span className="block font-medium text-ink-900">
               Platform News
-            </label>
+            </span>
             <p className="text-sm text-ink-600 mt-1">
               Platform updates and announcements
             </p>
           </div>
-        </div>
+        </label>
       </div>
 
       <button
