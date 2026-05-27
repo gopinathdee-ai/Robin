@@ -54,13 +54,11 @@ interface SummaryData {
 
 async function fetchData(path: string, userId?: string) {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://127.0.0.1:3000'
-    const url = new URL(path, baseUrl).toString()
     const headers: Record<string, string> = {}
     if (userId) {
       headers['x-dev-user-id'] = userId
     }
-    const res = await fetch(url, {
+    const res = await fetch(path, {
       headers,
       credentials: 'include',
       next: { revalidate: 60 }
