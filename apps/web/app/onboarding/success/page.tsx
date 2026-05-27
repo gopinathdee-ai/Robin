@@ -50,6 +50,7 @@ export default function OnboardingSuccessPage() {
           <div className="text-center">
             <div className="text-2xl font-bold text-trades-500">+10</div>
             <div className="text-xs text-ink-600">Reputation points</div>
+            <div className="text-xs text-ink-500 mt-1">(after approval)</div>
           </div>
           <div className="text-center border-l border-r border-ink-300">
             <div className="text-2xl font-bold text-trades-500">1</div>
