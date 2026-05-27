@@ -47,7 +47,16 @@ export async function requireOnboardingCompletion(
   user: AuthUser
 ): Promise<{ nextStep: string | null } | NextResponse> {
   try {
-    const res = await fetch(`${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/api/users/me`, {
+    let baseUrl = process.env.NEXT_PUBLIC_APP_URL
+    if (!baseUrl) {
+      if (process.env.VERCEL_URL) {
+        baseUrl = `https://${process.env.VERCEL_URL}`
+      } else {
+        baseUrl = 'http://localhost:3000'
+      }
+    }
+
+    const res = await fetch(`${baseUrl}/api/users/me`, {
       headers: {
         'x-dev-user-id': user.id,
       },
