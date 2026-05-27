@@ -1,7 +1,7 @@
 'use client'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSparkles } from '@fortawesome/free-solid-svg-icons'
+import { faStar } from '@fortawesome/free-solid-svg-icons'
 import { isMentorEligible } from '@/lib/reputation'
 
 interface ReputationCardProps {
@@ -40,7 +40,7 @@ export function ReputationCard({
           <span className="inline-block rounded-full bg-trades-100 px-3 py-1 text-sm font-semibold text-trades-700">
             {tier}
           </span>
-          {isMentor && <span className="text-lg"><FontAwesomeIcon icon={faSparkles} className="text-yellow-500" /></span>}
+          {isMentor && <span className="text-lg"><FontAwesomeIcon icon={faStar} className="text-yellow-500" /></span>}
         </div>
 
         {/* Progress Bar */}
