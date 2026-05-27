@@ -36,6 +36,13 @@ async function signInAs(formData: FormData) {
   'use server'
   try {
     const userId = formData.get('userId') as string
+    console.log('[SignIn Debug] signInAs called with userId:', userId)
+
+    if (!userId) {
+      console.error('[SignIn Debug] No userId provided')
+      redirect('/onboarding/role')
+    }
+
     const { prisma } = await import('@trades/db')
 
     const user = await prisma.user.findUnique({
@@ -43,14 +50,19 @@ async function signInAs(formData: FormData) {
       select: { status: true, onboardingStep: true },
     })
 
+    console.log('[SignIn Debug] User lookup result:', { userId, user })
+
     const store = await cookies()
     store.set('dev-user-id', userId, { httpOnly: true, path: '/', maxAge: 86400 })
 
     if (user?.status === 'active') {
+      console.log('[SignIn Debug] User is active, redirecting to /profile')
       redirect('/profile')
     } else if (user?.status === 'onboarding') {
+      console.log('[SignIn Debug] User is onboarding, redirecting to onboarding step')
       redirect(getNextOnboardingStep(user.onboardingStep))
     } else {
+      console.log('[SignIn Debug] User status is', user?.status, '- redirecting to /onboarding/role')
       redirect('/onboarding/role')
     }
   } catch (error) {
