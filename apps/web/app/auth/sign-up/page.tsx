@@ -29,13 +29,32 @@ async function createAndSignUp() {
   }
 }
 
+function getNextOnboardingStep(step: number): string {
+  const steps = ['/onboarding/role', '/onboarding/trade', '/onboarding/tutorial', '/onboarding/profile', '/onboarding/first-contribution']
+  return steps[Math.min(step, steps.length - 1)] || '/onboarding/role'
+}
+
 async function continueAs(formData: FormData) {
   'use server'
   try {
     const userId = formData.get('userId') as string
+    const { prisma } = await import('@trades/db')
+
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { status: true, onboardingStep: true },
+    })
+
     const store = await cookies()
     store.set('dev-user-id', userId, { httpOnly: true, path: '/', maxAge: 86400 })
-    redirect('/onboarding/role')
+
+    if (user?.status === 'active') {
+      redirect('/profile')
+    } else if (user?.status === 'onboarding') {
+      redirect(getNextOnboardingStep(user.onboardingStep))
+    } else {
+      redirect('/onboarding/role')
+    }
   } catch (error) {
     console.error('Error continuing as user:', error)
     throw error
@@ -92,17 +111,17 @@ export default async function SignUpPage() {
 
               <div className="space-y-2">
                 {recentUsers.map((user) => (
-                  <form key={user.id} action={continueAs}>
+                  <form key={user.id} action={continueAs} className="w-full">
                     <input type="hidden" name="userId" value={user.id} />
                     <button
                       type="submit"
-                      className="w-full text-left p-3 rounded-lg border border-ink-200 hover:border-trades-300 hover:bg-trades-50 transition-all flex items-center justify-between group"
+                      className="w-full text-left p-3 rounded-lg border border-ink-200 hover:border-trades-300 hover:bg-trades-50 transition-all flex items-center justify-between group focus:outline-none focus:ring-2 focus:ring-trades-500"
                     >
-                      <div>
+                      <div className="flex-1 min-w-0 pointer-events-none">
                         <p className="text-sm font-medium text-ink-900">{user.displayName}</p>
                         <p className="text-xs text-ink-500 capitalize">{user.status}</p>
                       </div>
-                      <ChevronRight className="h-4 w-4 text-ink-400 group-hover:text-trades-500" />
+                      <ChevronRight className="h-4 w-4 text-ink-400 group-hover:text-trades-500 flex-shrink-0 pointer-events-none" />
                     </button>
                   </form>
                 ))}
