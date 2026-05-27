@@ -171,22 +171,23 @@ function CommunityContent() {
             </Link>
           </div>
         ) : (
-          <div className="space-y-4">
+          <div>
             {content.map((item) => (
-              <ContentCard
-                key={item.id}
-                id={item.id}
-                type={item.type}
-                title={item.title || 'Untitled'}
-                body={item.body}
-                author={item.author}
-                trade={item.trade}
-                topic={item.topic}
-                upvotes={item.upvoteCount}
-                status={item.status}
-                answersCount={item.answers?.length || 0}
-                createdAt={item.createdAt}
-              />
+              <div key={item.id} className="mb-6">
+                <ContentCard
+                  id={item.id}
+                  type={item.type}
+                  title={item.title || 'Untitled'}
+                  body={item.body}
+                  author={item.author}
+                  trade={item.trade}
+                  topic={item.topic}
+                  upvotes={item.upvoteCount}
+                  status={item.status}
+                  answersCount={item.answers?.length || 0}
+                  createdAt={item.createdAt}
+                />
+              </div>
             ))}
 
             {/* Load More */}
