@@ -94,7 +94,7 @@ export default function SavedPage() {
           )}
 
           {!isLoading && bookmarks.length > 0 && (
-            <div className="space-y-3">
+            <div className="space-y-4">
               {bookmarks.map((bookmark) => (
                 <ContentCard
                   key={bookmark.bookmarkId}
