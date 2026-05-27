@@ -114,7 +114,7 @@ export function ContentCard({
         <button
           onClick={handleBookmarkClick}
           disabled={isLoading}
-          className="absolute top-4 right-4 p-2 text-ink-500 hover:text-trades-600 transition-colors disabled:opacity-50"
+          className="absolute top-4 right-4 p-2 text-ink-500 hover:text-trades-600 transition-colors disabled:opacity-50 flex-shrink-0 z-10"
           title={isBookmarked ? 'Remove bookmark' : 'Save bookmark'}
         >
           <Bookmark
@@ -123,18 +123,18 @@ export function ContentCard({
           />
         </button>
 
-        {/* Header: Author, role, time */}
-        <div className="flex items-center gap-3 mb-3 text-sm text-ink-600 flex-wrap">
+        {/* Header: Author, role, time - with padding to avoid overlap with bookmark */}
+        <div className="flex items-center gap-3 mb-3 text-sm text-ink-600 flex-wrap pr-12">
           <span className="font-medium text-ink-900">{author.displayName}</span>
-          <span className="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-trades-100 text-trades-700">
+          <span className="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-trades-100 text-trades-700 flex-shrink-0">
             {author.role === 'journeyperson' ? 'Journeyperson ✓' : author.role === 'master' ? 'Master ✓' : 'Apprentice'}
           </span>
           {status !== 'published' && (
-            <span className={`inline-flex items-center px-2 py-1 rounded text-xs font-medium ${statusStyles[status]}`}>
+            <span className={`inline-flex items-center px-2 py-1 rounded text-xs font-medium flex-shrink-0 ${statusStyles[status]}`}>
               {statusLabel[status]}
             </span>
           )}
-          <span className="text-ink-500">• {timeAgo}</span>
+          <span className="text-ink-500 flex-shrink-0">• {timeAgo}</span>
         </div>
 
         {/* Content */}
