@@ -1,5 +1,8 @@
 'use client'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faFileLines, faLightbulb, faCircleQuestion, faHands } from '@fortawesome/free-solid-svg-icons'
+
 interface EngagementSummaryProps {
   postsThisMonth: number
   answersThisMonth: number
@@ -21,22 +24,22 @@ export function EngagementSummary({
     {
       label: 'Posts',
       value: postsThisMonth,
-      icon: '📝',
+      icon: faFileLines,
     },
     {
       label: 'Answers',
       value: answersThisMonth,
-      icon: '💡',
+      icon: faLightbulb,
     },
     {
       label: 'Questions',
       value: questionsThisMonth,
-      icon: '❓',
+      icon: faCircleQuestion,
     },
     {
       label: 'Endorsed',
       value: endorsementsReceivedThisMonth,
-      icon: '👏',
+      icon: faHands,
     },
   ]
 
@@ -51,7 +54,9 @@ export function EngagementSummary({
       <div className="grid grid-cols-2 gap-3">
         {stats.map((stat) => (
           <div key={stat.label} className="rounded-lg bg-trades-50 p-3 text-center">
-            <div className="text-2xl">{stat.icon}</div>
+            <div className="text-2xl text-trades-600">
+              <FontAwesomeIcon icon={stat.icon} />
+            </div>
             <div className="mt-2 text-2xl font-bold text-trades-600">{stat.value}</div>
             <div className="mt-1 text-xs text-ink-600 truncate">{stat.label}</div>
           </div>
