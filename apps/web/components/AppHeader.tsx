@@ -1,12 +1,14 @@
 'use client'
 
+import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { LayoutDashboard, MessageSquare, Bookmark, User } from 'lucide-react'
+import { LayoutDashboard, MessageSquare, Bookmark, User, Menu, X } from 'lucide-react'
 
 export function AppHeader() {
   const pathname = usePathname()
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const isActive = (href: string) => {
     if (href === '/dashboard') return pathname === '/dashboard'
@@ -16,72 +18,92 @@ export function AppHeader() {
     return false
   }
 
+  const navItems = [
+    { href: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
+    { href: '/community', icon: MessageSquare, label: 'Community' },
+    { href: '/saved', icon: Bookmark, label: 'Saved' },
+    { href: '/profile', icon: User, label: 'Profile' },
+  ]
+
+  const closeMenu = () => setIsMenuOpen(false)
+
   return (
-    <header className="border-b border-ink-200 bg-white sticky top-0 z-40">
-      <div className="max-w-6xl mx-auto px-4 md:px-6 py-3 flex items-center justify-between gap-4 md:gap-8">
-        {/* Logo */}
-        <Link href="/community" className="flex items-center gap-2 flex-shrink-0 hover:opacity-80 transition-opacity">
-          <Image src="/logo.png" alt="Trades Platform" width={32} height={32} />
-          <span className="font-bold text-lg text-ink-900 hidden sm:inline">Trades</span>
-        </Link>
+    <>
+      <header className="border-b border-ink-200 bg-white sticky top-0 z-40">
+        <div className="max-w-6xl mx-auto px-4 md:px-6 py-3 flex items-center justify-between gap-4">
+          {/* Logo */}
+          <Link href="/community" className="flex items-center gap-2 flex-shrink-0 hover:opacity-80 transition-opacity">
+            <Image src="/logo.png" alt="Trades Platform" width={32} height={32} />
+            <span className="font-bold text-lg text-ink-900 hidden sm:inline">Trades</span>
+          </Link>
 
-        {/* Navigation */}
-        <nav className="flex items-center gap-3 md:gap-8 flex-1 justify-center overflow-x-auto">
-          <Link
-            href="/dashboard"
-            className={`flex items-center gap-1 md:gap-2 text-xs md:text-sm font-semibold border-b-2 pb-1 transition-colors whitespace-nowrap ${
-              isActive('/dashboard')
-                ? 'text-trades-600 border-trades-500'
-                : 'text-ink-600 border-transparent hover:text-ink-900'
-            }`}
-          >
-            <LayoutDashboard className="h-4 w-4" />
-            <span className="hidden md:inline">Dashboard</span>
-          </Link>
-          <Link
-            href="/community"
-            className={`flex items-center gap-1 md:gap-2 text-xs md:text-sm font-semibold border-b-2 pb-1 transition-colors whitespace-nowrap ${
-              isActive('/community')
-                ? 'text-trades-600 border-trades-500'
-                : 'text-ink-600 border-transparent hover:text-ink-900'
-            }`}
-          >
-            <MessageSquare className="h-4 w-4" />
-            <span className="hidden md:inline">Community</span>
-          </Link>
-          <Link
-            href="/saved"
-            className={`flex items-center gap-1 md:gap-2 text-xs md:text-sm font-semibold border-b-2 pb-1 transition-colors whitespace-nowrap ${
-              isActive('/saved')
-                ? 'text-trades-600 border-trades-500'
-                : 'text-ink-600 border-transparent hover:text-ink-900'
-            }`}
-          >
-            <Bookmark className="h-4 w-4" />
-            <span className="hidden md:inline">Saved</span>
-          </Link>
-          <Link
-            href="/profile"
-            className={`flex items-center gap-1 md:gap-2 text-xs md:text-sm font-semibold border-b-2 pb-1 transition-colors whitespace-nowrap ${
-              isActive('/profile')
-                ? 'text-trades-600 border-trades-500'
-                : 'text-ink-600 border-transparent hover:text-ink-900'
-            }`}
-          >
-            <User className="h-4 w-4" />
-            <span className="hidden md:inline">Profile</span>
-          </Link>
-        </nav>
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center gap-8 flex-1 justify-center">
+            {navItems.map(({ href, icon: Icon, label }) => (
+              <Link
+                key={href}
+                href={href}
+                className={`flex items-center gap-2 text-sm font-semibold border-b-2 pb-1 transition-colors ${
+                  isActive(href)
+                    ? 'text-trades-600 border-trades-500'
+                    : 'text-ink-600 border-transparent hover:text-ink-900'
+                }`}
+              >
+                <Icon className="h-4 w-4" />
+                {label}
+              </Link>
+            ))}
+          </nav>
 
-        {/* CTA */}
-        <Link
-          href="/community?create=true"
-          className="flex items-center justify-center px-3 md:px-4 py-2 bg-trades-500 text-white text-xs md:text-sm font-medium rounded-lg hover:bg-trades-600 transition-colors flex-shrink-0 whitespace-nowrap"
-        >
-          <span className="hidden md:inline">Ask Question</span>
-          <span className="md:hidden">+</span>
-        </Link>
-      </div>
-    </header>
+          {/* Desktop CTA */}
+          <Link
+            href="/community?create=true"
+            className="hidden md:flex items-center justify-center px-4 py-2 bg-trades-500 text-white text-sm font-medium rounded-lg hover:bg-trades-600 transition-colors flex-shrink-0 whitespace-nowrap"
+          >
+            Ask Question
+          </Link>
+
+          {/* Mobile CTA + Menu Button */}
+          <div className="flex items-center gap-3 md:hidden">
+            <Link
+              href="/community?create=true"
+              className="flex items-center justify-center px-3 py-2 bg-trades-500 text-white text-sm font-medium rounded-lg hover:bg-trades-600 transition-colors flex-shrink-0"
+            >
+              +
+            </Link>
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="p-2 text-ink-600 hover:text-ink-900 transition-colors"
+              aria-label="Toggle menu"
+            >
+              {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* Mobile Menu */}
+      {isMenuOpen && (
+        <div className="md:hidden border-b border-ink-200 bg-white">
+          <nav className="max-w-6xl mx-auto px-4 py-4 space-y-2">
+            {navItems.map(({ href, icon: Icon, label }) => (
+              <Link
+                key={href}
+                href={href}
+                onClick={closeMenu}
+                className={`flex items-center gap-3 px-4 py-3 rounded-lg font-semibold transition-colors ${
+                  isActive(href)
+                    ? 'text-trades-600 bg-trades-50'
+                    : 'text-ink-700 hover:bg-ink-50'
+                }`}
+              >
+                <Icon className="h-5 w-5" />
+                {label}
+              </Link>
+            ))}
+          </nav>
+        </div>
+      )}
+    </>
   )
 }
