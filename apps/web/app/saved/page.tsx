@@ -94,23 +94,22 @@ export default function SavedPage() {
           )}
 
           {!isLoading && bookmarks.length > 0 && (
-            <div>
+            <div className="space-y-3">
               {bookmarks.map((bookmark) => (
-                <div key={bookmark.bookmarkId} className="mb-8">
-                  <ContentCard
-                    id={bookmark.id}
-                    type={bookmark.type}
-                    title={bookmark.title}
-                    body={bookmark.body}
-                    author={bookmark.author}
-                    trade={bookmark.trade}
-                    topic={bookmark.topic}
-                    upvotes={bookmark.upvotes}
-                    createdAt={bookmark.createdAt}
-                    status={bookmark.status as 'published' | 'pending_review' | 'flagged'}
-                    answersCount={bookmark.answersCount}
-                  />
-                </div>
+                <ContentCard
+                  key={bookmark.bookmarkId}
+                  id={bookmark.id}
+                  type={bookmark.type}
+                  title={bookmark.title}
+                  body={bookmark.body}
+                  author={bookmark.author}
+                  trade={bookmark.trade}
+                  topic={bookmark.topic}
+                  upvotes={bookmark.upvotes}
+                  createdAt={bookmark.createdAt}
+                  status={bookmark.status as 'published' | 'pending_review' | 'flagged'}
+                  answersCount={bookmark.answersCount}
+                />
               ))}
             </div>
           )}
