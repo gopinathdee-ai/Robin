@@ -1,5 +1,7 @@
 import { requireAuth } from '@/lib/auth'
 import { redirect } from 'next/navigation'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCircleCheck } from '@fortawesome/free-solid-svg-icons'
 import { AppHeader } from '@/components/AppHeader'
 import { ReputationCard } from '@/components/dashboard/ReputationCard'
 import { ExpertiseTopics } from '@/components/dashboard/ExpertiseTopics'
@@ -168,11 +170,20 @@ export default async function DashboardPage() {
             <div className="rounded-lg border border-trades-200 bg-trades-50 p-6 flex flex-col justify-center">
               <h3 className="mb-2 text-lg font-semibold text-trades-900">Next Steps</h3>
               <ul className="space-y-2 text-sm text-trade-800">
-                <li>✓ Share expertise in the <a href="/community" className="font-medium text-trades-600 hover:underline">community</a></li>
+                <li className="flex items-center gap-2">
+                  <FontAwesomeIcon icon={faCircleCheck} className="text-trades-600" />
+                  Share expertise in the <a href="/community" className="font-medium text-trades-600 hover:underline">community</a>
+                </li>
                 {primaryTradeCode && (
-                  <li>✓ View your <a href={`/leaderboards/${primaryTradeCode}`} className="font-medium text-trades-600 hover:underline">ranking</a></li>
+                  <li className="flex items-center gap-2">
+                    <FontAwesomeIcon icon={faCircleCheck} className="text-trades-600" />
+                    View your <a href={`/leaderboards/${primaryTradeCode}`} className="font-medium text-trades-600 hover:underline">ranking</a>
+                  </li>
                 )}
-                <li>✓ Reach 750 points for mentor</li>
+                <li className="flex items-center gap-2">
+                  <FontAwesomeIcon icon={faCircleCheck} className="text-trades-600" />
+                  Reach 750 points for mentor
+                </li>
               </ul>
             </div>
           </div>
