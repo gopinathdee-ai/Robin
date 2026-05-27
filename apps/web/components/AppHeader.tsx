@@ -76,7 +76,7 @@ export function AppHeader() {
         {/* CTA */}
         <Link
           href="/community?create=true"
-          className="px-4 py-2 bg-trades-500 text-white text-sm font-medium rounded-lg hover:bg-trades-600 transition-colors flex-shrink-0"
+          className="flex items-center justify-center px-4 py-2 bg-trades-500 text-white text-sm font-medium rounded-lg hover:bg-trades-600 transition-colors flex-shrink-0"
         >
           Ask Question
         </Link>
