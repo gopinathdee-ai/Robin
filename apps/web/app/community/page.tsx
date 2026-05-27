@@ -173,7 +173,7 @@ function CommunityContent() {
         ) : (
           <div>
             {content.map((item) => (
-              <div key={item.id} className="mb-16">
+              <div key={item.id} className="mb-8">
                 <ContentCard
                   id={item.id}
                   type={item.type}
