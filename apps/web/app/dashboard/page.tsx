@@ -167,7 +167,7 @@ export default async function DashboardPage() {
                 topicsCount={summaryData.topicsCount}
               />
             )}
-            <div className="rounded-lg border border-trades-200 bg-trades-50 p-6 flex flex-col justify-center">
+            <div className="rounded-lg border border-trades-200 bg-trades-50 p-6 flex flex-col justify-center items-center">
               <h3 className="mb-3 text-lg font-semibold text-trades-900">Next Steps</h3>
               <ul className="space-y-3 text-sm text-trade-800">
                 <li className="flex items-center gap-3 whitespace-nowrap">
