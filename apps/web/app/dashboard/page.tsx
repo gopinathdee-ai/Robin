@@ -1,7 +1,7 @@
 import { requireAuth } from '@/lib/auth'
 import { redirect } from 'next/navigation'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCircleCheck } from '@fortawesome/free-solid-svg-icons'
+import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import { AppHeader } from '@/components/AppHeader'
 import { ReputationCard } from '@/components/dashboard/ReputationCard'
 import { ExpertiseTopics } from '@/components/dashboard/ExpertiseTopics'
@@ -168,21 +168,21 @@ export default async function DashboardPage() {
               />
             )}
             <div className="rounded-lg border border-trades-200 bg-trades-50 p-6 flex flex-col justify-center">
-              <h3 className="mb-2 text-lg font-semibold text-trades-900">Next Steps</h3>
-              <ul className="space-y-2 text-sm text-trade-800">
-                <li className="flex items-center gap-2">
-                  <FontAwesomeIcon icon={faCircleCheck} className="text-trades-600" />
-                  Share expertise in the <a href="/community" className="font-medium text-trades-600 hover:underline">community</a>
+              <h3 className="mb-3 text-lg font-semibold text-trades-900">Next Steps</h3>
+              <ul className="space-y-3 text-sm text-trade-800">
+                <li className="flex items-center gap-3 whitespace-nowrap">
+                  <FontAwesomeIcon icon={faCheck} className="text-trades-600 flex-shrink-0 text-lg" />
+                  <span>Share expertise in the <a href="/community" className="font-medium text-trades-600 hover:underline">community</a></span>
                 </li>
                 {primaryTradeCode && (
-                  <li className="flex items-center gap-2">
-                    <FontAwesomeIcon icon={faCircleCheck} className="text-trades-600" />
-                    View your <a href={`/leaderboards/${primaryTradeCode}`} className="font-medium text-trades-600 hover:underline">ranking</a>
+                  <li className="flex items-center gap-3 whitespace-nowrap">
+                    <FontAwesomeIcon icon={faCheck} className="text-trades-600 flex-shrink-0 text-lg" />
+                    <span>View your <a href={`/leaderboards/${primaryTradeCode}`} className="font-medium text-trades-600 hover:underline">ranking</a></span>
                   </li>
                 )}
-                <li className="flex items-center gap-2">
-                  <FontAwesomeIcon icon={faCircleCheck} className="text-trades-600" />
-                  Reach 750 points for mentor
+                <li className="flex items-center gap-3 whitespace-nowrap">
+                  <FontAwesomeIcon icon={faCheck} className="text-trades-600 flex-shrink-0 text-lg" />
+                  <span>Reach 750 points for mentor</span>
                 </li>
               </ul>
             </div>
