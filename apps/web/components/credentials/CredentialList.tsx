@@ -3,7 +3,8 @@
 import React, { useState } from 'react'
 import { CredentialCard } from './CredentialCard'
 import { useToast } from '@/components/ui/ToastContext'
-import { Plus } from 'lucide-react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
 
 interface UserDocument {
   id: string
@@ -82,7 +83,7 @@ export function CredentialList({
             onClick={onUploadNew}
             className="inline-flex items-center gap-2 px-4 py-2.5 bg-trades-500 text-white rounded-lg font-medium hover:bg-trades-600 transition-colors min-h-[44px]"
           >
-            <Plus className="h-5 w-5" />
+            <FontAwesomeIcon icon={faPlus} className="h-5 w-5" />
             Upload Your First Credential
           </button>
         )}
@@ -159,7 +160,7 @@ export function CredentialList({
             onClick={onUploadNew}
             className="inline-flex items-center gap-2 px-4 py-2.5 bg-trades-100 text-trades-700 rounded-lg font-medium hover:bg-trades-200 transition-colors min-h-[44px]"
           >
-            <Plus className="h-5 w-5" />
+            <FontAwesomeIcon icon={faPlus} className="h-5 w-5" />
             Upload Another Credential
           </button>
         </div>

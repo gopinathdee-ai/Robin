@@ -3,9 +3,9 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { formatDistanceToNow } from 'date-fns'
-import { Bookmark } from 'lucide-react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faThumbsUp, faComments } from '@fortawesome/free-solid-svg-icons'
+import { faThumbsUp, faComments, faBookmark as faBookmarkSolid } from '@fortawesome/free-solid-svg-icons'
+import { faBookmark } from '@fortawesome/free-regular-svg-icons'
 
 interface ContentCardProps {
   id: string
@@ -128,9 +128,9 @@ export function ContentCard({
           className="absolute top-4 right-4 p-2 text-ink-500 hover:text-trades-600 transition-colors disabled:opacity-50 flex-shrink-0 z-10"
           title={isBookmarked ? 'Remove bookmark' : 'Save bookmark'}
         >
-          <Bookmark
-            size={20}
-            className={isBookmarked ? 'fill-trades-600 text-trades-600' : ''}
+          <FontAwesomeIcon
+            icon={isBookmarked ? faBookmarkSolid : faBookmark}
+            className={`h-5 w-5 ${isBookmarked ? 'text-trades-600' : ''}`}
           />
         </button>
 

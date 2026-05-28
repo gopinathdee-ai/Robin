@@ -1,7 +1,8 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { X } from 'lucide-react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import { Button } from '@/components/ui/Button'
 import { useCreateEndorsement } from '@/hooks/useEndorsements'
 
@@ -84,7 +85,7 @@ export function EndorsementModal({
             disabled={isLoading}
             className="p-1 hover:bg-ink-100 rounded disabled:opacity-50"
           >
-            <X size={20} className="text-ink-600" />
+            <FontAwesomeIcon icon={faXmark} className="h-5 w-5 text-ink-600" />
           </button>
         </div>
 

@@ -1,7 +1,8 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Award } from 'lucide-react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faMedal } from '@fortawesome/free-solid-svg-icons'
 import { Button } from '@/components/ui/Button'
 import { EndorsementModal } from './EndorsementModal'
 
@@ -73,7 +74,7 @@ export function EndorseButton({
           variant="primary"
           title={blockedReason || 'Endorse'}
         >
-          <Award size={16} />
+          <FontAwesomeIcon icon={faMedal} className="h-4 w-4" />
           <span>Endorse</span>
         </Button>
         {!canEndorse && blockedReason && (

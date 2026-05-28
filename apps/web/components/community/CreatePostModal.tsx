@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { X } from 'lucide-react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import { Button } from '@/components/ui/Button'
 import { Spinner } from '@/components/ui/Spinner'
 
@@ -184,7 +185,7 @@ export function CreatePostModal({ isOpen, onClose, onSuccess, defaultType = 'que
             disabled={submitting}
             className="text-ink-400 hover:text-ink-600 disabled:opacity-50"
           >
-            <X className="h-5 w-5" />
+            <FontAwesomeIcon icon={faXmark} className="h-5 w-5" />
           </button>
         </div>
 

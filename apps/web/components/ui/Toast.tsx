@@ -1,9 +1,8 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { X } from 'lucide-react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCircleCheck, faCircleXmark, faTriangleExclamation, faCircleInfo } from '@fortawesome/free-solid-svg-icons'
+import { faCircleCheck, faCircleXmark, faTriangleExclamation, faCircleInfo, faXmark } from '@fortawesome/free-solid-svg-icons'
 
 interface ToastProps {
   id: string
@@ -71,7 +70,7 @@ export function Toast({ id, title, description, variant, onClose }: ToastProps) 
           onClick={onClose}
           className={`${style.iconColor} hover:opacity-75 transition-opacity flex-shrink-0`}
         >
-          <X className="h-4 w-4" />
+          <FontAwesomeIcon icon={faXmark} className="h-4 w-4" />
         </button>
       </div>
     </motion.div>

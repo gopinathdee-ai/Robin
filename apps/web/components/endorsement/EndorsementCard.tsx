@@ -1,7 +1,8 @@
 'use client'
 
 import { formatDistanceToNow } from 'date-fns'
-import { CheckCircle, XCircle, Clock } from 'lucide-react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCheckCircle, faCircleXmark, faClock } from '@fortawesome/free-solid-svg-icons'
 import { useState } from 'react'
 import { useUpdateEndorsement } from '@/hooks/useEndorsements'
 
@@ -50,14 +51,24 @@ export function EndorsementCard({ endorsement, canAccept, onAccept, onReject }: 
     }
   }
 
-  const statusIcon =
-    endorsement.status === 'accepted' ? (
-      <CheckCircle size={16} className="text-green-600" />
-    ) : endorsement.status === 'rejected' ? (
-      <XCircle size={16} className="text-red-600" />
-    ) : (
-      <Clock size={16} className="text-yellow-600" />
-    )
+  const statusIconData = {
+    icon:
+      endorsement.status === 'accepted'
+        ? faCheckCircle
+        : endorsement.status === 'rejected'
+          ? faCircleXmark
+          : faClock,
+    color:
+      endorsement.status === 'accepted'
+        ? 'text-green-600'
+        : endorsement.status === 'rejected'
+          ? 'text-red-600'
+          : 'text-yellow-600',
+  }
+
+  const statusIcon = (
+    <FontAwesomeIcon icon={statusIconData.icon} className={`h-4 w-4 ${statusIconData.color}`} />
+  )
 
   const statusText =
     endorsement.status === 'accepted'

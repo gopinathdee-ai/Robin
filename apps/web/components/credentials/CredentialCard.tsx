@@ -1,7 +1,8 @@
 'use client'
 
 import React from 'react'
-import { FileText, CheckCircle, Clock, XCircle, Trash2 } from 'lucide-react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faFileLines, faCheckCircle, faClock, faCircleXmark, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { DOCUMENT_TYPE_LABELS } from '@/lib/documents'
 import { format } from 'date-fns'
 
@@ -30,21 +31,21 @@ export function CredentialCard({
 }: CredentialCardProps) {
   const statusConfig = {
     PENDING: {
-      icon: Clock,
+      icon: faClock,
       color: 'text-amber-600',
       bgColor: 'bg-amber-50',
       label: 'Pending Review',
       borderColor: 'border-amber-200',
     },
     VERIFIED: {
-      icon: CheckCircle,
+      icon: faCheckCircle,
       color: 'text-green-600',
       bgColor: 'bg-green-50',
       label: 'Verified',
       borderColor: 'border-green-200',
     },
     REJECTED: {
-      icon: XCircle,
+      icon: faCircleXmark,
       color: 'text-red-600',
       bgColor: 'bg-red-50',
       label: 'Rejected',
@@ -53,7 +54,6 @@ export function CredentialCard({
   }
 
   const config = statusConfig[status]
-  const StatusIcon = config.icon
 
   const canDelete = status === 'PENDING' || status === 'REJECTED'
 
@@ -63,7 +63,7 @@ export function CredentialCard({
         <div className="flex items-start gap-3 flex-1 min-w-0">
           {/* Icon */}
           <div className="flex-shrink-0 pt-0.5">
-            <FileText className={`h-5 w-5 ${config.color}`} />
+            <FontAwesomeIcon icon={faFileLines} className={`h-5 w-5 ${config.color}`} />
           </div>
 
           {/* Content */}
@@ -73,7 +73,7 @@ export function CredentialCard({
                 {DOCUMENT_TYPE_LABELS[documentType] || documentType}
               </h3>
               <span className={`flex-shrink-0 flex items-center gap-1 text-xs font-semibold ${config.color}`}>
-                <StatusIcon className="h-4 w-4" />
+                <FontAwesomeIcon icon={config.icon} className="h-4 w-4" />
                 {config.label}
               </span>
             </div>
@@ -102,7 +102,7 @@ export function CredentialCard({
             title="Delete document"
             aria-label="Delete document"
           >
-            <Trash2 className="h-5 w-5" />
+            <FontAwesomeIcon icon={faTrash} className="h-5 w-5" />
           </button>
         )}
       </div>

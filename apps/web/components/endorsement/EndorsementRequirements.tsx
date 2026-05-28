@@ -1,7 +1,8 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Check, X } from 'lucide-react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCheck, faXmark } from '@fortawesome/free-solid-svg-icons'
 
 interface EndorsementRequirementsProps {
   recipientId: string
@@ -53,11 +54,10 @@ export function EndorsementRequirements({ recipientId }: EndorsementRequirements
       <div className="space-y-2">
         {requirements.map((req) => (
           <div key={req.name} className="flex items-center gap-2 text-sm">
-            {req.met ? (
-              <Check size={16} className="text-green-600 flex-shrink-0" />
-            ) : (
-              <X size={16} className="text-amber-600 flex-shrink-0" />
-            )}
+            <FontAwesomeIcon
+              icon={req.met ? faCheck : faXmark}
+              className={`h-4 w-4 flex-shrink-0 ${req.met ? 'text-green-600' : 'text-amber-600'}`}
+            />
             <span className="text-ink-900 flex-1">
               {req.name}
             </span>

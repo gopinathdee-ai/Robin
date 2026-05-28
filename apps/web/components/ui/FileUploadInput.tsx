@@ -1,7 +1,8 @@
 'use client'
 
 import React, { useState, useRef } from 'react'
-import { Upload, X } from 'lucide-react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUpload, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { validateUploadedFile } from '@/lib/documents'
 
 interface FileUploadInputProps {
@@ -118,7 +119,7 @@ export function FileUploadInput({
         />
 
         <div className="flex flex-col items-center gap-2">
-          <Upload className="h-8 w-8 text-trades-500" />
+          <FontAwesomeIcon icon={faUpload} className="h-8 w-8 text-trades-500" />
           <div className="text-center">
             <p className="font-medium text-ink-900">
               {file ? 'File selected' : 'Drag and drop your file here'}
@@ -144,7 +145,7 @@ export function FileUploadInput({
             className="text-trades-600 hover:text-trades-700 p-1"
             aria-label="Remove file"
           >
-            <X className="h-4 w-4" />
+            <FontAwesomeIcon icon={faXmark} className="h-4 w-4" />
           </button>
         </div>
       )}

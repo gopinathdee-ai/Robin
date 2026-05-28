@@ -1,7 +1,8 @@
 'use client'
 
 import Link from 'next/link'
-import { Award } from 'lucide-react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faMedal } from '@fortawesome/free-solid-svg-icons'
 
 interface EndorsementSummaryProps {
   topics: Array<{ id: string; name: string }>
@@ -20,7 +21,7 @@ export function EndorsementSummary({ topics, count }: EndorsementSummaryProps) {
     <div className="bg-trades-50 border border-trades-200 rounded-lg p-4">
       <div className="flex items-start justify-between mb-3">
         <div className="flex items-center gap-2">
-          <Award size={20} className="text-trades-600" />
+          <FontAwesomeIcon icon={faMedal} className="h-5 w-5 text-trades-600" />
           <h3 className="font-semibold text-ink-900">How peers recognize you</h3>
         </div>
         <div className="bg-trades-600 text-white px-2.5 py-1 rounded-full text-xs font-bold">

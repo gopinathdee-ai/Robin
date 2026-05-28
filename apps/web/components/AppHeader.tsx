@@ -4,7 +4,8 @@ import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { LayoutDashboard, MessageSquare, Bookmark, User, Menu, X } from 'lucide-react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faGaugeHigh, faComment, faBookmark, faUser, faBars, faXmark } from '@fortawesome/free-solid-svg-icons'
 
 export function AppHeader() {
   const pathname = usePathname()
@@ -19,10 +20,10 @@ export function AppHeader() {
   }
 
   const navItems = [
-    { href: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
-    { href: '/community', icon: MessageSquare, label: 'Community' },
-    { href: '/saved', icon: Bookmark, label: 'Saved' },
-    { href: '/profile', icon: User, label: 'Profile' },
+    { href: '/dashboard', icon: faGaugeHigh, label: 'Dashboard' },
+    { href: '/community', icon: faComment, label: 'Community' },
+    { href: '/saved', icon: faBookmark, label: 'Saved' },
+    { href: '/profile', icon: faUser, label: 'Profile' },
   ]
 
   const closeMenu = () => setIsMenuOpen(false)
@@ -39,7 +40,7 @@ export function AppHeader() {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-8 flex-1 justify-center">
-            {navItems.map(({ href, icon: Icon, label }) => (
+            {navItems.map(({ href, icon, label }) => (
               <Link
                 key={href}
                 href={href}
@@ -49,7 +50,7 @@ export function AppHeader() {
                     : 'text-ink-600 border-transparent hover:text-ink-900'
                 }`}
               >
-                <Icon className="h-4 w-4" />
+                <FontAwesomeIcon icon={icon} className="h-4 w-4" />
                 {label}
               </Link>
             ))}
@@ -90,7 +91,7 @@ export function AppHeader() {
               className="p-2 text-ink-600 hover:text-ink-900 transition-colors"
               aria-label="Toggle menu"
             >
-              {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              <FontAwesomeIcon icon={isMenuOpen ? faXmark : faBars} className="h-6 w-6" />
             </button>
           </div>
         </div>
@@ -100,7 +101,7 @@ export function AppHeader() {
       {isMenuOpen && (
         <div className="md:hidden border-b border-ink-200 bg-white">
           <nav className="max-w-6xl mx-auto px-4 py-4 space-y-2">
-            {navItems.map(({ href, icon: Icon, label }) => (
+            {navItems.map(({ href, icon, label }) => (
               <Link
                 key={href}
                 href={href}
@@ -111,7 +112,7 @@ export function AppHeader() {
                     : 'text-ink-700 hover:bg-ink-50'
                 }`}
               >
-                <Icon className="h-5 w-5" />
+                <FontAwesomeIcon icon={icon} className="h-5 w-5" />
                 {label}
               </Link>
             ))}
