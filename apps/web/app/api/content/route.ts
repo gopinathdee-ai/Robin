@@ -109,7 +109,7 @@ export async function GET(req: NextRequest) {
           author: true,
           trade: true,
           topic: true,
-          ...(sort === 'most_answered' && { _count: { select: { answers: true } } }),
+          _count: { select: { answers: true } },
         },
         orderBy,
         skip: (page - 1) * limit,

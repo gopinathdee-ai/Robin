@@ -187,7 +187,7 @@ function CommunityContent() {
                   topic={item.topic}
                   upvotes={item.upvoteCount}
                   status={item.status}
-                  answersCount={item.answers?.length || 0}
+                  answersCount={item._count?.answers || 0}
                   createdAt={item.createdAt}
                 />
               </div>
