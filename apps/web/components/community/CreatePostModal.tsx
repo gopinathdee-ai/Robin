@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { X } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import { Spinner } from '@/components/ui/Spinner'
@@ -22,6 +23,7 @@ interface CreatePostModalProps {
 }
 
 export function CreatePostModal({ isOpen, onClose, onSuccess }: CreatePostModalProps) {
+  const router = useRouter()
   const [trades, setTrades] = useState<Trade[]>([])
   const [topics, setTopics] = useState<Topic[]>([])
   const [loading, setLoading] = useState(false)
@@ -145,6 +147,7 @@ export function CreatePostModal({ isOpen, onClose, onSuccess }: CreatePostModalP
         title: '',
         body: '',
       })
+      router.replace('/community')
       onClose()
       onSuccess()
     } catch (err) {
@@ -267,13 +270,11 @@ export function CreatePostModal({ isOpen, onClose, onSuccess }: CreatePostModalP
               className="w-full px-4 py-2 border border-ink-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-trades-500"
               required
             />
-            <div
-              className={`text-xs mt-2 ${
-                isTitleValid ? 'text-ink-500' : 'text-red-600'
-              }`}
-            >
-              {titleLength}/300 characters (10-300 required)
-            </div>
+            {titleLength > 0 && !isTitleValid && (
+              <div className="text-xs mt-2 text-red-600">
+                {titleLength}/300 characters (10-300 required)
+              </div>
+            )}
           </div>
 
           {/* Body */}
@@ -291,13 +292,11 @@ export function CreatePostModal({ isOpen, onClose, onSuccess }: CreatePostModalP
               className="w-full px-4 py-2 border border-ink-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-trades-500"
               required
             />
-            <div
-              className={`text-xs mt-2 ${
-                isBodyValid ? 'text-ink-500' : 'text-red-600'
-              }`}
-            >
-              {bodyLength}/10000 characters (20-10000 required)
-            </div>
+            {bodyLength > 0 && !isBodyValid && (
+              <div className="text-xs mt-2 text-red-600">
+                {bodyLength}/10000 characters (20-10000 required)
+              </div>
+            )}
           </div>
 
           {/* Actions */}
