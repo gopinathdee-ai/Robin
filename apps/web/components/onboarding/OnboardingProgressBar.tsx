@@ -14,10 +14,10 @@ export function OnboardingProgressBar({
   const defaultLabels = [
     'Role',
     'Trade',
+    'Your Logbook',
+    'Your Rank',
     'Tutorial',
-    'Profile',
-    'First Post',
-    'Preferences',
+    'Finish Setup',
   ]
   const labels = stepLabels || defaultLabels
 
