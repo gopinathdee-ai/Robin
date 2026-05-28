@@ -56,20 +56,36 @@ export function AppHeader() {
           </nav>
 
           {/* Desktop CTA */}
-          <Link
-            href="/community?create=true"
-            className="hidden md:flex items-center justify-center px-4 py-2 bg-trades-500 text-white text-sm font-medium rounded-lg hover:bg-trades-600 transition-colors flex-shrink-0 whitespace-nowrap"
-          >
-            Ask Question
-          </Link>
+          <div className="hidden md:flex items-center gap-2 flex-shrink-0">
+            <Link
+              href="/community?create=question"
+              className="flex items-center justify-center px-4 py-2 bg-trades-500 text-white text-sm font-medium rounded-lg hover:bg-trades-600 transition-colors whitespace-nowrap"
+            >
+              Ask Question
+            </Link>
+            <Link
+              href="/community?create=post"
+              className="flex items-center justify-center px-4 py-2 bg-trades-600 text-white text-sm font-medium rounded-lg hover:bg-trades-700 transition-colors whitespace-nowrap"
+            >
+              Create Post
+            </Link>
+          </div>
 
           {/* Mobile CTA + Menu Button */}
-          <div className="flex items-center gap-3 md:hidden">
+          <div className="flex items-center gap-2 md:hidden">
             <Link
-              href="/community?create=true"
+              href="/community?create=question"
               className="flex items-center justify-center px-3 py-2 bg-trades-500 text-white text-sm font-medium rounded-lg hover:bg-trades-600 transition-colors flex-shrink-0"
+              title="Ask Question"
             >
-              +
+              Q
+            </Link>
+            <Link
+              href="/community?create=post"
+              className="flex items-center justify-center px-3 py-2 bg-trades-600 text-white text-sm font-medium rounded-lg hover:bg-trades-700 transition-colors flex-shrink-0"
+              title="Create Post"
+            >
+              P
             </Link>
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}

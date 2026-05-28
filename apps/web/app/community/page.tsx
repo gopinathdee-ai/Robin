@@ -45,10 +45,13 @@ function CommunityContent() {
   const [page, setPage] = useState(1)
   const [hasMore, setHasMore] = useState(true)
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
+  const [createType, setCreateType] = useState<'question' | 'post'>('question')
 
   // Check for create query param and open modal
   useEffect(() => {
-    if (searchParams.get('create') === 'true') {
+    const createParam = searchParams.get('create')
+    if (createParam === 'question' || createParam === 'post') {
+      setCreateType(createParam)
       setIsCreateModalOpen(true)
     }
   }, [searchParams])
@@ -209,6 +212,7 @@ function CommunityContent() {
         isOpen={isCreateModalOpen}
         onClose={() => setIsCreateModalOpen(false)}
         onSuccess={handlePostSuccess}
+        defaultType={createType}
       />
     </>
   )

@@ -20,9 +20,10 @@ interface CreatePostModalProps {
   isOpen: boolean
   onClose: () => void
   onSuccess: () => void
+  defaultType?: 'question' | 'post'
 }
 
-export function CreatePostModal({ isOpen, onClose, onSuccess }: CreatePostModalProps) {
+export function CreatePostModal({ isOpen, onClose, onSuccess, defaultType = 'question' }: CreatePostModalProps) {
   const router = useRouter()
   const [trades, setTrades] = useState<Trade[]>([])
   const [topics, setTopics] = useState<Topic[]>([])
@@ -31,7 +32,7 @@ export function CreatePostModal({ isOpen, onClose, onSuccess }: CreatePostModalP
   const [error, setError] = useState<string | null>(null)
 
   const [formData, setFormData] = useState({
-    type: 'question' as 'question' | 'post',
+    type: defaultType,
     tradeId: '',
     topicId: '',
     title: '',
@@ -141,7 +142,7 @@ export function CreatePostModal({ isOpen, onClose, onSuccess }: CreatePostModalP
 
       // Success
       setFormData({
-        type: 'question',
+        type: defaultType,
         tradeId: trades[0]?.id || '',
         topicId: '',
         title: '',
