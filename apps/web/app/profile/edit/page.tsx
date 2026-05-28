@@ -14,15 +14,9 @@ interface UserProfile {
   yearsExperience?: number
   provinceCode?: string
   employerName?: string
-  unionLocalId?: string
   bio?: string
   trades: { id: string; name: string }[]
   status: string
-}
-
-interface Institution {
-  id: string
-  name: string
 }
 
 async function fetchData(path: string) {
@@ -39,7 +33,6 @@ async function fetchData(path: string) {
 export default function ProfileEditPage() {
   const router = useRouter()
   const [profile, setProfile] = useState<UserProfile | null>(null)
-  const [institutions, setInstitutions] = useState<Institution[]>([])
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -49,22 +42,13 @@ export default function ProfileEditPage() {
     yearsExperience: '',
     provinceCode: '',
     employerName: '',
-    unionLocalId: '',
     bio: '',
   })
 
   useEffect(() => {
     async function load() {
       try {
-        const [profileData, institutionsData] = await Promise.all([
-          fetchData('/api/users/me'),
-          fetchData('/api/institutions'),
-        ])
-
-        if (institutionsData?.items) {
-          setInstitutions(institutionsData.items)
-        }
-
+        const profileData = await fetchData('/api/users/me')
         if (profileData) {
           setProfile(profileData)
           setFormData({
@@ -72,7 +56,6 @@ export default function ProfileEditPage() {
             yearsExperience: profileData.yearsExperience?.toString() || '',
             provinceCode: profileData.provinceCode || '',
             employerName: profileData.employerName || '',
-            unionLocalId: profileData.unionLocalId || '',
             bio: profileData.bio || '',
           })
         }
@@ -108,7 +91,6 @@ export default function ProfileEditPage() {
           yearsExperience: formData.yearsExperience ? parseInt(formData.yearsExperience) : undefined,
           provinceCode: formData.provinceCode || undefined,
           employerName: formData.employerName || undefined,
-          unionLocalId: formData.unionLocalId || undefined,
           bio: formData.bio || undefined,
         }),
       })
@@ -252,26 +234,6 @@ export default function ProfileEditPage() {
                       placeholder="e.g. ABC Electrical Ltd."
                       className="w-full px-4 py-2 border border-ink-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-trades-500"
                     />
-                  </div>
-
-                  <div>
-                    <label htmlFor="unionLocalId" className="block text-sm font-medium text-ink-900 mb-2">
-                      Union local
-                    </label>
-                    <select
-                      id="unionLocalId"
-                      name="unionLocalId"
-                      value={formData.unionLocalId}
-                      onChange={handleChange}
-                      className="w-full px-4 py-2 border border-ink-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-trades-500"
-                    >
-                      <option value="">Select your union...</option>
-                      {institutions.map((institution) => (
-                        <option key={institution.id} value={institution.id}>
-                          {institution.name}
-                        </option>
-                      ))}
-                    </select>
                   </div>
 
                   <div>
