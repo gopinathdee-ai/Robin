@@ -31,7 +31,7 @@ export function FirstContributionForm({
 }: FirstContributionFormProps) {
   const [localError, setLocalError] = React.useState<string>('')
 
-  const MIN_BODY_LENGTH = 10
+  const MIN_BODY_LENGTH = 20
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
