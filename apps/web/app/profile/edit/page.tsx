@@ -42,6 +42,7 @@ export default function ProfileEditPage() {
     yearsExperience: '',
     provinceCode: '',
     employerName: '',
+    unionLocal: '',
     bio: '',
   })
 
@@ -56,6 +57,7 @@ export default function ProfileEditPage() {
             yearsExperience: profileData.yearsExperience?.toString() || '',
             provinceCode: profileData.provinceCode || '',
             employerName: profileData.employerName || '',
+            unionLocal: profileData.unionLocal || '',
             bio: profileData.bio || '',
           })
         }
@@ -91,6 +93,7 @@ export default function ProfileEditPage() {
           yearsExperience: formData.yearsExperience ? parseInt(formData.yearsExperience) : undefined,
           provinceCode: formData.provinceCode || undefined,
           employerName: formData.employerName || undefined,
+          unionLocal: formData.unionLocal || undefined,
           bio: formData.bio || undefined,
         }),
       })
@@ -232,6 +235,21 @@ export default function ProfileEditPage() {
                       value={formData.employerName}
                       onChange={handleChange}
                       placeholder="e.g. ABC Electrical Ltd."
+                      className="w-full px-4 py-2 border border-ink-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-trades-500"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="unionLocal" className="block text-sm font-medium text-ink-900 mb-2">
+                      Union local
+                    </label>
+                    <input
+                      type="text"
+                      id="unionLocal"
+                      name="unionLocal"
+                      value={formData.unionLocal}
+                      onChange={handleChange}
+                      placeholder="e.g. IBEW Local 424"
                       className="w-full px-4 py-2 border border-ink-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-trades-500"
                     />
                   </div>
