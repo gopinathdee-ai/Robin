@@ -100,7 +100,7 @@ export default async function DashboardPage() {
   }
 
   const user = result
-  const displayName = user.displayName || 'there'
+  let displayName = 'there'
 
   // Fetch all data in parallel
   let reputationData: ReputationData | null = null
@@ -109,12 +109,18 @@ export default async function DashboardPage() {
   let primaryTradeCode: string | null = null
 
   try {
-    const [reputation, activity, summary, userTrades] = await Promise.all([
+    const [reputation, activity, summary, userTrades, userData] = await Promise.all([
       fetchData('/api/users/me/reputation', user.id),
       fetchData('/api/users/me/activity?limit=10', user.id),
       fetchData('/api/users/me/summary', user.id),
       fetchData('/api/users/me/trades', user.id),
+      fetchData('/api/users/me', user.id),
     ])
+
+    // Get display name from user data
+    if (userData?.displayName) {
+      displayName = userData.displayName
+    }
 
     // Deep clone to ensure plain objects
     reputationData = reputation ? JSON.parse(JSON.stringify(reputation)) : null
