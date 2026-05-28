@@ -36,20 +36,37 @@ export function CreatePostModal({ isOpen, onClose, onSuccess }: CreatePostModalP
     body: '',
   })
 
-  // Fetch trades on mount
+  // Fetch trades and user's default trade on mount
   useEffect(() => {
     if (!isOpen) return
 
-    async function fetchTrades() {
+    async function fetchTradesAndUserTrade() {
       try {
         setLoading(true)
-        const response = await fetch('/api/trades')
-        if (response.ok) {
-          const data = await response.json()
+        const [tradesRes, userRes] = await Promise.all([
+          fetch('/api/trades'),
+          fetch('/api/users/me'),
+        ])
+
+        if (tradesRes.ok) {
+          const data = await tradesRes.json()
           setTrades(data.items || [])
-          if (data.items?.length > 0) {
-            setFormData((prev) => ({ ...prev, tradeId: data.items[0].id }))
+
+          let defaultTradeId = data.items?.[0]?.id || ''
+
+          if (userRes.ok) {
+            const userData = await userRes.json()
+            if (userData.trades && userData.trades.length > 0) {
+              const primaryTrade = userData.trades.find((ut: any) => ut.isPrimary)
+              if (primaryTrade) {
+                defaultTradeId = primaryTrade.tradeId
+              } else {
+                defaultTradeId = userData.trades[0].tradeId
+              }
+            }
           }
+
+          setFormData((prev) => ({ ...prev, tradeId: defaultTradeId }))
         }
       } catch (err) {
         console.error('Failed to fetch trades', err)
@@ -59,7 +76,7 @@ export function CreatePostModal({ isOpen, onClose, onSuccess }: CreatePostModalP
       }
     }
 
-    fetchTrades()
+    fetchTradesAndUserTrade()
   }, [isOpen])
 
   // Fetch topics when trade changes
