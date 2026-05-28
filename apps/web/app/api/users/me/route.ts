@@ -41,6 +41,7 @@ export async function PATCH(req: NextRequest) {
       provinceCode: z.string().length(2).optional(),
       yearsExperience: z.number().int().min(0).optional(),
       employerName: z.string().max(200).optional(),
+      unionLocalId: z.string().uuid().optional(),
       role: z.enum(['apprentice', 'journeyperson', 'master', 'employer_admin']).optional(),
       onboardingStep: z.number().int().min(0).optional(),
       onboardingDone: z.boolean().optional(),
@@ -56,10 +57,21 @@ export async function PATCH(req: NextRequest) {
       updates.status = 'active'
     }
 
+    // Handle unionLocalId as a relation connection
+    const dataToUpdate: any = { ...updates }
+    if ('unionLocalId' in updates) {
+      if (updates.unionLocalId) {
+        dataToUpdate.unionLocal = { connect: { id: updates.unionLocalId } }
+      } else {
+        dataToUpdate.unionLocal = { disconnect: true }
+      }
+      delete dataToUpdate.unionLocalId
+    }
+
     const userData = await prisma.user.update({
       where: { id: user.id },
-      data: updates,
-      include: { reputationScore: true },
+      data: dataToUpdate,
+      include: { reputationScore: true, unionLocal: true },
     })
 
     return NextResponse.json(userData)

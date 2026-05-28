@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { ChevronRight } from 'lucide-react'
 import { SimpleShell } from '@/components/SimpleShell'
@@ -29,15 +29,36 @@ const EXPERIENCE_RANGES = [
   { value: '21', label: '20+ years' },
 ]
 
+interface Institution {
+  id: string
+  name: string
+}
+
 export default function ProfileSetupPage() {
   const router = useRouter()
+  const [institutions, setInstitutions] = useState<Institution[]>([])
   const [form, setForm] = useState({
     displayName: '',
     province: '',
     yearsExperience: '',
     employerName: '',
+    unionLocalId: '',
   })
   const [saving, setSaving] = useState(false)
+
+  useEffect(() => {
+    async function fetchInstitutions() {
+      try {
+        const res = await fetch('/api/institutions')
+        if (!res.ok) throw new Error('Failed to fetch institutions')
+        const data = await res.json()
+        setInstitutions(data.items || [])
+      } catch (error) {
+        console.error('Error fetching institutions:', error)
+      }
+    }
+    fetchInstitutions()
+  }, [])
 
   const isValid = form.displayName.trim().length >= 2 && form.province && form.yearsExperience
 
@@ -58,6 +79,7 @@ export default function ProfileSetupPage() {
           provinceCode: form.province,
           yearsExperience: parseInt(form.yearsExperience),
           employerName: form.employerName || undefined,
+          unionLocalId: form.unionLocalId || undefined,
         }),
       })
 
@@ -154,6 +176,23 @@ export default function ProfileSetupPage() {
               />
             </div>
 
+            <div>
+              <label className="block text-sm font-medium text-ink-700 mb-1.5">
+                Union local
+              </label>
+              <select
+                value={form.unionLocalId}
+                onChange={(e) => update('unionLocalId', e.target.value)}
+                className="input"
+              >
+                <option value="">Select your union...</option>
+                {institutions.map((institution) => (
+                  <option key={institution.id} value={institution.id}>
+                    {institution.name}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
         </div>
 
