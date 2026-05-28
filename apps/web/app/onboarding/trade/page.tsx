@@ -3,7 +3,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch, faChevronRight, faCheck } from '@fortawesome/free-solid-svg-icons'
 
-import React from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 
 import { OnboardingShell } from '@/components/onboarding/OnboardingShell'
