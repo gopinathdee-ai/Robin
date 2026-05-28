@@ -56,8 +56,13 @@ export function CreatePostModal({ isOpen, onClose, onSuccess }: CreatePostModalP
 
           if (userRes.ok) {
             const userData = await userRes.json()
-            if (userData.tradeId) {
-              defaultTradeId = userData.tradeId
+            if (userData.trades && userData.trades.length > 0) {
+              const primaryTrade = userData.trades.find((ut: any) => ut.isPrimary)
+              if (primaryTrade) {
+                defaultTradeId = primaryTrade.tradeId
+              } else {
+                defaultTradeId = userData.trades[0].tradeId
+              }
             }
           }
 
