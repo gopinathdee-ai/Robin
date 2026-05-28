@@ -12,6 +12,8 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ items: [] })
     }
 
+    const isDev = process.env.NEXT_PUBLIC_DEV_MODE === 'true'
+
     let orderBy: any = { createdAt: 'desc' }
     if (sort === 'trending') {
       orderBy = { upvoteCount: 'desc' }
@@ -24,8 +26,8 @@ export async function GET(req: NextRequest) {
 
     const results = await prisma.content.findMany({
       where: {
-        status: 'published',
-        aiQualityScore: { gte: 0.4 },
+        status: isDev ? { in: ['published', 'pending_review', 'flagged'] as any } : 'published',
+        ...(isDev ? {} : { aiQualityScore: { gte: 0.4 } }),
         ...(tradeId && { tradeId }),
         OR: [
           { title: { contains: query, mode: 'insensitive' } },
@@ -36,7 +38,7 @@ export async function GET(req: NextRequest) {
         author: true,
         trade: true,
         topic: true,
-        ...(sort === 'most_answered' && { _count: { select: { answers: true } } }),
+        _count: { select: { answers: true } },
       },
       orderBy,
       take: limit,
