@@ -75,17 +75,15 @@ export function AppHeader() {
           <div className="flex items-center gap-2 md:hidden">
             <Link
               href="/community?create=question"
-              className="flex items-center justify-center px-3 py-2 bg-trades-500 text-white text-sm font-medium rounded-lg hover:bg-trades-600 transition-colors flex-shrink-0"
-              title="Ask Question"
+              className="flex items-center justify-center px-2 py-2 bg-trades-500 text-white text-xs font-medium rounded-lg hover:bg-trades-600 transition-colors flex-shrink-0 whitespace-nowrap"
             >
-              Q
+              Ask
             </Link>
             <Link
               href="/community?create=post"
-              className="flex items-center justify-center px-3 py-2 bg-trades-600 text-white text-sm font-medium rounded-lg hover:bg-trades-700 transition-colors flex-shrink-0"
-              title="Create Post"
+              className="flex items-center justify-center px-2 py-2 bg-trades-600 text-white text-xs font-medium rounded-lg hover:bg-trades-700 transition-colors flex-shrink-0 whitespace-nowrap"
             >
-              P
+              Post
             </Link>
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
