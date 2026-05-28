@@ -41,7 +41,7 @@ export async function PATCH(req: NextRequest) {
       provinceCode: z.string().length(2).optional(),
       yearsExperience: z.number().int().min(0).optional(),
       employerName: z.string().max(200).optional(),
-      unionLocal: z.string().max(200).optional(),
+      unionLocalName: z.string().max(200).optional(),
       role: z.enum(['apprentice', 'journeyperson', 'master', 'employer_admin']).optional(),
       onboardingStep: z.number().int().min(0).optional(),
       onboardingDone: z.boolean().optional(),
@@ -57,12 +57,9 @@ export async function PATCH(req: NextRequest) {
       updates.status = 'active'
     }
 
-    // Remove unionLocal from updates (accept in schema but don't persist to DB yet)
-    const { unionLocal: _, ...dataToUpdate } = updates as any
-
     const userData = await prisma.user.update({
       where: { id: user.id },
-      data: dataToUpdate,
+      data: updates,
       include: { reputationScore: true },
     })
 

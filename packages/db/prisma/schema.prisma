@@ -196,6 +196,7 @@ model User {
   yearsExperience  Int?           @map("years_experience")
   employerName     String?        @map("employer_name")
   unionLocalId     String?        @map("union_local_id")
+  unionLocalName   String?        @map("union_local_name")
   bio              String?
   onboardingStep   Int            @default(0) @map("onboarding_step")
   onboardingDone   Boolean        @default(false) @map("onboarding_done")

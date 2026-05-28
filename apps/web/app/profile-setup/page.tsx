@@ -36,7 +36,7 @@ export default function ProfileSetupPage() {
     province: '',
     yearsExperience: '',
     employerName: '',
-    unionLocal: '',
+    unionLocalName: '',
   })
   const [saving, setSaving] = useState(false)
 
@@ -59,7 +59,7 @@ export default function ProfileSetupPage() {
           provinceCode: form.province,
           yearsExperience: parseInt(form.yearsExperience),
           employerName: form.employerName || undefined,
-          unionLocal: form.unionLocal || undefined,
+          unionLocalName: form.unionLocalName || undefined,
         }),
       })
 
@@ -163,8 +163,8 @@ export default function ProfileSetupPage() {
               <input
                 type="text"
                 placeholder="e.g. IBEW Local 424"
-                value={form.unionLocal}
-                onChange={(e) => update('unionLocal', e.target.value)}
+                value={form.unionLocalName}
+                onChange={(e) => update('unionLocalName', e.target.value)}
                 className="input"
               />
             </div>
