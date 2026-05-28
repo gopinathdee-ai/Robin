@@ -30,6 +30,7 @@ interface ContentItem {
   upvoteCount: number
   status?: 'published' | 'pending_review' | 'flagged'
   answers?: any[]
+  _count?: { answers: number }
   createdAt: string
 }
 
