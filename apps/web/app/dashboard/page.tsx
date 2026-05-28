@@ -100,7 +100,7 @@ export default async function DashboardPage() {
   }
 
   const user = result
-  const displayName = 'User'
+  const displayName = user.displayName || 'there'
 
   // Fetch all data in parallel
   let reputationData: ReputationData | null = null
