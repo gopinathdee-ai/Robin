@@ -31,6 +31,8 @@ export function FirstContributionForm({
 }: FirstContributionFormProps) {
   const [localError, setLocalError] = React.useState<string>('')
 
+  const MIN_BODY_LENGTH = 10
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLocalError('')
@@ -42,6 +44,11 @@ export function FirstContributionForm({
 
     if (!formData.body.trim()) {
       setLocalError('Please enter content')
+      return
+    }
+
+    if (formData.body.trim().length < MIN_BODY_LENGTH) {
+      setLocalError(`Please write at least ${MIN_BODY_LENGTH} characters`)
       return
     }
 
@@ -140,8 +147,13 @@ export function FirstContributionForm({
           } ${loading ? 'bg-ink-100 cursor-not-allowed' : ''}`}
           aria-invalid={!!displayError}
         />
-        <div className="flex justify-between items-center text-xs text-ink-600">
-          <span>
+        <div className="flex justify-between items-center text-xs">
+          <span className={formData.body.trim().length < MIN_BODY_LENGTH ? 'text-ink-400' : 'text-green-600'}>
+            {formData.body.trim().length < MIN_BODY_LENGTH
+              ? `${MIN_BODY_LENGTH - formData.body.trim().length} more characters needed`
+              : '✓ Ready to publish'}
+          </span>
+          <span className="text-ink-600">
             {formData.body.length} / 5000
           </span>
         </div>
@@ -157,9 +169,9 @@ export function FirstContributionForm({
       {/* Submit button */}
       <button
         type="submit"
-        disabled={loading || !formData.title.trim() || !formData.body.trim()}
+        disabled={loading || !formData.title.trim() || formData.body.trim().length < MIN_BODY_LENGTH}
         className={`w-full py-3 px-4 rounded-lg font-semibold transition-colors min-h-[44px] ${
-          loading || !formData.title.trim() || !formData.body.trim()
+          loading || !formData.title.trim() || formData.body.trim().length < MIN_BODY_LENGTH
             ? 'bg-ink-200 text-ink-600 cursor-not-allowed'
             : 'bg-trades-500 text-white hover:bg-trades-600'
         }`}
