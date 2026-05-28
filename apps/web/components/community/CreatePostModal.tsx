@@ -39,6 +39,11 @@ export function CreatePostModal({ isOpen, onClose, onSuccess, defaultType = 'que
     body: '',
   })
 
+  // Update form type when defaultType prop changes
+  useEffect(() => {
+    setFormData((prev) => ({ ...prev, type: defaultType }))
+  }, [defaultType])
+
   // Fetch trades and user's default trade on mount
   useEffect(() => {
     if (!isOpen) return
