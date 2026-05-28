@@ -110,6 +110,17 @@ export function ContentCard({
   return (
     <Link href={`/community/${id}`}>
       <div className="border border-ink-200 rounded-lg p-4 hover:border-trades-400 hover:bg-trades-50 transition-colors cursor-pointer relative">
+        {/* Type badge - top right, left of bookmark */}
+        {(type === 'question' || type === 'post') && (
+          <span className={`absolute top-4 right-14 inline-flex items-center px-2 py-1 rounded text-xs font-medium flex-shrink-0 ${
+            type === 'question'
+              ? 'bg-blue-100 text-blue-700'
+              : 'bg-orange-100 text-orange-700'
+          }`}>
+            {type === 'question' ? 'Question' : 'Post'}
+          </span>
+        )}
+
         {/* Bookmark button - top right */}
         <button
           onClick={handleBookmarkClick}
