@@ -13,6 +13,8 @@ interface UserProfile {
   email: string
   yearsExperience?: number
   provinceCode?: string
+  employerName?: string
+  unionLocal?: string
   bio?: string
   trades: { id: string; name: string }[]
   status: string
@@ -40,6 +42,8 @@ export default function ProfileEditPage() {
     displayName: '',
     yearsExperience: '',
     provinceCode: '',
+    employerName: '',
+    unionLocal: '',
     bio: '',
   })
 
@@ -53,6 +57,8 @@ export default function ProfileEditPage() {
             displayName: profileData.displayName || '',
             yearsExperience: profileData.yearsExperience?.toString() || '',
             provinceCode: profileData.provinceCode || '',
+            employerName: profileData.employerName || '',
+            unionLocal: profileData.unionLocal || '',
             bio: profileData.bio || '',
           })
         }
@@ -87,6 +93,8 @@ export default function ProfileEditPage() {
           displayName: formData.displayName,
           yearsExperience: formData.yearsExperience ? parseInt(formData.yearsExperience) : undefined,
           provinceCode: formData.provinceCode || undefined,
+          employerName: formData.employerName || undefined,
+          unionLocal: formData.unionLocal || undefined,
           bio: formData.bio || undefined,
         }),
       })
@@ -200,19 +208,57 @@ export default function ProfileEditPage() {
                 </select>
               </div>
 
-              <div>
-                <label htmlFor="bio" className="block text-sm font-medium text-ink-900 mb-2">
-                  Bio
-                </label>
-                <textarea
-                  id="bio"
-                  name="bio"
-                  value={formData.bio}
-                  onChange={handleChange}
-                  rows={4}
-                  className="w-full px-4 py-2 border border-ink-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-trades-500"
-                  placeholder="Tell us about yourself..."
-                />
+              <div className="pt-4 border-t border-ink-200">
+                <p className="text-xs font-medium text-ink-400 uppercase tracking-wide mb-4">
+                  Optional
+                </p>
+
+                <div className="space-y-6">
+                  <div>
+                    <label htmlFor="employerName" className="block text-sm font-medium text-ink-900 mb-2">
+                      Employer or contractor name
+                    </label>
+                    <input
+                      type="text"
+                      id="employerName"
+                      name="employerName"
+                      value={formData.employerName}
+                      onChange={handleChange}
+                      placeholder="e.g. ABC Electrical Ltd."
+                      className="w-full px-4 py-2 border border-ink-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-trades-500"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="unionLocal" className="block text-sm font-medium text-ink-900 mb-2">
+                      Union local
+                    </label>
+                    <input
+                      type="text"
+                      id="unionLocal"
+                      name="unionLocal"
+                      value={formData.unionLocal}
+                      onChange={handleChange}
+                      placeholder="e.g. IBEW Local 424"
+                      className="w-full px-4 py-2 border border-ink-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-trades-500"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="bio" className="block text-sm font-medium text-ink-900 mb-2">
+                      Bio
+                    </label>
+                    <textarea
+                      id="bio"
+                      name="bio"
+                      value={formData.bio}
+                      onChange={handleChange}
+                      rows={4}
+                      className="w-full px-4 py-2 border border-ink-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-trades-500"
+                      placeholder="Tell us about yourself..."
+                    />
+                  </div>
+                </div>
               </div>
 
               <div className="flex gap-4 pt-6 border-t border-ink-200">
