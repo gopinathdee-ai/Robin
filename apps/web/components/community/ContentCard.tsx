@@ -108,33 +108,9 @@ export function ContentCard({
 
   return (
     <Link href={`/community/${id}`}>
-      <div className="border border-ink-200 rounded-lg p-4 hover:border-trades-400 hover:bg-trades-50 transition-colors cursor-pointer relative">
-        {/* Type badge - top right, left of bookmark */}
-        {(type === 'question' || type === 'post') && (
-          <span className={`absolute top-4 right-14 inline-flex items-center px-2 py-1 rounded text-xs font-medium flex-shrink-0 ${
-            type === 'question'
-              ? 'bg-blue-100 text-blue-700'
-              : 'bg-purple-100 text-purple-700'
-          }`}>
-            {type === 'question' ? 'Question' : 'Post'}
-          </span>
-        )}
-
-        {/* Bookmark button - top right */}
-        <button
-          onClick={handleBookmarkClick}
-          disabled={isLoading}
-          className="absolute top-4 right-4 p-2 text-ink-500 hover:text-trades-600 transition-colors disabled:opacity-50 flex-shrink-0 z-10"
-          title={isBookmarked ? 'Remove bookmark' : 'Save bookmark'}
-        >
-          <FontAwesomeIcon
-            icon={faBookmark}
-            className={`h-5 w-5 transition-colors ${isBookmarked ? 'text-trades-600' : 'text-ink-400 opacity-60'}`}
-          />
-        </button>
-
-        {/* Header: Author, role, time - with padding to avoid overlap with bookmark */}
-        <div className="flex items-center gap-3 mb-3 text-sm text-ink-600 flex-wrap pr-12">
+      <div className="border border-ink-200 rounded-lg p-4 hover:border-trades-400 hover:bg-trades-50 transition-colors cursor-pointer">
+        {/* Header: Author, role, time */}
+        <div className="flex items-center gap-2 mb-3 text-sm text-ink-600 flex-wrap">
           <span className="font-medium text-ink-900">{author.displayName}</span>
           <span className="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-trades-100 text-trades-700 flex-shrink-0">
             {author.role === 'journeyperson' ? 'Journeyperson ✓' : author.role === 'master' ? 'Master ✓' : 'Apprentice'}
@@ -144,7 +120,33 @@ export function ContentCard({
               {statusLabel[status]}
             </span>
           )}
-          <span className="text-ink-500 flex-shrink-0">• {timeAgo}</span>
+          <span className="text-ink-500 text-xs flex-shrink-0">• {timeAgo}</span>
+        </div>
+
+        {/* Type and bookmark row - stack on mobile */}
+        <div className="flex items-start justify-between gap-2 mb-3">
+          <div className="flex-1">
+            {(type === 'question' || type === 'post') && (
+              <span className={`inline-flex items-center px-2 py-1 rounded text-xs font-medium mb-2 ${
+                type === 'question'
+                  ? 'bg-blue-100 text-blue-700'
+                  : 'bg-purple-100 text-purple-700'
+              }`}>
+                {type === 'question' ? 'Question' : 'Post'}
+              </span>
+            )}
+          </div>
+          <button
+            onClick={handleBookmarkClick}
+            disabled={isLoading}
+            className="p-1.5 text-ink-500 hover:text-trades-600 transition-colors disabled:opacity-50 flex-shrink-0 z-10"
+            title={isBookmarked ? 'Remove bookmark' : 'Save bookmark'}
+          >
+            <FontAwesomeIcon
+              icon={faBookmark}
+              className={`h-4 w-4 transition-colors ${isBookmarked ? 'text-trades-600' : 'text-ink-400 opacity-60'}`}
+            />
+          </button>
         </div>
 
         {/* Content */}
@@ -157,7 +159,7 @@ export function ContentCard({
         </div>
 
         {/* Tags: trade + topic */}
-        <div className="flex gap-2 mb-3">
+        <div className="flex gap-2 mb-3 flex-wrap">
           {trade && (
             <span className="inline-flex items-center px-2 py-1 rounded text-xs bg-ink-100 text-ink-700">
               {trade.name}
@@ -171,7 +173,7 @@ export function ContentCard({
         </div>
 
         {/* Metrics */}
-        <div className="flex items-center gap-4 text-sm text-ink-600">
+        <div className="flex items-center gap-4 text-sm text-ink-600 flex-wrap">
           <span className="flex items-center gap-1">
             <FontAwesomeIcon icon={faThumbsUp} /> {upvotes} upvotes
           </span>
