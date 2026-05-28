@@ -176,7 +176,9 @@ export function CreatePostModal({ isOpen, onClose, onSuccess, defaultType = 'que
       <div className="bg-white rounded-xl shadow-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-ink-200 sticky top-0 bg-white">
-          <h2 className="text-xl font-bold text-ink-900">Create a Post</h2>
+          <h2 className="text-xl font-bold text-ink-900">
+            {formData.type === 'question' ? 'Ask a Question' : 'Create a Post'}
+          </h2>
           <button
             onClick={onClose}
             disabled={submitting}
@@ -314,7 +316,11 @@ export function CreatePostModal({ isOpen, onClose, onSuccess, defaultType = 'que
               loading={submitting}
               className="flex-1 justify-center"
             >
-              {submitting ? 'Publishing...' : 'Publish Post'}
+              {submitting
+                ? 'Publishing...'
+                : formData.type === 'question'
+                  ? 'Ask Question'
+                  : 'Create Post'}
             </Button>
             <Button
               type="button"
