@@ -41,11 +41,9 @@ export async function PATCH(req: NextRequest) {
       provinceCode: z.string().length(2).optional(),
       yearsExperience: z.number().int().min(0).optional(),
       employerName: z.string().max(200).optional(),
-      unionLocal: z.string().max(100).optional(),
       role: z.enum(['apprentice', 'journeyperson', 'master', 'employer_admin']).optional(),
       onboardingStep: z.number().int().min(0).optional(),
       onboardingDone: z.boolean().optional(),
-      accountStatus: z.enum(['onboarding', 'active', 'suspended']).optional(),
       bio: z.string().optional(),
       status: z.enum(['onboarding', 'active', 'suspended']).optional(),
     })
