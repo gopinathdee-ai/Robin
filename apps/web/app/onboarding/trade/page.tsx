@@ -101,7 +101,7 @@ export default function TradeSelectionPage() {
         body: JSON.stringify({ onboardingStep: 2 }),
       })
 
-      router.push('/onboarding/tutorial')
+      router.push('/onboarding/logbook')
     } catch (error) {
       console.error('Error saving trade:', error)
       setSaving(false)
