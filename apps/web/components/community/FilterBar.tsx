@@ -62,7 +62,6 @@ export function FilterBar({
           <option value="">All types</option>
           <option value="question">Question</option>
           <option value="post">Post</option>
-          <option value="answer">Answer</option>
         </select>
       </div>
 

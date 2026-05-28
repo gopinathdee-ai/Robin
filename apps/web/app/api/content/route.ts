@@ -88,7 +88,8 @@ export async function GET(req: NextRequest) {
       ...(isDev ? {} : { aiQualityScore: { gte: 0.4 } }),
       ...(tradeId && { tradeId }),
       ...(topicId && { topicId }),
-      ...(type && { type: type as any }),
+      // Only show questions and posts in the main feed, not answers
+      type: type ? (type as any) : { in: ['question', 'post'] as any },
     }
 
     let orderBy: any = { createdAt: 'desc' }
