@@ -179,8 +179,9 @@ export default function ContentDetailPage({ params }: { params: Promise<{ id: st
               title={isBookmarked ? 'Remove bookmark' : 'Save bookmark'}
               className="flex items-center gap-2 px-4 py-2 rounded border border-ink-300 hover:border-trades-500 transition disabled:opacity-50"
             >
-              <FontAwesomeIcon icon={faBookmark} size={20}
-                className={isBookmarked ? 'fill-trades-600 text-trades-600' : 'text-ink-600'}
+              <FontAwesomeIcon
+                icon={faBookmark}
+                className={`h-5 w-5 ${isBookmarked ? 'fill-trades-600 text-trades-600' : 'text-ink-600'}`}
               />
               <span className="text-sm font-medium text-ink-700">{isBookmarked ? 'Saved' : 'Save'}</span>
             </button>
