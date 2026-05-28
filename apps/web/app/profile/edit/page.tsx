@@ -154,7 +154,7 @@ export default function ProfileEditPage() {
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <label htmlFor="displayName" className="block text-sm font-medium text-ink-900 mb-2">
-                  Display Name
+                  What should we call you? <span className="text-trades-500">*</span>
                 </label>
                 <input
                   type="text"
@@ -162,30 +162,18 @@ export default function ProfileEditPage() {
                   name="displayName"
                   value={formData.displayName}
                   onChange={handleChange}
+                  placeholder="e.g. Mike T. or Mike Tremblay"
                   className="w-full px-4 py-2 border border-ink-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-trades-500"
                   required
                 />
-              </div>
-
-              <div>
-                <label htmlFor="yearsExperience" className="block text-sm font-medium text-ink-900 mb-2">
-                  Years of Experience
-                </label>
-                <input
-                  type="number"
-                  id="yearsExperience"
-                  name="yearsExperience"
-                  value={formData.yearsExperience}
-                  onChange={handleChange}
-                  min="0"
-                  max="70"
-                  className="w-full px-4 py-2 border border-ink-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-trades-500"
-                />
+                <p className="mt-1 text-xs text-ink-400">
+                  Shown to peers. First name and last initial is fine.
+                </p>
               </div>
 
               <div>
                 <label htmlFor="provinceCode" className="block text-sm font-medium text-ink-900 mb-2">
-                  Province
+                  Province / territory <span className="text-trades-500">*</span>
                 </label>
                 <select
                   id="provinceCode"
@@ -194,17 +182,40 @@ export default function ProfileEditPage() {
                   onChange={handleChange}
                   className="w-full px-4 py-2 border border-ink-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-trades-500"
                 >
-                  <option value="">Select a province</option>
+                  <option value="">Select your province...</option>
                   <option value="AB">Alberta</option>
                   <option value="BC">British Columbia</option>
                   <option value="MB">Manitoba</option>
                   <option value="NB">New Brunswick</option>
-                  <option value="NL">Newfoundland and Labrador</option>
+                  <option value="NL">Newfoundland & Labrador</option>
                   <option value="NS">Nova Scotia</option>
                   <option value="ON">Ontario</option>
                   <option value="PE">Prince Edward Island</option>
                   <option value="QC">Quebec</option>
                   <option value="SK">Saskatchewan</option>
+                  <option value="NT">Northwest Territories</option>
+                  <option value="YT">Yukon</option>
+                  <option value="NU">Nunavut</option>
+                </select>
+              </div>
+
+              <div>
+                <label htmlFor="yearsExperience" className="block text-sm font-medium text-ink-900 mb-2">
+                  Years in the trade <span className="text-trades-500">*</span>
+                </label>
+                <select
+                  id="yearsExperience"
+                  name="yearsExperience"
+                  value={formData.yearsExperience}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2 border border-ink-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-trades-500"
+                >
+                  <option value="">Select your experience level...</option>
+                  <option value="0">Just starting out (0–1 years)</option>
+                  <option value="2">2–5 years</option>
+                  <option value="6">6–10 years</option>
+                  <option value="11">11–20 years</option>
+                  <option value="21">20+ years</option>
                 </select>
               </div>
 
