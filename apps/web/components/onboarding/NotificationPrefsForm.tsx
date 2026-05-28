@@ -60,6 +60,7 @@ export function NotificationPrefsForm({
     setSaving(true)
 
     try {
+      // Save notification preferences
       const res = await fetch('/api/users/me/notification-preferences', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
@@ -70,6 +71,15 @@ export function NotificationPrefsForm({
         const error = await res.json()
         throw new Error(error.error || 'Failed to save preferences')
       }
+
+      // Mark onboarding as complete and set status to active
+      await fetch('/api/users/me', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          onboardingDone: true,
+        }),
+      })
 
       const updated = await res.json()
       onSuccess(updated)
