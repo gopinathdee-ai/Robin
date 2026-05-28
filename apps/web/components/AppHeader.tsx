@@ -33,7 +33,7 @@ export function AppHeader() {
       <header className="border-b border-ink-200 bg-white sticky top-0 z-40">
         <div className="max-w-6xl mx-auto px-4 md:px-6 py-3 flex items-center justify-between gap-4">
           {/* Logo */}
-          <Link href="/community" className="flex items-center gap-2 flex-shrink-0 hover:opacity-80 transition-opacity">
+          <Link href="/dashboard" className="flex items-center gap-2 flex-shrink-0 hover:opacity-80 transition-opacity">
             <Image src="/logo.png" alt="Trades Platform" width={32} height={32} />
             <span className="font-bold text-lg text-ink-900 hidden sm:inline">Trades</span>
           </Link>
