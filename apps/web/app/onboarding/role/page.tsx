@@ -2,8 +2,9 @@
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHardHat, faWrench, faStar, faBuilding, faChevronRight, faCheckCircle } from '@fortawesome/free-solid-svg-icons'
+import type { IconDefinition } from '@fortawesome/fontawesome-svg-core'
 
-import React from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 
@@ -18,7 +19,7 @@ type Role = 'apprentice' | 'journeyperson' | 'master' | 'employer_admin'
 
 const roles: {
   id: Role
-  icon: React.ElementType
+  icon: IconDefinition
   title: string
   subtitle: string
   description: string
@@ -26,7 +27,7 @@ const roles: {
 }[] = [
   {
     id: 'apprentice',
-    icon: HardHat,
+    icon: faHardHat,
     title: 'Apprentice',
     subtitle: 'Starting out or in training',
     description:
@@ -35,7 +36,7 @@ const roles: {
   },
   {
     id: 'journeyperson',
-    icon: Wrench,
+    icon: faWrench,
     title: 'Journeyperson',
     subtitle: 'Ticketed and working in the trade',
     description:
@@ -44,7 +45,7 @@ const roles: {
   },
   {
     id: 'master',
-    icon: Star,
+    icon: faStar,
     title: 'Master / Supervisor',
     subtitle: 'Leading crews and mentoring others',
     description:
@@ -53,7 +54,7 @@ const roles: {
   },
   {
     id: 'employer_admin',
-    icon: Building2,
+    icon: faBuilding,
     title: 'Employer / Contractor',
     subtitle: 'Managing a team or workforce',
     description:
@@ -101,7 +102,6 @@ export default function RoleSelectionPage() {
     >
       <div className="space-y-3">
         {roles.map((role, idx) => {
-          const Icon = role.icon
           const isSelected = selected === role.id
 
           return (
@@ -126,7 +126,7 @@ export default function RoleSelectionPage() {
                   animate={isSelected ? { scale: 1.1 } : { scale: 1 }}
                   transition={{ type: 'spring', stiffness: 400, damping: 10 }}
                 >
-                  <Icon className="h-5 w-5" />
+                  <FontAwesomeIcon icon={role.icon} className="h-5 w-5" />
                 </motion.div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between gap-2">
