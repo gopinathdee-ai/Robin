@@ -23,6 +23,7 @@ export default function FirstPostPage() {
   const [userTrades, setUserTrades] = useState<string[]>([])
   const [loading, setLoading] = useState(true)
   const [submitting, setSubmitting] = useState(false)
+  const [error, setError] = useState('')
   const [contentType, setContentType] = useState<'question' | 'post'>('question')
   const [formData, setFormData] = useState({
     title: '',
@@ -68,10 +69,17 @@ export default function FirstPostPage() {
 
   async function handleSubmit() {
     if (!formData.title.trim() || !formData.body.trim()) {
+      setError('Please fill in all required fields')
+      return
+    }
+
+    if (!userTrades[0]) {
+      setError('Trade information not loaded. Please refresh the page.')
       return
     }
 
     setSubmitting(true)
+    setError('')
 
     try {
       const response = await fetch('/api/content', {
@@ -87,13 +95,16 @@ export default function FirstPostPage() {
       })
 
       if (!response.ok) {
-        throw new Error('Failed to submit contribution')
+        const errorData = await response.json().catch(() => ({}))
+        throw new Error(errorData.error || 'Failed to submit contribution')
       }
 
       // Navigate to notification preferences
       router.push('/notification-preferences')
-    } catch (error) {
-      console.error('Error submitting contribution:', error)
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'An error occurred'
+      console.error('Error submitting contribution:', err)
+      setError(errorMessage)
       setSubmitting(false)
     }
   }
@@ -124,6 +135,7 @@ export default function FirstPostPage() {
         onFormChange={(updates) => setFormData((prev) => ({ ...prev, ...updates }))}
         onSubmit={handleSubmit}
         loading={submitting}
+        error={error}
       />
     </SimpleShell>
   )
