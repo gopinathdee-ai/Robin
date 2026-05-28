@@ -20,8 +20,7 @@ const tutorialSteps = [
     colour: 'bg-blue-50 text-blue-600',
     rank: 'Your Logbook',
     heading: 'Your record. Yours forever.',
-    body: `Think of this as your digital logbook — but better. Every skill you verify,
-every course you complete, every mentor who recognises your work goes in here.
+    body: `Every skill you verify, every course you complete, every mentor who recognises your work goes in here.
 
 When you leave a job, it comes with you. When you start a new one, hand your
 employer a link instead of digging through a drawer for old paperwork.`,
