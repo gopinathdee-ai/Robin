@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
-import { ChevronRight } from 'lucide-react'
+
 import { DevModeBanner } from '@/components/DevModeBanner'
 
 export const dynamic = 'force-dynamic'
@@ -98,7 +98,7 @@ export default async function SignUpPage() {
               className="w-full btn-primary py-3 px-4 rounded-lg font-semibold flex items-center justify-center gap-2 mb-6"
             >
               Create my account
-              <ChevronRight className="h-4 w-4" />
+              <FontAwesomeIcon icon={faChevronRight} className="h-4 w-4" />
             </button>
           </form>
 
@@ -121,7 +121,7 @@ export default async function SignUpPage() {
                         <p className="text-sm font-medium text-ink-900">{user.displayName}</p>
                         <p className="text-xs text-ink-500 capitalize">{user.status}</p>
                       </div>
-                      <ChevronRight className="h-4 w-4 text-ink-400 group-hover:text-trades-500 flex-shrink-0 pointer-events-none" />
+                      <FontAwesomeIcon icon={faChevronRight} className="h-4 w-4 text-ink-400 group-hover:text-trades-500 flex-shrink-0 pointer-events-none" />
                     </button>
                   </form>
                 ))}

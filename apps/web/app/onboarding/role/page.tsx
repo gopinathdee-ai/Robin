@@ -1,9 +1,12 @@
 'use client'
 
-import { useState } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHardHat, faWrench, faStar, faBuilding, faChevronRight, faCheckCircle } from '@fortawesome/free-solid-svg-icons'
+
+import React from 'react'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
-import { HardHat, Wrench, Star, Building2, ChevronRight, CheckCircle2 } from 'lucide-react'
+
 import { OnboardingShell } from '@/components/onboarding/OnboardingShell'
 import { Spinner } from '@/components/ui/Spinner'
 
@@ -134,7 +137,7 @@ export default function RoleSelectionPage() {
                         animate={{ scale: 1 }}
                         transition={{ type: 'spring', stiffness: 300 }}
                       >
-                        <CheckCircle2 className="h-5 w-5 text-trades-500 flex-shrink-0" />
+                        <FontAwesomeIcon icon={faCheckCircle} className="h-5 w-5 text-trades-500 flex-shrink-0" />
                       </motion.div>
                     )}
                   </div>
@@ -168,7 +171,7 @@ export default function RoleSelectionPage() {
           ) : (
             <>
               Continue
-              <ChevronRight className="h-5 w-5" />
+              <FontAwesomeIcon icon={faChevronRight} className="h-5 w-5" />
             </>
           )}
         </button>

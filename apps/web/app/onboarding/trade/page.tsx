@@ -1,8 +1,11 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSearch, faChevronRight, faCheck } from '@fortawesome/free-solid-svg-icons'
+
+import React from 'react'
 import { useRouter } from 'next/navigation'
-import { Search, ChevronRight, Check } from 'lucide-react'
+
 import { OnboardingShell } from '@/components/onboarding/OnboardingShell'
 import { Spinner } from '@/components/ui/Spinner'
 
@@ -127,7 +130,7 @@ export default function TradeSelectionPage() {
 
         {/* Search */}
         <div className="relative">
-          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-ink-400" />
+          <FontAwesomeIcon icon={faSearch} className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-ink-400" />
           <input
             type="text"
             placeholder="Search trades..."
@@ -159,7 +162,7 @@ export default function TradeSelectionPage() {
             >
               <span className="flex-1">{trade.name}</span>
               {selectedTrade === trade.id && (
-                <Check className="h-4 w-4 text-trades-500" />
+                <FontAwesomeIcon icon={faCheck} className="h-4 w-4 text-trades-500" />
               )}
             </button>
           ))}
@@ -211,7 +214,7 @@ export default function TradeSelectionPage() {
           ) : (
             <>
               Continue
-              <ChevronRight className="h-5 w-5" />
+              <FontAwesomeIcon icon={faChevronRight} className="h-5 w-5" />
             </>
           )}
         </button>

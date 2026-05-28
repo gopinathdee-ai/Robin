@@ -4,23 +4,23 @@ import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
-import { BookOpen, Award, Users, ChevronRight, Zap, Shield, Users2 } from 'lucide-react'
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCheckCircle } from '@fortawesome/free-solid-svg-icons'
+import { faCheckCircle, faBook, faMedal, faUsers, faChevronRight, faBolt, faShield } from '@fortawesome/free-solid-svg-icons'
 
 const features = [
   {
-    icon: BookOpen,
+    icon: faBook,
     title: 'Your logbook. Forever.',
     body: 'Every job, every ticket, every skill — all in one place that belongs to you. Not your employer. You.',
   },
   {
-    icon: Award,
+    icon: faMedal,
     title: 'Credentials that travel with you.',
     body: 'Move between contractors without losing your record. Share a verified credential with any employer, anywhere.',
   },
   {
-    icon: Users,
+    icon: faUsers,
     title: 'Learn from the best in the trade.',
     body: 'Connect with journeypersons and masters who have earned the right to teach — not just claimed it.',
   },
@@ -129,7 +129,7 @@ export default function LandingPage() {
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Link href="/auth/sign-up" className="btn-primary text-base px-8 py-4">
                 Start building your record
-                <ChevronRight className="h-5 w-5" />
+                <FontAwesomeIcon icon={faChevronRight} className="h-5 w-5" />
               </Link>
             </motion.div>
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
@@ -199,7 +199,7 @@ export default function LandingPage() {
             whileInView="visible"
             viewport={{ once: true }}
           >
-            {features.map(({ icon: Icon, title, body }) => (
+            {features.map(({ icon, title, body }) => (
               <motion.div
                 key={title}
                 variants={itemVariants}
@@ -207,7 +207,7 @@ export default function LandingPage() {
                 whileHover={{ y: -4 }}
               >
                 <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-trades-100 to-trades-50 flex items-center justify-center mb-4">
-                  <Icon className="h-6 w-6 text-trades-500" />
+                  <FontAwesomeIcon icon={icon} className="h-6 w-6 text-trades-500" />
                 </div>
                 <h3 className="font-bold text-ink-900 mb-2">{title}</h3>
                 <p className="text-ink-600 text-sm leading-relaxed">{body}</p>
@@ -232,7 +232,7 @@ export default function LandingPage() {
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
             <Link href="/auth/sign-up" className="btn-primary-white text-base px-10 py-4">
               Create your free account
-              <ChevronRight className="h-5 w-5" />
+              <FontAwesomeIcon icon={faChevronRight} className="h-5 w-5" />
             </Link>
           </motion.div>
         </motion.div>

@@ -1,8 +1,11 @@
 'use client'
 
-import { useEffect } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCheckCircle, faArrowRight } from '@fortawesome/free-solid-svg-icons'
+
+import React from 'react'
 import { useRouter } from 'next/navigation'
-import { CheckCircle2, ArrowRight } from 'lucide-react'
+
 import { OnboardingShell } from '@/components/onboarding/OnboardingShell'
 
 export default function OnboardingSuccessPage() {
@@ -31,7 +34,7 @@ export default function OnboardingSuccessPage() {
         {/* Success icon */}
         <div className="flex justify-center">
           <div className="rounded-full bg-green-50 p-6">
-            <CheckCircle2 className="h-16 w-16 text-green-600" />
+            <FontAwesomeIcon icon={faCheckCircle} className="h-16 w-16 text-green-600" />
           </div>
         </div>
 
@@ -92,7 +95,7 @@ export default function OnboardingSuccessPage() {
             className="w-full py-3 px-4 bg-trades-500 text-white rounded-lg font-semibold hover:bg-trades-600 transition-colors flex items-center justify-center gap-2 min-h-[44px]"
           >
             Go to Dashboard
-            <ArrowRight className="h-5 w-5" />
+            <FontAwesomeIcon icon={faArrowRight} className="h-5 w-5" />
           </button>
           <button
             onClick={() => router.push('/community')}

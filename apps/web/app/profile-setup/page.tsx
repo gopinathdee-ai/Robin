@@ -1,8 +1,11 @@
 'use client'
 
-import { useState } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faChevronRight } from '@fortawesome/free-solid-svg-icons'
+
+import React from 'react'
 import { useRouter } from 'next/navigation'
-import { ChevronRight } from 'lucide-react'
+
 import { SimpleShell } from '@/components/SimpleShell'
 
 const PROVINCES = [
@@ -180,7 +183,7 @@ export default function ProfileSetupPage() {
           className="btn-primary w-full text-base py-4"
         >
           {saving ? 'Saving...' : 'Next: Share your first contribution'}
-          {!saving && <ChevronRight className="h-5 w-5" />}
+          {!saving && <FontAwesomeIcon icon={faChevronRight} className="h-5 w-5" />}
         </button>
         <p className="mt-3 text-center text-xs text-ink-400">
           Everything here can be changed from your profile at any time

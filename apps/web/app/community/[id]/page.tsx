@@ -1,9 +1,12 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faBookmark } from '@fortawesome/free-solid-svg-icons'
+
+import React from 'react'
 import Link from 'next/link'
 import { formatDistanceToNow } from 'date-fns'
-import { Bookmark } from 'lucide-react'
+
 import { AppHeader } from '@/components/AppHeader'
 import { VoteButtons } from '@/components/community/VoteButtons'
 import { AnswerForm } from '@/components/community/AnswerForm'
@@ -176,8 +179,7 @@ export default function ContentDetailPage({ params }: { params: Promise<{ id: st
               title={isBookmarked ? 'Remove bookmark' : 'Save bookmark'}
               className="flex items-center gap-2 px-4 py-2 rounded border border-ink-300 hover:border-trades-500 transition disabled:opacity-50"
             >
-              <Bookmark
-                size={20}
+              <FontAwesomeIcon icon={faBookmark} size={20}
                 className={isBookmarked ? 'fill-trades-600 text-trades-600' : 'text-ink-600'}
               />
               <span className="text-sm font-medium text-ink-700">{isBookmarked ? 'Saved' : 'Save'}</span>

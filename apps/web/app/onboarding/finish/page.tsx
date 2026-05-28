@@ -1,7 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { CheckCircle, ChevronRight } from 'lucide-react'
+
 import { OnboardingShell } from '@/components/onboarding/OnboardingShell'
 
 export default function FinishPage() {
@@ -32,7 +32,7 @@ export default function FinishPage() {
     >
       {/* Icon */}
       <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-green-50 text-green-600 mb-6">
-        <CheckCircle className="h-7 w-7" />
+        <FontAwesomeIcon icon={faCheckCircle} className="h-7 w-7" />
       </div>
 
       {/* Body */}
@@ -48,7 +48,7 @@ export default function FinishPage() {
         className="btn-primary w-full text-base py-4"
       >
         Next: Profile Setup
-        <ChevronRight className="h-5 w-5" />
+        <FontAwesomeIcon icon={faChevronRight} className="h-5 w-5" />
       </button>
     </OnboardingShell>
   )

@@ -1,11 +1,14 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faXmark } from '@fortawesome/free-solid-svg-icons'
+
+import React from 'react'
 import { AppHeader } from '@/components/AppHeader'
 import { CredentialUploadForm } from '@/components/credentials/CredentialUploadForm'
 import { CredentialList } from '@/components/credentials/CredentialList'
 import { Spinner } from '@/components/ui/Spinner'
-import { X } from 'lucide-react'
+
 
 interface UserDocument {
   id: string
@@ -81,7 +84,7 @@ export default function CredentialsPage() {
                       className="text-ink-500 hover:text-ink-700 p-1 rounded transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
                       aria-label="Close form"
                     >
-                      <X className="h-5 w-5" />
+                      <FontAwesomeIcon icon={faXmark} className="h-5 w-5" />
                     </button>
                   </div>
                   <CredentialUploadForm

@@ -1,7 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { MessageSquarePlus, ChevronRight } from 'lucide-react'
+
 import { OnboardingShell } from '@/components/onboarding/OnboardingShell'
 
 // Step 5 — Tutorial Introduction
@@ -19,7 +19,7 @@ export default function TutorialPage() {
     >
       {/* Icon */}
       <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-green-50 text-green-600 mb-6">
-        <MessageSquarePlus className="h-7 w-7" />
+        <FontAwesomeIcon icon={faComments} className="h-7 w-7" />
       </div>
 
       {/* Body */}
@@ -38,7 +38,7 @@ export default function TutorialPage() {
         className="btn-primary w-full text-base py-4"
       >
         Got it — keep going
-        <ChevronRight className="h-5 w-5" />
+        <FontAwesomeIcon icon={faChevronRight} className="h-5 w-5" />
       </button>
     </OnboardingShell>
   )

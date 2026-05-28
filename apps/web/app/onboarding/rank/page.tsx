@@ -1,7 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { Award, ChevronRight } from 'lucide-react'
+
 import { OnboardingShell } from '@/components/onboarding/OnboardingShell'
 
 export default function RankPage() {
@@ -16,7 +16,7 @@ export default function RankPage() {
     >
       {/* Icon */}
       <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-trades-50 text-trades-600 mb-6">
-        <Award className="h-7 w-7" />
+        <FontAwesomeIcon icon={faMedal} className="h-7 w-7" />
       </div>
 
       {/* Body */}
@@ -40,7 +40,7 @@ export default function RankPage() {
         className="btn-primary w-full text-base py-4"
       >
         Got it — keep going
-        <ChevronRight className="h-5 w-5" />
+        <FontAwesomeIcon icon={faChevronRight} className="h-5 w-5" />
       </button>
     </OnboardingShell>
   )

@@ -1,7 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { BookOpen, ChevronRight } from 'lucide-react'
+
 import { OnboardingShell } from '@/components/onboarding/OnboardingShell'
 
 export default function LogbookPage() {
@@ -16,7 +16,7 @@ export default function LogbookPage() {
     >
       {/* Icon */}
       <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-50 text-blue-600 mb-6">
-        <BookOpen className="h-7 w-7" />
+        <FontAwesomeIcon icon={faBook} className="h-7 w-7" />
       </div>
 
       {/* Body */}
@@ -40,7 +40,7 @@ export default function LogbookPage() {
         className="btn-primary w-full text-base py-4"
       >
         Got it — keep going
-        <ChevronRight className="h-5 w-5" />
+        <FontAwesomeIcon icon={faChevronRight} className="h-5 w-5" />
       </button>
     </OnboardingShell>
   )
