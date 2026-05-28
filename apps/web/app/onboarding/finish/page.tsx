@@ -1,6 +1,8 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCheckCircle, faChevronRight } from '@fortawesome/free-solid-svg-icons'
 
 import { OnboardingShell } from '@/components/onboarding/OnboardingShell'
 
