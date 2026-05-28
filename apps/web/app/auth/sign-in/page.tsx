@@ -5,7 +5,7 @@ import { ChevronRight } from 'lucide-react'
 import { DevModeBanner } from '@/components/DevModeBanner'
 
 function getNextOnboardingStep(step: number): string {
-  const steps = ['/onboarding/role', '/onboarding/trade', '/onboarding/tutorial', '/onboarding/profile', '/onboarding/first-contribution']
+  const steps = ['/onboarding/role', '/onboarding/trade', '/onboarding/logbook', '/onboarding/rank', '/onboarding/tutorial', '/onboarding/finish', '/profile-setup', '/first-post', '/notification-preferences']
   return steps[Math.min(step, steps.length - 1)] || '/onboarding/role'
 }
 
