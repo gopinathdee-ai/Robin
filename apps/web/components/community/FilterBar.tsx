@@ -76,7 +76,7 @@ export function FilterBar({
           onChange={(e) => onSortChange(e.target.value)}
           className="w-full px-3 py-2 border border-ink-300 rounded-lg focus:outline-none focus:border-trades-500"
         >
-          <option value="newest">Newest</option>
+          <option value="newest">Most recent activity</option>
           <option value="trending">Most upvoted</option>
           <option value="most_answered">Most answered</option>
         </select>
