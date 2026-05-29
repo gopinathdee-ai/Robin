@@ -161,7 +161,11 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json({
       items: items.map((item: any) => {
-        const { lastActivityAt, ...rest } = item
+        const { answers, ...rest } = item
+        // Convert lastActivityAt to ISO string if it exists
+        if (rest.lastActivityAt instanceof Date) {
+          rest.lastActivityAt = rest.lastActivityAt.toISOString()
+        }
         return rest
       }),
       page,

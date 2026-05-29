@@ -32,6 +32,7 @@ interface ContentItem {
   answers?: any[]
   _count?: { answers: number }
   createdAt: string
+  lastActivityAt?: string
 }
 
 function CommunityContent() {
@@ -189,6 +190,7 @@ function CommunityContent() {
                   status={item.status}
                   answersCount={item._count?.answers || 0}
                   createdAt={item.createdAt}
+                  lastActivityAt={item.lastActivityAt}
                 />
               </div>
             ))}
