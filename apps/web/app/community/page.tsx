@@ -166,13 +166,12 @@ function CommunityContent() {
           </div>
         ) : content.length === 0 ? (
           <div className="text-center py-12 bg-trades-50 rounded-lg">
-            <p className="text-ink-600 mb-4">No posts yet. Be the first to share!</p>
-            <Link
-              href="/onboarding/first-contribution"
-              className="inline-flex items-center justify-center px-6 py-2 bg-trades-500 text-white rounded-lg hover:bg-trades-600"
-            >
-              Post a Question
-            </Link>
+            {searchQuery ? (
+              <p className="text-ink-600 mb-2">No results found.</p>
+            ) : (
+              <p className="text-ink-600 mb-2">No posts yet. Be the first to share!</p>
+            )}
+            <p className="text-ink-600">Ask a question or share knowledge to get started!</p>
           </div>
         ) : (
           <div className="space-y-3">
