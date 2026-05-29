@@ -108,23 +108,11 @@ export default function CredentialsPage() {
                   </button>
                 </div>
               ) : (
-                <div>
-                  <div className="mb-6">
-                    {!showUploadForm && (
-                      <button
-                        onClick={() => setShowUploadForm(true)}
-                        className="flex items-center justify-center px-4 py-2.5 bg-trades-100 text-trades-700 rounded-lg font-medium hover:bg-trades-200 transition-colors min-h-[44px]"
-                      >
-                        + Upload New Credential
-                      </button>
-                    )}
-                  </div>
-                  <CredentialList
-                    documents={documents}
-                    onUploadNew={() => setShowUploadForm(true)}
-                    onDocumentsChange={handleDocumentsChange}
-                  />
-                </div>
+                <CredentialList
+                  documents={documents}
+                  onUploadNew={() => setShowUploadForm(true)}
+                  onDocumentsChange={handleDocumentsChange}
+                />
               )}
             </div>
           )}
