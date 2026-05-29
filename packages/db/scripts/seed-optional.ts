@@ -1,7 +1,5 @@
-import 'dotenv/config'
-import { PrismaClient, UserRole, ContentType } from '@prisma/client'
-
-const prisma = new PrismaClient()
+import { UserRole, ContentType } from '@prisma/client'
+import { prisma } from './prisma-client'
 
 async function main() {
   console.log('\n⏳ Seeding optional test data...\n')

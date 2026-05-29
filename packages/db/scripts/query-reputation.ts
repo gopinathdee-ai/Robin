@@ -1,7 +1,4 @@
-import 'dotenv/config'
-import { PrismaClient } from '@prisma/client'
-
-const prisma = new PrismaClient()
+import { prisma } from './prisma-client'
 
 async function main() {
   console.log('\n📊 Reputation Data Check:\n')

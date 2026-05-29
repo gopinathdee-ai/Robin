@@ -1,11 +1,8 @@
-import 'dotenv/config'
-import { PrismaClient } from '@prisma/client'
 import { createClient } from '@supabase/supabase-js'
 import ws from 'ws'
 import { createInterface } from 'readline'
 import { execSync } from 'child_process'
-
-const prisma = new PrismaClient()
+import { prisma } from './prisma-client'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
 const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY || ''
