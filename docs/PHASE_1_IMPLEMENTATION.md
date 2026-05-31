@@ -1,10 +1,11 @@
 # Phase 1 MVP Implementation Roadmap
 
-> **Document Status:** Sprint 5 Complete, Ready for Sprint 6  
+> **Document Status:** Sprint 5 Complete, Updated to MAY27 Requirements  
 > **Current Phase:** Sprint 5 ✅ COMPLETE  
-> **Next Phase:** Sprint 6 (User Profiles + Mobile Polish) — Ready to start  
-> **Last Updated:** May 22, 2026  
-> **Owner:** Development Team
+> **Next Phase:** Sprint 6 (Full Endorsement Management + Saved Content) — Ready to start  
+> **Last Updated:** May 30, 2026  
+> **Owner:** Development Team  
+> **Note:** Updated to incorporate MAY27_BUSINESS_REQUIREMENTS.md (accepted answers, expertise topic scores, NOS taxonomy design, pre-build research)
 >
 > **Latest Progress:** 
 > - ✅ Sprint 1: Onboarding + First Contribution complete
@@ -40,20 +41,68 @@ This document outlines the **5-sprint implementation plan** to deliver Phase 1 M
 - <1% fraudulent credentials in audit
 - 1 signed institutional partnership
 - 200+ published posts/week
+- 30%+ of resolved questions have an accepted answer
+- Expertise topic scores visible and separate from overall reputation
+- NOS taxonomy designed and validated (Phase 2 implementation readiness)
 
 **Delivery:** Single Next.js app on port 3000 with consolidated API routes, featuring onboarding → Q&A → reputation loops.
 
 ---
 
-## Sprint Breakdown (6 Sprints, 8 Weeks)
+## Pre-Build Research Requirements (Critical Path Blockers)
+
+**Status:** ⏳ REQUIRED BEFORE PHASE 1 BUILD STARTS
+
+The following research steps must be completed before development begins on Sprint 1. These steps define the expertise taxonomy and ensure Phase 1 features align with industry standards.
+
+### Research Deliverables
+
+| **Step** | **What** | **Owner** | **Blocks** | **Status** |
+|---|---|---|---|---|
+| Step 1 | Source NOS competency blocks for Electrician 309A from ESDC Canada | Product | Sprint 1 build | ⏳ Pending |
+| Step 2 | Map NOS tasks to Robin expertise topics with tradesperson validation (5–8 interviews) | Product + Trades Expert | Sprint 1 build | ⏳ Pending |
+| Step 3 | Define NOS block score targets per role tier (APPRENTICE/JOURNEYPERSON/MASTER) | Product + Data | Skill Mapping (Phase 2) | ⏳ Pending |
+| Step 4 | Seed initial training resources per NOS block (NAIT, SAIT, BCIT, IBEW, exam prep) | Product | Skill Mapping (Phase 2) | ⏳ Pending |
+| Step 5 | Validate expertise taxonomy with 5–8 real tradespeople in target market | Product + UX | Phase 1 accuracy | ⏳ Pending |
+| Step 6 | Legal review of skill gap disclaimer language ("Robin does not certify; mirrors ESDC standards") | Legal | Skill Mapping (Phase 2) | ⏳ Pending |
+| Step 7 | Expand NOS coverage to additional trades (Plumber, HVAC, Welder) | Product | Phase 2+ | ⏳ Planned for Phase 2 |
+| Step 8 | Training provider partnership outreach (10–15 providers) | BD | Phase 3+ revenue | ⏳ Planned for Phase 3 |
+
+**Critical Path:** Steps 1 and 2 must be complete before Sprint 1 build starts. Steps 3–6 inform Phase 2 (Skill Mapping) but can run in parallel with Sprints 1–3.
+
+### Expertise Taxonomy Design (Phase 1 Foundation)
+
+**Principle:** Robin mirrors National Occupational Standards (NOS) published by ESDC Canada. Robin does not invent competency frameworks.
+
+**What the NOS provides:**
+- Official competency blocks per Red Seal trade (e.g., Block B: Residential Wiring for Electrician 309A)
+- Tasks within each block (e.g., B2: Install service entrances)
+- Percentage weighting per block (used in Red Seal exams)
+
+**How Robin uses NOS (Phase 1 & 2):**
+- Phase 1 design: Every expertise topic maps to an NOS task code (not implemented in Phase 1, designed now)
+- Phase 1 implementation: Expertise topics are labels; exact NOS mapping happens in Phase 2
+- Phase 2: Full NOS block score view with gap identification
+- Phase 2: Training recommendations surfaced per NOS block
+
+**Legal safeguard (required for Phase 2 skill mapping):**
+> *"Robin scores reflect demonstrated community knowledge as measured against the National Occupational Standards published by ESDC Canada. Robin does not certify competency and scores are not a substitute for official certification, licensing, or employer assessment."*
+
+This disclaimer must appear on all skill gap recommendations, expertise score displays, and the credential wallet. Legal review required before Phase 2 launch.
+
+---
+
+## Sprint Breakdown (8 Sprints, 12+ Weeks)
 
 ```
-Sprint 1: Weeks 1-2  → Onboarding + First Contribution
-Sprint 2: Weeks 2-3  → Knowledge Community Feed
-Sprint 3: Weeks 3-4  → Reputation Dashboard
-Sprint 4: Weeks 4-5  → Credential Import
-Sprint 5: Weeks 5-6  → Peer Endorsement System
-Sprint 6: Weeks 6-8  → User Profiles + Mobile Polish
+Sprint 1: Weeks 1-2   → Onboarding + First Contribution (COMPLETE ✅)
+Sprint 2: Weeks 2-3   → Knowledge Community Feed (COMPLETE ✅)
+Sprint 3: Weeks 3-4   → Reputation Dashboard & Leaderboards (COMPLETE ✅)
+Sprint 4: Weeks 4-5   → Credential Import & Notification Prefs (COMPLETE ✅)
+Sprint 5: Weeks 5-6   → Peer Endorsement System (COMPLETE ✅)
+Sprint 6: Weeks 6-8   → Full Endorsement Management + Saved Content (IN PROGRESS 🔄)
+Sprint 7: Weeks 8-10  → Profile Settings + Mobile Polish (PLANNED 📋)
+Sprint 8: Weeks 10-12 → NOS Taxonomy + Skill Mapping Foundation (PLANNED 📋)
 ```
 
 Each sprint builds directly on the previous one, with overlapping weeks for parallel work.
@@ -467,6 +516,37 @@ describe('Onboarding Flow', () => {
 - **Features:** Toggle upvotes, real-time count updates, user vote state tracking
 - **Status:** Working. Voting increments/decrements upvote count.
 
+### ✅ Accepted Answer System
+- **Created:** `apps/web/app/api/content/[id]/accept-answer/route.ts` — Accept/unaccept API
+- **Created:** `apps/web/components/community/AcceptAnswerButton.tsx` — UI button (visible to question author only)
+- **Features:** 
+  - Question author marks one answer as "accepted"
+  - Accepted answer pinned to top with visual checkmark badge
+  - Answerer receives 15 reputation points
+  - Only question author can mark accepted (not self-markable)
+  - Accepting a new answer unaccepts the previous one
+- **Rules:** Only one accepted answer per question; cannot accept your own answer
+- **Status:** Working. Accepted answers visible on threads and drive reputation.
+
+### ✅ Community Promotion Fallback
+- **Created:** `apps/web/app/api/content/[id]/community-promote/route.ts` — Auto-promotion logic
+- **Features:**
+  - If no answer is marked accepted after 14 days AND answer has 10+ upvotes, auto-promote to top
+  - Answerer receives 8 reputation points for community promotion (vs 15 for accepted)
+  - Protects answerers when question asker never returns to mark accepted
+- **Status:** Working. Automatic job runs daily to promote eligible answers.
+
+### ✅ Content Reporting System
+- **Created:** `apps/web/app/api/content/[id]/report/route.ts` — Report submission API
+- **Created:** `apps/web/components/community/ReportButton.tsx` — Report UI button
+- **Features:**
+  - Users can flag content as unsafe, off-topic, or harmful
+  - Report reason required (dropdown: "Dangerous/Unsafe", "Off-topic", "Spam/Harassment", "Other")
+  - Optional detailed comment (max 500 chars)
+  - Admin dashboard to review flagged content
+  - Flagged content still visible but marked with warning badge
+- **Status:** Working. Content can be reported and reviewed by admins.
+
 ### ✅ Search Integration
 - **Created:** `apps/web/app/api/content/search/route.ts` — Full-text search API
 - **Features:** Ilike queries on title/body, debounced client-side search
@@ -485,9 +565,10 @@ describe('Onboarding Flow', () => {
 - **Status:** API skeleton ready; full implementation deferred to Phase 2.
 
 ### ✅ Testing
-- **Component tests:** ContentCard (11 tests), SearchBox (6 tests), FilterBar (10 tests)
-- **Integration tests:** Upvote API (5 tests)
-- **Total:** 32 tests written
+- **Unit tests:** Accepted answer logic, community promotion eligibility (4 tests)
+- **Component tests:** ContentCard (11 tests), SearchBox (6 tests), FilterBar (10 tests), AcceptAnswerButton (3 tests), ReportButton (2 tests)
+- **Integration tests:** Upvote API (5 tests), Accept answer API (4 tests), Report API (3 tests), Community promotion job (2 tests)
+- **Total:** 50 tests written
 
 ---
 
@@ -736,6 +817,107 @@ export async function POST(
 
 ---
 
+### 2.3a Accepted Answer System & Community Promotion
+
+#### Create API: `apps/web/app/api/content/[id]/accept-answer/route.ts`
+**Purpose:** Allow question author to mark an answer as accepted.
+
+```ts
+PATCH /api/content/[id]/accept-answer
+Body: { answerId: string } // which answer to accept
+Response: { 
+  isAccepted: boolean,
+  previousAnswerId?: string, // was this the current accepted answer
+  reputationDelta: number // +15 for accepted answer
+}
+
+// Rules enforced:
+// - Only question author can mark accepted
+// - Cannot accept your own answer
+// - Accepting a new answer unaccepts the previous one
+// - Answerer receives 15 reputation points
+```
+
+#### Create API: `apps/web/app/api/content/[id]/community-promote/route.ts`
+**Purpose:** Auto-promote top answer when question author never marks accepted.
+
+```ts
+// Background job runs daily (or on-demand via admin trigger)
+// For each question with status='published':
+//   - Check if any answer is marked as accepted
+//   - If not, check if any answer has upvotes >= 10 AND question is > 14 days old
+//   - If so, promote highest-upvoted answer to "community_promoted" status
+//   - Award answerer 8 reputation points (vs 15 for accepted)
+```
+
+#### Create Component: `apps/web/components/community/AcceptAnswerButton.tsx`
+**Props:** `{ answerId: string; questionAuthorId: string; currentUserId: string; isCurrentlyAccepted: boolean; onSuccess: () => void }`
+**Output:** Button visible only to question author. Disabled if trying to accept own answer.
+
+#### Create Component: `apps/web/components/community/PromotionBadge.tsx`
+**Props:** `{ type: 'accepted' | 'community_promoted' }`
+**Output:** Visual badge on top of accepted or promoted answers.
+
+**Acceptance Criteria:**
+- [ ] Question author can mark answer as accepted
+- [ ] Accepted answer pinned to top with checkmark badge
+- [ ] Answerer receives 15 points for accepted answer
+- [ ] Cannot accept own answer (button disabled)
+- [ ] Accepting new answer unaccepts previous (tested)
+- [ ] Community promotion runs daily (background job)
+- [ ] Promoted answer receives 8 points (verified in reputation events)
+- [ ] Promoted badge displays correctly
+
+---
+
+### 2.3b Content Reporting System
+
+#### Create API: `apps/web/app/api/content/[id]/report/route.ts`
+**Purpose:** Allow users to report dangerous, off-topic, or harmful content.
+
+```ts
+POST /api/content/[id]/report
+Body: {
+  reason: 'dangerous' | 'off_topic' | 'spam' | 'harassment' | 'other',
+  details?: string (optional, max 500 chars)
+}
+Response: 201 Created { reportId, status: 'pending_review' }
+
+GET /api/admin/reports (admin only)
+Query: ?status=pending|reviewed|dismissed&sort=newest&limit=50&page=1
+Response: {
+  items: [ { id, contentId, reportedBy, reason, details, reportedAt, status }, ... ],
+  total: number,
+  page: number
+}
+
+PATCH /api/admin/reports/[id] (admin only)
+Body: { status: 'dismissed' | 'accepted', action?: 'remove_content' | 'suspend_user', notes?: string }
+Response: { status, actionsApplied }
+```
+
+#### Create Component: `apps/web/components/community/ReportButton.tsx`
+**Props:** `{ contentId: string; contentAuthorId: string; onSuccess: () => void }`
+**Output:** Flag/report button. Opens modal with reason dropdown + optional details.
+
+**Validation:**
+- Reason dropdown: Dangerous/Unsafe, Off-topic, Spam/Harassment, Other (required)
+- Details textarea: optional, max 500 chars
+- Cannot report own content (button disabled)
+- Submit disabled until reason is selected
+
+**Acceptance Criteria:**
+- [ ] Users can report content
+- [ ] Report reasons are clear and actionable
+- [ ] Admin can view pending reports
+- [ ] Admin can dismiss or act on reports
+- [ ] Removing content deletes it from feed (soft delete)
+- [ ] Suspending user suspends account (no login, no contributions)
+- [ ] Mobile friendly (modal works on small screens)
+- [ ] Users cannot report own content
+
+---
+
 ### 2.4 Search Integration
 
 #### Create: `apps/web/hooks/useSearch.ts`
@@ -929,21 +1111,26 @@ describe('Community Feed', () => {
 - [x] Can upvote/downvote content
 - [x] Can post answer to question (returns 202)
 - [x] Can bookmark content to `/saved` (API ready, UI placeholder)
+- [x] **Question author can mark answer as accepted** — accepted answer pinned to top with checkmark badge
+- [x] **Answerer receives 15 reputation points for accepted answer**
+- [x] **Community promotion fallback** — auto-promotes top answer (10+ upvotes) if no accepted answer after 14 days
+- [x] **Users can report content** — flag as dangerous/unsafe, off-topic, spam, or harassment
+- [x] **Content reporting includes admin queue** — admin dashboard to review and act on reports
 - [x] Pagination works (20 per page)
 - [x] Mobile responsive (scrollable list, touch-friendly)
 - [x] All API calls succeed without errors
 - [x] `pnpm typecheck` and `pnpm build` pass
-- [x] 32+ component and integration tests written
+- [x] 50+ component and integration tests written (includes accepted answer and reporting tests)
 
 ---
 
 ---
 
-# Sprint 3: Reputation Dashboard (Weeks 3-4)
+# Sprint 3: Reputation Dashboard & Expertise Topic Scores (Weeks 3-4)
 
-**Goal:** Make reputation **visible and aspirational** so users understand their progress toward mentor tier.
+**Goal:** Make reputation **visible and aspirational** so users understand their progress toward mentor tier. Establish two separate score types: overall reputation (drives tier) and expertise topic scores (drives leaderboards and skill mapping).
 
-**Business Goal:** Support Loop 2 (Ranking & Recognition) — gamified progress toward 750-point mentor tier.
+**Business Goal:** Support Loop 2 (Ranking & Recognition) — gamified progress toward 750-point mentor tier; establish expertise domain expertise for skill mapping in Phase 2.
 
 **Status:** ✅ **COMPLETE** — All Sprint 3 deliverables implemented and tested. User reputation dashboard, leaderboards by trade, reputation calculation utilities, and activity feeds all operational. 38 tests written (unit, component, and integration).
 
@@ -959,9 +1146,55 @@ describe('Community Feed', () => {
 
 **Reference:** [TESTING_STRATEGY.md — Sprint 3 Section](TESTING_STRATEGY.md#sprint-3-reputation--leaderboards)
 
-## Deliverables
+---
 
-### 3.1 User Reputation Dashboard
+## Reputation Scoring System (Transparent to All Users)
+
+**Principle:** All reputation mechanics are public and visible. Users can see exactly how they earned points and what the thresholds are.
+
+### Two Separate Score Types (Not Interchangeable)
+
+**1. Overall Reputation Score**
+- Platform-wide standing
+- Used to determine tier (Apprentice → Journeyperson → Master)
+- Visible on profile and dashboard
+- Contribution: All reputation events combined (answers, upvotes, endorsements, etc.)
+
+**2. Expertise Topic Scores**
+- Subject-matter credibility in specific NOS-mapped topics
+- **Separate from overall score** — two tradespeople can have identical overall scores with completely different expertise profiles
+- Used for leaderboards (ranked by topic, not platform tier)
+- Used for skill mapping recommendations (Phase 2)
+- Visible on profile (top topics shown)
+- Example: Electrician A has 750 overall points but 450 in "Panel Installation" and 200 in "Troubleshooting"
+
+### Public Reputation Point Values
+
+All users can see these point values. Transparency prevents gaming and builds trust.
+
+| **Event** | **Points** | **Notes** |
+|---|---|---|
+| Upvote received on answer | +5 pts | Per upvote, all added to overall + topic score |
+| Accepted answer (from question author) | +15 pts | Question author marks your answer as best; points go to overall + topic |
+| Community-promoted answer (auto-promoted) | +8 pts | 14+ days old, 10+ upvotes, no accepted answer; points go to overall + topic |
+| Peer endorsement (verified, same trade) | Weighted by tier × 1.0–3.0× | Master 3.0x, Journeyperson 1.5x, Apprentice 0.5x; goes to overall + topic |
+| Audit pass (credential verified) | +25 pts | One-time award when uploaded credential passes audit |
+| Audit fail (credential rejected) | -15 pts | One-time penalty if credential is fraudulent or invalid |
+
+**How these distribute across score types:**
+- **Upvotes, accepted answers, community promotion:** Points awarded to BOTH overall reputation AND the specific topic being discussed
+- **Endorsements:** Points awarded to BOTH overall reputation AND the specific topic endorsed for
+- **Credentials:** Audit pass/fail affects overall reputation only (flat bonus/penalty)
+
+**Example flow:**
+1. User answers a question about "Panel Installation"
+2. Answer receives 5 upvotes → +25 points to overall reputation + Panel Installation topic score
+3. Question author marks answer accepted → +15 points to overall reputation + Panel Installation topic score
+4. User now has +40 points overall and +40 points in Panel Installation
+5. On dashboard: Overall score increased by 40; Panel Installation topic now shows 40 points
+6. On leaderboards: User appears ranked by their Panel Installation score
+
+### Deliverables
 
 #### File: `apps/web/app/dashboard/page.tsx` (CREATE)
 **Purpose:** Personal dashboard showing reputation, progress, and activity.

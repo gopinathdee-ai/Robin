@@ -47,8 +47,8 @@ export async function GET(req: NextRequest) {
       SELECT
         t.id as "topicId",
         t.name as "topicName",
-        COUNT(CASE WHEN c.type = 'post' THEN 1 END) * 10 +
-        COUNT(CASE WHEN c.type = 'answer' AND c.is_accepted = true THEN 1 END) * 15 as points
+        CAST(COUNT(CASE WHEN c.type = 'post' THEN 1 END) * 10 +
+        COUNT(CASE WHEN c.type = 'answer' AND c.is_accepted = true THEN 1 END) * 15 AS INTEGER) as points
       FROM content c
       JOIN expertise_topics t ON c.topic_id = t.id
       WHERE c.author_id = ${user.id}

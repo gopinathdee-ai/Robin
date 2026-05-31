@@ -49,7 +49,7 @@ export async function GET(req: NextRequest) {
 
     // Count unique expertise topics
     const topicCount = await prisma.$queryRaw<Array<{ count: number }>>`
-      SELECT COUNT(DISTINCT topic_id) as count
+      SELECT CAST(COUNT(DISTINCT topic_id) AS INTEGER) as count
       FROM content
       WHERE author_id = ${user.id}
         AND status = 'published'

@@ -49,7 +49,36 @@ export async function POST(req: NextRequest) {
       },
     })
 
-    screenContent({ contentId: content.id, body: data.body, tradeId: data.tradeId })
+    // Fetch trade name for context (non-blocking, best-effort)
+    const trade = data.tradeId
+      ? await prisma.trade.findUnique({ where: { id: data.tradeId }, select: { name: true } })
+      : null
+
+    // For answers, inherit trade from parent question
+    let resolvedTradeId = data.tradeId
+    let resolvedTradeName = trade?.name
+    if (data.type === 'answer' && data.parentId && !resolvedTradeId) {
+      const parent = await prisma.content.findUnique({
+        where: { id: data.parentId },
+        select: { tradeId: true },
+      })
+      if (parent?.tradeId) {
+        const parentTrade = await prisma.trade.findUnique({
+          where: { id: parent.tradeId },
+          select: { name: true },
+        })
+        resolvedTradeId = parent.tradeId
+        resolvedTradeName = parentTrade?.name
+      }
+    }
+
+    screenContent({
+      contentId: content.id,
+      title: data.title,
+      body: data.body,
+      tradeId: resolvedTradeId,
+      tradeName: resolvedTradeName,
+    })
       .catch((err) => console.error('[AI Screening Error]', content.id, err))
 
     return NextResponse.json(

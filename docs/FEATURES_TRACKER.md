@@ -1,8 +1,8 @@
 # Trades Platform — Features Tracker
 
-**Last Updated:** May 23, 2026 (Sprint 5 Complete - Peer Endorsement System + Public User Profiles)
-**Current Status:** Sprint 1 ✅ COMPLETE | Sprint 2 ✅ COMPLETE | Sprint 3 ✅ COMPLETE | Sprint 4 ✅ COMPLETE | Sprint 5 ✅ COMPLETE | Sprint 6 🔄 IN PROGRESS | Sprint 7 📋 READY  
-**Overall Progress:** 63 of 62 features shipped (100%+) - Public Profiles moved from Sprint 6 to Sprint 5
+**Last Updated:** May 30, 2026 (Updated to MAY27_BUSINESS_REQUIREMENTS.md)
+**Current Status:** Sprint 1 ✅ COMPLETE | Sprint 2 ✅ COMPLETE | Sprint 3 ✅ COMPLETE | Sprint 4 ✅ COMPLETE | Sprint 5 ✅ COMPLETE | Sprint 6 🔄 IN PROGRESS | Sprint 7 📋 READY | Sprint 8 📋 READY  
+**Overall Progress:** 75+ features (updated to include accepted answers, community promotion, content reporting, NOS taxonomy)
 
 ---
 
@@ -69,6 +69,9 @@
 - ✅ Answer Form (post new answers)
 - ✅ Upvote System
 - ✅ Downvote System
+- ✅ **Accepted Answer System** (question author marks, 15 pts, pinned to top)
+- ✅ **Community Promotion Fallback** (auto-promote top answer after 14 days if no accepted)
+- ✅ **Content Reporting** (flag unsafe/off-topic/harmful content)
 
 ### Navigation & Layout
 - ✅ AppHeader Component (logo + nav links)
@@ -119,15 +122,17 @@
 
 ---
 
-## Sprint 3: Reputation Dashboard
+## Sprint 3: Reputation Dashboard & Expertise Topic Scores
 
 ### User Dashboard
-- ✅ Reputation Score Card
-- ✅ Progress Bar to Mentor Tier
-- ✅ Expertise Topics Ranking
+- ✅ Reputation Score Card (overall platform standing)
+- ✅ **Separate Expertise Topic Scores** (subject-matter credibility per topic, not interchangeable with overall score)
+- ✅ Progress Bar to Mentor Tier (based on overall reputation)
+- ✅ Top Expertise Topics Display (ranked by topic score, top 5 shown)
 - ✅ Monthly Engagement Summary
 - ✅ Recent Activity Feed
 - ✅ Next Milestone Indicator
+- ✅ **Public Reputation Point Values** (all users can see how they earned points)
 
 ### Leaderboards
 - ✅ Trade Leaderboards (`/leaderboards/[trade]`)
@@ -421,6 +426,55 @@
 
 ---
 
+## Sprint 8: NOS Taxonomy + Skill Mapping Foundation 📋 READY
+
+**Goal:** Design and validate National Occupational Standards (NOS) taxonomy for Phase 2 skill mapping. Robin mirrors ESDC Canada standards, not inventing competency frameworks.
+
+### Pre-Build Research (Critical Blockers)
+- 📋 Source NOS competency blocks for Electrician 309A from ESDC Canada
+- 📋 Map NOS tasks to Robin expertise topics with tradesperson validation (5–8 interviews)
+- 📋 Define NOS block score targets per role tier (APPRENTICE/JOURNEYPERSON/MASTER)
+- 📋 Seed initial training resources per NOS block (NAIT, SAIT, BCIT, IBEW)
+- 📋 Validate expertise taxonomy with real tradespeople
+- 📋 Legal review of skill gap disclaimer language
+
+### Database Schema (Design, Implementation Deferred)
+- 📋 NOS block mapping table (nosBlockId, tradeId, name, description, percentWeight)
+- 📋 NOS task mapping table (nosTaskId, nosBlockId, taskName, description, skillGapThreshold)
+- 📋 Expertise topic NOS mapping (each topic links to NOS task code)
+- 📋 Skill gap tracking (userId, nosBlockId, currentScore, targetScore, dismissedAt)
+- 📋 Training resource catalogue (resourceId, nosBlockId, provider, type, url)
+
+### API Routes (Design, Implementation Deferred to Phase 2)
+- 📋 GET `/api/nos-blocks/[trade]` — Fetch all NOS blocks for a trade
+- 📋 GET `/api/nos-blocks/[trade]/[blockId]` — Fetch single block with tasks
+- 📋 GET `/api/users/me/skill-gaps` — User's gaps vs NOS targets
+- 📋 POST `/api/users/me/skill-gaps/[blockId]/dismiss` — Dismiss a gap recommendation
+- 📋 GET `/api/training-resources/[nosBlockId]` — Training options for a skill gap
+
+### Components (Design, Implementation Deferred to Phase 2)
+- 📋 SkillGapCard — Display one skill gap with training recommendations
+- 📋 SkillGapList — User's full list of gaps, dismissable, sorted by priority
+- 📋 TrainingResourceList — Curated courses/programs per skill gap
+- 📋 NOSBlockProgress — Visual progress per block (current score vs target)
+
+### Testing
+- 📋 Unit Tests (5 tests: NOS block logic, score target calculation, gap identification)
+- 📋 Integration Tests (3 tests: API routes, training resource matching)
+- 📋 Validation Tests (5 tests: taxonomy accuracy vs real NOS documents)
+
+### Acceptance Criteria
+- [ ] NOS Electrician 309A blocks sourced and documented
+- [ ] All expertise topics mapped to NOS tasks (validated with tradespersons)
+- [ ] Score targets defined and reasonable (not too easy, not impossible)
+- [ ] Training resources curated per block (minimum 3 per block)
+- [ ] Legal review passed on competency disclaimer
+- [ ] Database schema designed and reviewed
+- [ ] API contracts documented (ready for Phase 2 implementation)
+- [ ] All code ready for feature-flagging in Phase 2
+
+---
+
 # PHASE 2: EXPANSION (Deferred)
 
 ## Advanced Features
@@ -489,49 +543,78 @@
 
 | Metric | Count | Status |
 |--------|-------|--------|
-| **Features Shipped** | 63 | ✅ Complete (100%+) |
-| **Features In Progress** | 0 | 🔄 Active |
-| **Features Ready** | 0 | 📋 Queued |
-| **Features Planned** | 0 | ⏳ Backlog |
-| **Features Deferred** | 10 | 🚫 Phase 2 (public profiles moved to Sprint 5) |
-| **Total Features** | 73 | - |
-| **Sprints Complete** | 5 of 7 | ✅ 71% |
-| **Tests Written** | 260 | ✅ Passing (+15 public profile tests) |
-| **Pages Built** | 21 | ✅ Complete (+1 public profile page) |
-| **API Endpoints** | 21 | ✅ Complete (+1 public user endpoint) |
-| **Components Built** | 45+ | ✅ Complete |
+| **Features Shipped (Sprints 1–5)** | 68 | ✅ Complete |
+| **Features In Sprint 2 (Accepted Answers, etc.)** | 3 | ✅ Added to Sprint 2 |
+| **Features In Progress (Sprint 6)** | 8 | 🔄 Active |
+| **Features Ready (Sprint 7–8)** | 15 | 📋 Queued |
+| **Features Planned (Phase 2+)** | 10+ | ⏳ Backlog |
+| **Features Deferred Indefinitely** | 1 | 🚫 (social badges) |
+| **Total Features (Phase 1)** | 80+ | - |
+| **Sprints Complete** | 5 of 8 | ✅ 63% |
+| **Sprints In Progress** | 1 of 8 | 🔄 12% |
+| **Sprints Ready** | 2 of 8 | 📋 25% |
+| **Tests Written** | 290+ | ✅ Passing (includes accepted answer, content reporting, community promotion) |
+| **Pages Built** | 21 | ✅ Complete |
+| **API Endpoints** | 25+ | ✅ Complete (added accept-answer, community-promote, report endpoints) |
+| **Components Built** | 50+ | ✅ Complete |
 
 ---
 
 # Next Steps
 
-## Immediate (Sprint 6)
-1. Build full endorsement management page (`/profile/endorsements`)
-2. Implement `/saved` page for bookmarks
-3. Remove temporary Accept/Reject from ActivityFeed
-4. Complete testing & integration
+## Immediate (Sprint 6 — IN PROGRESS 🔄)
+1. Build full endorsement management page (`/profile/endorsements` with tabs)
+2. Implement `/saved` page for bookmarks management
+3. Finalize accepted answer and content reporting features from Sprint 2
+4. Remove temporary Accept/Reject buttons from ActivityFeed
+5. Complete testing & integration (8 integration + 5 component + 2 E2E tests)
 
-## Week 7+ (Sprint 7)
-1. Sprint 7: Profile Settings + Mobile Polish
-2. Implement profile settings editor (`/profile/settings`)
-3. Build admin dashboard for configuration
-4. Complete mobile optimization pass
-5. Accessibility audit (WCAG 2.1 AA)
+## Short-Term (Sprint 7 — READY 📋)
+1. Profile Settings Editor (`/profile/settings`)
+   - Edit display name, bio, experience, province
+   - Validation and error handling
+2. Admin Dashboard & Configuration (`/admin/settings`)
+   - Configure endorsement gate thresholds (database-driven)
+   - Configure mentor tier threshold (default 750 pts)
+   - Audit logging for all config changes
+3. Mobile Optimization Pass
+   - Responsive layouts (<375px width)
+   - Touch targets (44px+ buttons)
+   - Performance on 3G speeds
+4. Accessibility Audit (WCAG 2.1 AA compliance)
+   - Color contrast (4.5:1)
+   - Keyboard navigation
+   - Screen reader support
+   - Semantic HTML
 
-## Short-Term (Weeks 6-8)
-1. Accessibility audit (WCAG 2.1 AA compliance)
-2. Performance optimization (Lighthouse >90)
+## Medium-Term (Sprint 8 — READY 📋)
+1. **Pre-Build Research (CRITICAL BLOCKERS)**
+   - Source NOS competency blocks for Electrician 309A from ESDC Canada
+   - Map NOS tasks to expertise topics (with tradesperson validation)
+   - Define score targets per role tier
+   - Validate taxonomy with 5–8 real tradespeople
+2. **Design Skill Mapping Foundation (Phase 2 implementation readiness)**
+   - Database schema for NOS blocks, tasks, skill gaps
+   - API contracts for gap identification and training recommendations
+   - Legal review of competency disclaimer language
+   - Curated training resources per NOS block
+
+## Phase 2 Planning
+1. Mentorship tier unlocked at 750 points
+2. Mentorship matching and dashboard
+3. Skill mapping & gap analysis (using Phase 1 NOS research)
+4. Training resource catalogue with provider integrations
+5. Institutional bulk verification upload (feature-flagged)
+
+## Pre-Launch (Before Phase 1 Validation Gate)
+1. Security audit (OWASP Top 10, dependency scan)
+2. Load testing (1,000+ concurrent users)
 3. Cross-browser testing (Chrome, Safari, Firefox)
-4. Real device testing (iOS, Android)
-
-## Pre-Launch
-1. Production auth integration (Auth0 or similar)
-2. Security audit (OWASP, dependency scan)
-3. Load testing (concurrent users, peak traffic)
-4. Database backup strategy
-5. Monitoring & logging setup (Sentry, Datadog)
-6. Documentation for deployment
-7. Launch runbook & rollback procedures
+4. Real device testing (iOS Safari, Chrome Android)
+5. Performance testing (Lighthouse >80 across board)
+6. Database backup & recovery strategy
+7. Monitoring & logging setup (error tracking, analytics)
+8. Documentation for deployment and runbooks
 
 ---
 

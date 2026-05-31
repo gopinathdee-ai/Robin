@@ -40,7 +40,18 @@
       "Bash(ls -la \"C:\\\\MyApps\\\\trades-platform\\\\apps\\\\web\\\\app\\\\community\\\\[id]\" 2>nul)",
       "Bash(Remove-Item \"c:\\\\MyApps\\\\trades-platform\\\\packages\\\\db\\\\.env\" -Force)",
       "Bash(xargs cat)",
-      "Bash(pnpm prisma *)"
+      "Bash(pnpm prisma *)",
+      "PowerShell(ls \"c:\\\\MyApps\\\\Robin\\\\apps\\\\web\" | Where-Object {$_.Name -ne 'node_modules'})",
+      "Bash(Get-ChildItem -Path \"c:\\\\MyApps\\\\Robin\\\\.claude\\\\skills\" -ErrorAction SilentlyContinue)",
+      "Bash(curl -s -X POST http://localhost:3000/api/content -H 'Content-Type: application/json' -H 'x-dev-user-id: test-user-123' -d '{ *)",
+      "Bash(curl -i -X POST http://localhost:3000/api/content -H 'Content-Type: application/json' -H 'x-dev-user-id: test-user-123' -d '{\"type\":\"post\",\"title\":\"HVAC Best Practices\",\"body\":\"When installing HVAC systems in commercial spaces, ensure proper ductwork sizing and maintenance.\"}')",
+      "Bash(curl -s http://localhost:3000)",
+      "Bash(curl -s \"http://localhost:3000/api/content?limit=5\" -H \"x-dev-user-id: test-user\")",
+      "Bash(curl -s -X POST http://localhost:3000/api/content -H 'Content-Type: application/json' -H 'x-dev-user-id: test-user-456' -d '{ *)",
+      "PowerShell($p = Start-Process -FilePath \"pnpm\" -ArgumentList \"dev\" -WorkingDirectory \"c:\\\\MyApps\\\\Robin\" -NoNewWindow -PassThru; Start-Sleep -Seconds 6; if \\($p.HasExited\\) { \"Server failed\" } else { \"Server started\" })",
+      "Bash(curl -s -X POST http://localhost:3000/api/content -H 'Content-Type: application/json' -H 'x-dev-user-id: test-user-789' -d '{ *)",
+      "Bash(curl -s -X POST http://localhost:3000/api/content -H 'Content-Type: application/json' -H 'x-dev-user-id: testuser555' -d '{\"type\":\"question\",\"title\":\"How to properly size HVAC ducts?\",\"body\":\"I am working on a commercial HVAC installation project. What are the best practices for ductwork sizing and airflow calculations to ensure optimal system performance?\"}')",
+      "Bash(curl -s \"http://localhost:3000/api/users/me\" -H \"x-dev-user-id: testuser888\")"
     ],
     "additionalDirectories": [
       "c:\\MyApps\\trades-platform"

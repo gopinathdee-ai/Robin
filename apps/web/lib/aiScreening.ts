@@ -18,6 +18,7 @@ const PROMPT_VERSION = '1.0.0'
 
 interface ScreeningInput {
   contentId: string
+  title?: string
   body: string
   tradeId?: string
   tradeName?: string
@@ -32,13 +33,15 @@ interface ScreeningResult {
 }
 
 export async function screenContent(input: ScreeningInput): Promise<ScreeningResult> {
-  const { contentId, body, tradeName = 'skilled trades' } = input
+  const { contentId, title, body, tradeName = 'skilled trades' } = input
+
+  const titleSection = title ? `\nTITLE:\n"""\n${title}\n"""\n` : ''
 
   const prompt = `You are a quality reviewer for a professional knowledge platform
 serving Canada's skilled trades workers.
 
 Review the following contribution posted in the "${tradeName}" community.
-
+${titleSection}
 CONTRIBUTION:
 """
 ${body}
@@ -63,8 +66,10 @@ Flag strings (use only these, include any that apply):
 "off_topic" | "low_detail" | "duplicate_likely" | "safety_concern" |
 "unverifiable_claim" | "promotional" | "inappropriate"`
 
+  const model = process.env.CLAUDE_SCREENING_MODEL ?? 'claude-haiku-4-5-20251001'
+
   const response = await client.messages.create({
-    model:      'claude-sonnet-4-20250514',
+    model,
     max_tokens: 300,
     messages:   [{ role: 'user', content: prompt }],
   })
@@ -117,7 +122,7 @@ Flag strings (use only these, include any that apply):
         qualityScore,
         domainScore,
         flags,
-        modelUsed: 'claude-sonnet-4-20250514',
+        modelUsed: model,
         promptVersion: PROMPT_VERSION,
         rawResponse: rawText,
       },
