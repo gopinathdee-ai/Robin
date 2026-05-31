@@ -22,7 +22,7 @@ export function DevModeBanner({ message, variant = 'default' }: DevModeBannerPro
 
   return (
     <div className="mb-8 p-3 bg-trades-50 border border-trades-200 rounded-lg">
-      <p className="text-sm font-semibold text-trades-700"><FontAwesomeIcon icon={faFlask} className="h-4 w-4" /> DEV MODE</p>
+      <p className="text-sm font-semibold text-trades-700 flex items-center gap-2"><FontAwesomeIcon icon={faFlask} className="h-3.5 w-3.5 flex-shrink-0" /> DEV MODE</p>
       <p className="text-xs text-trades-600 mt-1">{message || 'Development mode enabled'}</p>
     </div>
   )
