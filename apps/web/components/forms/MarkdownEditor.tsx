@@ -205,7 +205,7 @@ export function MarkdownEditor({
             <div><span>- item</span> for bullet list</div>
             <div><span>1. item</span> for numbered list</div>
             <div><span className="text-ink-600">[text](url)</span> for link</div>
-            <div className="col-span-2"><span>> quote</span> for blockquote</div>
+            <div className="col-span-2"><span>{'>'}  quote</span> for blockquote</div>
           </div>
         </div>
       )}
