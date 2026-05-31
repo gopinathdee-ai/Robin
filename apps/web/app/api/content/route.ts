@@ -121,34 +121,82 @@ export async function GET(req: NextRequest) {
       type: type ? (type as any) : { in: ['question', 'post'] as any },
     }
 
-    let orderBy: any = { createdAt: 'desc' }
+    let orderBy: any = [{ createdAt: 'desc' }]
     if (sort === 'trending') {
       orderBy = { upvoteCount: 'desc' }
     } else if (sort === 'most_answered') {
       orderBy = [{ _count: { answers: 'desc' } }, { createdAt: 'desc' }]
     } else {
-      // 'newest' - use both publishedAt and createdAt to handle null publishedAt for pending items
-      orderBy = [{ publishedAt: 'desc' }, { createdAt: 'desc' }]
+      // 'newest' (most recent activity) - sort by most recent answer or creation date
+      orderBy = { createdAt: 'desc' }
     }
 
-    const [items, total] = await Promise.all([
-      prisma.content.findMany({
-        where,
-        include: {
-          author: true,
-          trade: true,
-          topic: true,
-          _count: { select: { answers: true } },
-        },
-        orderBy,
-        skip: (page - 1) * limit,
-        take: limit,
-      }),
+    // For "newest" sort, we need to fetch all items and sort by most recent activity
+    const shouldSortByActivity = sort === 'newest'
+
+    const queryOptions: any = {
+      where,
+      include: {
+        author: true,
+        trade: true,
+        topic: true,
+        _count: { select: { answers: true } },
+      },
+    }
+
+    // For activity sort, fetch more items and include answers to determine last activity
+    if (shouldSortByActivity) {
+      queryOptions.include.answers = {
+        select: { createdAt: true },
+        orderBy: { createdAt: 'desc' as const },
+        take: 1,
+      }
+      queryOptions.take = limit * 3 // Fetch extra to account for sorting
+    } else {
+      queryOptions.orderBy = orderBy
+      queryOptions.skip = (page - 1) * limit
+      queryOptions.take = limit
+    }
+
+    const [allItems, total] = await Promise.all([
+      prisma.content.findMany(queryOptions),
       prisma.content.count({ where }),
     ])
 
+    let items = allItems
+
+    // Sort by most recent activity if needed
+    if (shouldSortByActivity) {
+      items = allItems
+        .map((item: any) => {
+          const latestAnswer = (item.answers && item.answers[0])
+          const lastActivityAt = latestAnswer
+            ? new Date(latestAnswer.createdAt)
+            : new Date(item.createdAt)
+
+          return {
+            ...item,
+            lastActivityAt,
+            answers: undefined, // Remove answers from response
+          }
+        })
+        .sort((a: any, b: any) => {
+          const aTime = a.lastActivityAt.getTime()
+          const bTime = b.lastActivityAt.getTime()
+          return bTime - aTime // Descending (most recent first)
+        })
+        .slice((page - 1) * limit, page * limit)
+    }
+
     return NextResponse.json({
-      items,
+      items: items.map((item: any) => {
+        const { answers, ...rest } = item
+        // Convert lastActivityAt to ISO string if it exists
+        if (rest.lastActivityAt instanceof Date) {
+          rest.lastActivityAt = rest.lastActivityAt.toISOString()
+        }
+        return rest
+      }),
       page,
       limit,
       total,

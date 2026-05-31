@@ -26,6 +26,7 @@ interface ContentCardProps {
   } | null
   upvotes: number
   createdAt: string
+  lastActivityAt?: string
   status?: 'published' | 'pending_review' | 'flagged'
   answersCount?: number
   viewCount?: number
@@ -41,6 +42,7 @@ export function ContentCard({
   topic,
   upvotes,
   createdAt,
+  lastActivityAt,
   status = 'published',
   answersCount = 0,
 }: ContentCardProps) {
@@ -91,7 +93,10 @@ export function ContentCard({
     }
   }
 
-  const timeAgo = formatDistanceToNow(new Date(createdAt), { addSuffix: true })
+  const timeAgo = formatDistanceToNow(
+    new Date(lastActivityAt || createdAt),
+    { addSuffix: true }
+  )
   const preview = body.length > 150 ? body.substring(0, 150) + '...' : body
 
   const statusStyles = {
