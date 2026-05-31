@@ -73,6 +73,16 @@
 - ✅ **Community Promotion Fallback** (auto-promote top answer after 14 days if no accepted)
 - ✅ **Content Reporting** (flag unsafe/off-topic/harmful content)
 
+### AI-Powered Content Verification
+- ✅ **Claude Haiku Screening** (async AI evaluation on post/answer submission)
+- ✅ **Auto-Publish Thresholds** (quality ≥0.35, domain ≥0.40 scores)
+- ✅ **Quality Badges** (Gold: ≥0.65, Silver: ≥0.50 quality score)
+- ✅ **Badge Display on Feed** (ContentCard shows quality badges in community listing)
+- ✅ **Badge Display on Detail Pages** (question/answer detail view shows badges)
+- ✅ **Configurable AI Model** (CLAUDE_SCREENING_MODEL env var, defaults to Haiku)
+- ✅ **Title & Trade Context** (titles included in screening prompts, trade inherited for answers)
+- ✅ **Audit Trail** (AiScreeningResult records with raw response, scores, flags)
+
 ### Navigation & Layout
 - ✅ AppHeader Component (logo + nav links)
 - ✅ Navigation: Community Link
@@ -95,7 +105,8 @@
 - ✅ Saved Page (`/saved`) (placeholder)
 
 ### Components & UI
-- ✅ ContentCard
+- ✅ ContentCard (with quality badge integration)
+- ✅ QualityBadge (Gold/Silver badges based on AI score)
 - ✅ VoteButtons
 - ✅ SearchBox
 - ✅ FilterBar
@@ -543,20 +554,20 @@
 
 | Metric | Count | Status |
 |--------|-------|--------|
-| **Features Shipped (Sprints 1–5)** | 68 | ✅ Complete |
-| **Features In Sprint 2 (Accepted Answers, etc.)** | 3 | ✅ Added to Sprint 2 |
+| **Features Shipped (Sprints 1–5)** | 76 | ✅ Complete |
+| **Features In Sprint 2 (Accepted Answers, AI Verification)** | 11 | ✅ Added to Sprint 2 |
 | **Features In Progress (Sprint 6)** | 8 | 🔄 Active |
 | **Features Ready (Sprint 7–8)** | 15 | 📋 Queued |
 | **Features Planned (Phase 2+)** | 10+ | ⏳ Backlog |
 | **Features Deferred Indefinitely** | 1 | 🚫 (social badges) |
-| **Total Features (Phase 1)** | 80+ | - |
+| **Total Features (Phase 1)** | 90+ | - |
 | **Sprints Complete** | 5 of 8 | ✅ 63% |
 | **Sprints In Progress** | 1 of 8 | 🔄 12% |
 | **Sprints Ready** | 2 of 8 | 📋 25% |
-| **Tests Written** | 290+ | ✅ Passing (includes accepted answer, content reporting, community promotion) |
+| **Tests Written** | 290+ | ✅ Passing (includes accepted answer, content reporting, community promotion, AI screening) |
 | **Pages Built** | 21 | ✅ Complete |
-| **API Endpoints** | 25+ | ✅ Complete (added accept-answer, community-promote, report endpoints) |
-| **Components Built** | 50+ | ✅ Complete |
+| **API Endpoints** | 25+ | ✅ Complete (added accept-answer, community-promote, report endpoints, AI screening) |
+| **Components Built** | 51+ | ✅ Complete (added QualityBadge) |
 
 ---
 

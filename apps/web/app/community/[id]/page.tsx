@@ -27,6 +27,7 @@ interface ContentDetail {
   upvoteCount: number
   status: string
   createdAt: string
+  aiQualityScore?: number | null
   answers: Array<{
     id: string
     body: string
@@ -34,6 +35,7 @@ interface ContentDetail {
     upvoteCount: number
     isAccepted: boolean
     createdAt: string
+    aiQualityScore?: number | null
   }>
 }
 
@@ -138,11 +140,19 @@ export default function ContentDetailPage({ params }: { params: Promise<{ id: st
         <div className="border border-ink-200 rounded-lg p-6 mb-8">
           <div className="flex items-start justify-between mb-4">
             <div>
-              <div className="flex items-center gap-3 mb-3">
+              <div className="flex items-center gap-3 mb-3 flex-wrap">
                 <span className="font-medium text-ink-900">{content.author.displayName}</span>
                 <span className="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-trades-100 text-trades-700">
                   {content.author.role === 'journeyperson' ? 'Journeyperson ✓' : content.author.role === 'master' ? 'Master ✓' : 'Apprentice'}
                 </span>
+                {content.status === 'published' && content.aiQualityScore && content.aiQualityScore >= 0.50 && (
+                  <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-sm bg-blue-50 border border-blue-200" title="AI Verified Quality">
+                    <span className="text-lg">✨</span>
+                    <span className="text-blue-700 font-medium">
+                      {content.aiQualityScore >= 0.65 ? 'High Quality' : 'Good Quality'}
+                    </span>
+                  </span>
+                )}
                 <span className="text-sm text-ink-500">{timeAgo}</span>
               </div>
               {content.type === 'question' && content.title && (
@@ -206,11 +216,19 @@ export default function ContentDetailPage({ params }: { params: Promise<{ id: st
                   <div key={answer.id} className="border border-ink-200 rounded-lg p-4 bg-ink-50">
                     <div className="flex items-start justify-between mb-3">
                       <div>
-                        <div className="flex items-center gap-2 mb-2">
+                        <div className="flex items-center gap-2 mb-2 flex-wrap">
                           <span className="font-medium text-ink-900">{answer.author.displayName}</span>
                           <span className="text-xs font-medium px-2 py-1 bg-trades-100 text-trades-700 rounded">
                             {answer.author.role}
                           </span>
+                          {content.status === 'published' && answer.aiQualityScore && answer.aiQualityScore >= 0.50 && (
+                            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-sm bg-blue-50 border border-blue-200" title="AI Verified Quality">
+                              <span className="text-lg">✨</span>
+                              <span className="text-blue-700 font-medium">
+                                {answer.aiQualityScore >= 0.65 ? 'High Quality' : 'Good Quality'}
+                              </span>
+                            </span>
+                          )}
                         </div>
                         <p className="text-xs text-ink-500">
                           {formatDistanceToNow(new Date(answer.createdAt), { addSuffix: true })}

@@ -918,6 +918,83 @@ Response: { status, actionsApplied }
 
 ---
 
+### 2.3c AI-Powered Content Verification & Quality Badges
+
+**Goal:** Automatically screen community posts and responses using Claude Haiku to evaluate quality and domain relevance, then display visual quality badges to help users identify high-quality contributions.
+
+#### Status: ✅ **COMPLETE**
+
+**What Was Built:**
+
+1. **Claude Haiku Screening System** (`apps/web/lib/aiScreening.ts`)
+   - Async AI evaluation on every post/question/answer submission
+   - Scores: `qualityScore` (0.0–1.0) and `domainScore` (0.0–1.0)
+   - Auto-publish decision: quality ≥ 0.35 AND domain ≥ 0.40 AND no safety concerns
+   - Fallback: Below-threshold content flagged for human review
+   - Audit trail: Full `AiScreeningResult` records with raw response
+
+2. **Configurable Model Selection** (`CLAUDE_SCREENING_MODEL` env var)
+   - Default: `claude-haiku-4-5-20251001` (fast, cost-effective)
+   - Alternatives: `claude-sonnet-4-6`, `claude-opus-4-8`
+   - Can be changed without code recompile
+
+3. **Quality Badges** (`components/community/QualityBadge.tsx`)
+   - Gold badge: Quality score ≥ 0.65 (⭐ High Quality)
+   - Silver badge: Quality score ≥ 0.50 (✓ Good)
+   - No badge: Below 0.50 (standard quality)
+   - Displayed on feed and detail pages
+
+4. **Integration Points**
+   - **Community Feed** (`ContentCard`): Badge shows next to type badge
+   - **Question/Answer Detail** (`community/[id]/page.tsx`): Badge shows with author info
+   - Only visible on published content (not pending/flagged)
+
+5. **Smart Screening Context**
+   - **Titles included**: Posts/questions screened with full title context
+   - **Trade inheritance**: Answers inherit trade context from parent question
+   - **Trade name resolution**: Specific trade name passed to prompt (not generic "skilled trades")
+
+#### Files Created/Modified:
+- ✅ `apps/web/lib/aiScreening.ts` — Claude Haiku screening engine
+- ✅ `apps/web/components/community/QualityBadge.tsx` — Badge component
+- ✅ `apps/web/components/community/ContentCard.tsx` — Integrated badge display
+- ✅ `apps/web/app/community/[id]/page.tsx` — Detail page badge display
+- ✅ `apps/web/app/api/content/route.ts` — Trade name + title resolution
+- ✅ `apps/web/.env`, `.env.example` — Added `ANTHROPIC_API_KEY`, `CLAUDE_SCREENING_MODEL`
+
+#### Key Features:
+- ✅ Async screening (doesn't block user response)
+- ✅ 202 Accepted response (content queued for review)
+- ✅ Auto-publish above threshold
+- ✅ Transparent scoring (visible to admins)
+- ✅ Audit trail for compliance
+- ✅ Visual indicators (Gold/Silver badges)
+- ✅ Environment-driven model selection
+
+#### Scoring Thresholds:
+| Score | Threshold | Result |
+|-------|-----------|--------|
+| Quality | ≥ 0.35 | Passes initial gate |
+| Domain | ≥ 0.40 | Passes relevance gate |
+| Safety Flag | absent | Hard block if present |
+
+#### Acceptance Criteria: ✅ All Met
+- [x] Posts submitted get 202 response with pending_review status
+- [x] Async screening runs 5–10 seconds after submission
+- [x] High-quality content (both thresholds met) auto-publishes
+- [x] Low-quality content flagged for human review
+- [x] Scores stored in database (aiQualityScore, aiDomainScore, aiScreenedAt)
+- [x] Quality badges display Gold/Silver based on scores
+- [x] Badges visible on community feed listing
+- [x] Badges visible on post/answer detail pages
+- [x] Trade name fetched and passed to screener
+- [x] Answer trade inherited from parent question
+- [x] Title included in screening context
+- [x] CLAUDE_SCREENING_MODEL env var configurable
+- [x] All testing verified (posted good/bad content, saw correct publish/flag behavior)
+
+---
+
 ### 2.4 Search Integration
 
 #### Create: `apps/web/hooks/useSearch.ts`

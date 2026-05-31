@@ -30,6 +30,7 @@ interface ContentCardProps {
   status?: 'published' | 'pending_review' | 'flagged'
   answersCount?: number
   viewCount?: number
+  aiQualityScore?: number | null
 }
 
 export function ContentCard({
@@ -45,6 +46,7 @@ export function ContentCard({
   lastActivityAt,
   status = 'published',
   answersCount = 0,
+  aiQualityScore,
 }: ContentCardProps) {
   const [isBookmarked, setIsBookmarked] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
@@ -128,30 +130,26 @@ export function ContentCard({
           <span className="text-ink-500 text-xs flex-shrink-0">• {timeAgo}</span>
         </div>
 
-        {/* Type and bookmark row - stack on mobile */}
-        <div className="flex items-start justify-between gap-2 mb-3">
-          <div className="flex-1">
-            {(type === 'question' || type === 'post') && (
-              <span className={`inline-flex items-center px-2 py-1 rounded text-xs font-medium mb-2 ${
-                type === 'question'
-                  ? 'bg-blue-100 text-blue-700'
-                  : 'bg-purple-100 text-purple-700'
-              }`}>
-                {type === 'question' ? 'Question' : 'Post'}
+        {/* Type and quality badge row */}
+        <div className="flex items-center gap-2 mb-3 flex-wrap">
+          {(type === 'question' || type === 'post') && (
+            <span className={`inline-flex items-center px-2 py-1 rounded text-xs font-medium ${
+              type === 'question'
+                ? 'bg-blue-100 text-blue-700'
+                : 'bg-purple-100 text-purple-700'
+            }`}>
+              {type === 'question' ? 'Question' : 'Post'}
+            </span>
+          )}
+
+          {status === 'published' && aiQualityScore && aiQualityScore >= 0.50 && (
+            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-sm bg-blue-50 border border-blue-200" title="AI Verified Quality">
+              <span className="text-lg">✨</span>
+              <span className="text-blue-700 font-medium">
+                {aiQualityScore >= 0.65 ? 'High Quality' : 'Good Quality'}
               </span>
-            )}
-          </div>
-          <button
-            onClick={handleBookmarkClick}
-            disabled={isLoading}
-            className="p-1.5 text-ink-500 hover:text-trades-600 transition-colors disabled:opacity-50 flex-shrink-0 z-10"
-            title={isBookmarked ? 'Remove bookmark' : 'Save bookmark'}
-          >
-            <FontAwesomeIcon
-              icon={faBookmark}
-              className={`h-4 w-4 transition-colors ${isBookmarked ? 'text-trades-600' : 'text-ink-400 opacity-60'}`}
-            />
-          </button>
+            </span>
+          )}
         </div>
 
         {/* Content */}
@@ -178,15 +176,28 @@ export function ContentCard({
         </div>
 
         {/* Metrics */}
-        <div className="flex items-center gap-4 text-sm text-ink-600 flex-wrap">
-          <span className="flex items-center gap-1">
-            <FontAwesomeIcon icon={faThumbsUp} /> {upvotes} upvotes
-          </span>
-          {answersCount !== undefined && (
+        <div className="flex items-center justify-between text-sm text-ink-600">
+          <div className="flex items-center gap-4 flex-wrap">
             <span className="flex items-center gap-1">
-              <FontAwesomeIcon icon={faComments} /> {answersCount} answers
+              <FontAwesomeIcon icon={faThumbsUp} /> {upvotes} upvotes
             </span>
-          )}
+            {answersCount !== undefined && (
+              <span className="flex items-center gap-1">
+                <FontAwesomeIcon icon={faComments} /> {answersCount} answers
+              </span>
+            )}
+          </div>
+          <button
+            onClick={handleBookmarkClick}
+            disabled={isLoading}
+            className="p-1 text-ink-500 hover:text-trades-600 transition-colors disabled:opacity-50 flex-shrink-0"
+            title={isBookmarked ? 'Remove bookmark' : 'Save bookmark'}
+          >
+            <FontAwesomeIcon
+              icon={faBookmark}
+              className={`h-4 w-4 transition-colors ${isBookmarked ? 'text-trades-600' : 'text-ink-400 opacity-60'}`}
+            />
+          </button>
         </div>
       </div>
     </Link>

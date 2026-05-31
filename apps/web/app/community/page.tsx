@@ -33,6 +33,7 @@ interface ContentItem {
   _count?: { answers: number }
   createdAt: string
   lastActivityAt?: string
+  aiQualityScore?: number | null
 }
 
 function CommunityContent() {
@@ -191,6 +192,7 @@ function CommunityContent() {
                   answersCount={item._count?.answers || 0}
                   createdAt={item.createdAt}
                   lastActivityAt={item.lastActivityAt}
+                  aiQualityScore={item.aiQualityScore}
                 />
               </div>
             ))}
