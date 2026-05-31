@@ -51,7 +51,9 @@
       "PowerShell($p = Start-Process -FilePath \"pnpm\" -ArgumentList \"dev\" -WorkingDirectory \"c:\\\\MyApps\\\\Robin\" -NoNewWindow -PassThru; Start-Sleep -Seconds 6; if \\($p.HasExited\\) { \"Server failed\" } else { \"Server started\" })",
       "Bash(curl -s -X POST http://localhost:3000/api/content -H 'Content-Type: application/json' -H 'x-dev-user-id: test-user-789' -d '{ *)",
       "Bash(curl -s -X POST http://localhost:3000/api/content -H 'Content-Type: application/json' -H 'x-dev-user-id: testuser555' -d '{\"type\":\"question\",\"title\":\"How to properly size HVAC ducts?\",\"body\":\"I am working on a commercial HVAC installation project. What are the best practices for ductwork sizing and airflow calculations to ensure optimal system performance?\"}')",
-      "Bash(curl -s \"http://localhost:3000/api/users/me\" -H \"x-dev-user-id: testuser888\")"
+      "Bash(curl -s \"http://localhost:3000/api/users/me\" -H \"x-dev-user-id: testuser888\")",
+      "Bash(pnpm install *)",
+      "Bash(pnpm tsc *)"
     ],
     "additionalDirectories": [
       "c:\\MyApps\\trades-platform"

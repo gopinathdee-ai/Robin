@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { Button } from '@/components/ui/Button'
+import { MarkdownEditor } from '@/components/forms/MarkdownEditor'
 
 interface AnswerFormProps {
   questionId: string
@@ -51,17 +52,16 @@ export function AnswerForm({ questionId, onAnswerPosted }: AnswerFormProps) {
   return (
     <form onSubmit={handleSubmit} className="bg-white border border-ink-200 rounded-lg p-4">
       <label className="block text-sm font-medium text-ink-900 mb-2">Your Answer</label>
-      <textarea
+      <MarkdownEditor
         value={body}
-        onChange={(e) => setBody(e.target.value)}
+        onChange={setBody}
         placeholder="Share your knowledge..."
         rows={5}
-        className="w-full px-3 py-2 border border-ink-300 rounded-lg focus:outline-none focus:border-trades-500 resize-none"
+        minLength={20}
+        maxLength={10000}
       />
       <div className="flex items-end justify-between mt-3">
-        <span className="text-xs text-ink-500">
-          {body.length}/10000 characters, minimum 20
-        </span>
+        <div />
         <Button
           type="submit"
           variant="primary"

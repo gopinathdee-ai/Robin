@@ -1,6 +1,7 @@
 import React from 'react'
 import { FormInput } from '@/components/ui/FormInput'
 import { FormSelect, type SelectOption } from '@/components/ui/FormSelect'
+import { MarkdownEditor } from '@/components/forms/MarkdownEditor'
 
 interface FirstContributionFormData {
   title: string
@@ -125,38 +126,22 @@ export function FirstContributionForm({
       />
 
       {/* Body */}
-      <div className="space-y-2">
-        <label className="block text-sm font-medium text-ink-900">
+      <div>
+        <label className="block text-sm font-medium text-ink-900 mb-2">
           Details<span className="text-trades-500 ml-1">*</span>
         </label>
-        <textarea
+        <MarkdownEditor
           value={formData.body}
-          onChange={(e) => onFormChange({ body: e.target.value })}
+          onChange={(value) => onFormChange({ body: value })}
           placeholder={
             contentType === 'question'
               ? 'Describe what you need help with...'
               : 'Share details, step-by-step instructions, or insights...'
           }
-          disabled={loading}
+          minLength={MIN_BODY_LENGTH}
           maxLength={5000}
           rows={6}
-          className={`w-full px-3 py-2 border rounded-md text-base font-sans transition-colors resize-none ${
-            displayError
-              ? 'border-red-500 bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-500'
-              : 'border-ink-300 bg-white focus:outline-none focus:ring-2 focus:ring-trades-500'
-          } ${loading ? 'bg-ink-100 cursor-not-allowed' : ''}`}
-          aria-invalid={!!displayError}
         />
-        <div className="flex justify-between items-center text-xs">
-          <span className={formData.body.trim().length < MIN_BODY_LENGTH ? 'text-ink-400' : 'text-green-600'}>
-            {formData.body.trim().length < MIN_BODY_LENGTH
-              ? `${MIN_BODY_LENGTH - formData.body.trim().length} more characters needed`
-              : '✓ Ready to publish'}
-          </span>
-          <span className="text-ink-600">
-            {formData.body.length} / 5000
-          </span>
-        </div>
       </div>
 
       {/* Error message */}

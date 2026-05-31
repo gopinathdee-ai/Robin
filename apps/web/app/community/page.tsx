@@ -2,7 +2,7 @@
 
 import { useEffect, useState, Suspense } from 'react'
 import Link from 'next/link'
-import { useSearchParams } from 'next/navigation'
+import { useSearchParams, useRouter } from 'next/navigation'
 import { prisma } from '@trades/db'
 import { AppHeader } from '@/components/AppHeader'
 import { ContentCard } from '@/components/community/ContentCard'
@@ -38,6 +38,7 @@ interface ContentItem {
 
 function CommunityContent() {
   const searchParams = useSearchParams()
+  const router = useRouter()
   const [content, setContent] = useState<ContentItem[]>([])
   const [loading, setLoading] = useState(true)
   const [searchQuery, setSearchQuery] = useState('')
@@ -214,7 +215,10 @@ function CommunityContent() {
 
       <CreatePostModal
         isOpen={isCreateModalOpen}
-        onClose={() => setIsCreateModalOpen(false)}
+        onClose={() => {
+          setIsCreateModalOpen(false)
+          router.push('/community')
+        }}
         onSuccess={handlePostSuccess}
         defaultType={createType}
       />

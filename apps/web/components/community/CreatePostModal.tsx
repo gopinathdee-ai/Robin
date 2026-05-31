@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import { Button } from '@/components/ui/Button'
 import { Spinner } from '@/components/ui/Spinner'
+import { MarkdownEditor } from '@/components/forms/MarkdownEditor'
 
 interface Trade {
   id: string
@@ -40,10 +41,19 @@ export function CreatePostModal({ isOpen, onClose, onSuccess, defaultType = 'que
     body: '',
   })
 
-  // Update form type when defaultType prop changes
+  // Reset form when modal opens, update type when defaultType changes
   useEffect(() => {
-    setFormData((prev) => ({ ...prev, type: defaultType }))
-  }, [defaultType])
+    if (isOpen) {
+      setFormData({
+        type: defaultType,
+        tradeId: '',
+        topicId: '',
+        title: '',
+        body: '',
+      })
+      setError(null)
+    }
+  }, [isOpen, defaultType])
 
   // Fetch trades and user's default trade on mount
   useEffect(() => {
@@ -288,24 +298,19 @@ export function CreatePostModal({ isOpen, onClose, onSuccess, defaultType = 'que
 
           {/* Body */}
           <div>
-            <label htmlFor="body" className="block text-sm font-medium text-ink-900 mb-2">
+            <label className="block text-sm font-medium text-ink-900 mb-2">
               Details
             </label>
-            <textarea
-              id="body"
-              name="body"
+            <MarkdownEditor
               value={formData.body}
-              onChange={handleChange}
+              onChange={(value) =>
+                setFormData((prev) => ({ ...prev, body: value }))
+              }
               placeholder="Provide more details about your question or post..."
               rows={6}
-              className="w-full px-4 py-2 border border-ink-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-trades-500"
-              required
+              minLength={20}
+              maxLength={10000}
             />
-            {bodyLength > 0 && !isBodyValid && (
-              <div className="text-xs mt-2 text-red-600">
-                {bodyLength}/10000 characters (20-10000 required)
-              </div>
-            )}
           </div>
 
           {/* Actions */}

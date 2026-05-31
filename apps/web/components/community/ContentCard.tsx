@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { formatDistanceToNow } from 'date-fns'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faThumbsUp, faComments, faBookmark } from '@fortawesome/free-solid-svg-icons'
+import { MarkdownPreview } from '@/components/forms/MarkdownPreview'
 
 interface ContentCardProps {
   id: string
@@ -158,7 +159,9 @@ export function ContentCard({
             {type === 'question' && 'Q: '}
             {title}
           </h3>
-          <p className="text-ink-700">{preview}</p>
+          <div className="text-ink-700">
+            <MarkdownPreview>{preview}</MarkdownPreview>
+          </div>
         </div>
 
         {/* Tags: trade + topic */}

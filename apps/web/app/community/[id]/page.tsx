@@ -11,6 +11,7 @@ import { AppHeader } from '@/components/AppHeader'
 import { VoteButtons } from '@/components/community/VoteButtons'
 import { AnswerForm } from '@/components/community/AnswerForm'
 import { Spinner } from '@/components/ui/Spinner'
+import { MarkdownPreview } from '@/components/forms/MarkdownPreview'
 
 interface ContentDetail {
   id: string
@@ -164,7 +165,9 @@ export default function ContentDetailPage({ params }: { params: Promise<{ id: st
             </div>
           </div>
 
-          <p className="text-ink-700 mb-6 whitespace-pre-wrap">{content.body}</p>
+          <div className="text-ink-700 mb-6">
+            <MarkdownPreview>{content.body}</MarkdownPreview>
+          </div>
 
           {/* Tags */}
           <div className="flex gap-2 mb-6">
@@ -240,7 +243,9 @@ export default function ContentDetailPage({ params }: { params: Promise<{ id: st
                         </span>
                       )}
                     </div>
-                    <p className="text-ink-700 mb-3 whitespace-pre-wrap">{answer.body}</p>
+                    <div className="text-ink-700 mb-3">
+                      <MarkdownPreview>{answer.body}</MarkdownPreview>
+                    </div>
                     <VoteButtons contentId={answer.id} initialUpvotes={answer.upvoteCount} />
                   </div>
                 ))}
