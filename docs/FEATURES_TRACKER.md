@@ -1,8 +1,9 @@
 # Trades Platform — Features Tracker
 
-**Last Updated:** May 30, 2026 (Updated to MAY27_BUSINESS_REQUIREMENTS.md)
+**Last Updated:** June 1, 2026 (Updated with TDD E2E test tracking)
 **Current Status:** Sprint 1 ✅ COMPLETE | Sprint 2 ✅ COMPLETE | Sprint 3 ✅ COMPLETE | Sprint 4 ✅ COMPLETE | Sprint 5 ✅ COMPLETE | Sprint 6 🔄 IN PROGRESS | Sprint 7 📋 READY | Sprint 8 📋 READY  
-**Overall Progress:** 75+ features (updated to include accepted answers, community promotion, content reporting, NOS taxonomy)
+**Overall Progress:** 75+ features with TDD E2E test coverage
+**TDD Implementation:** 2 modules tested (47 E2E tests), 11 modules planned (333+ tests)
 
 ---
 
@@ -13,6 +14,30 @@
 - 📋 **READY** — Scoped, design ready, waiting for development
 - ⏳ **PLANNED** — In backlog, ready for estimation
 - 🚫 **DEFERRED** — Moved to Phase 2
+
+### TDD Test Status
+- ✅ **TDD COMPLETE** — E2E tests written and validated
+- 🔴 **TDD PLANNED** — Tests to be written
+- ⏳ **TDD IN PROGRESS** — Tests being written
+
+---
+
+## TDD E2E Test Coverage Summary
+
+| Module | E2E Tests | Status | Test File | Coverage |
+|--------|-----------|--------|-----------|----------|
+| **Onboarding & Identity** | 17 | ✅ COMPLETE | `e2e/onboarding.spec.ts` | UC1-UC5 (all use cases) |
+| **Community Page (Q&A)** | 30+ | ✅ COMPLETE | `e2e/community.spec.ts` | UC1-UC10 (all use cases) |
+| Reputation Foundation | 25-30 | 🔴 PLANNED | `e2e/reputation.spec.ts` | Dashboard, endorsements, leaderboard |
+| Auth & Authorization | 20-25 | 🔴 PLANNED | `e2e/auth.spec.ts` | Sign up/in, reset, RBAC |
+| Search & Discovery | 25-30 | 🔴 PLANNED | `e2e/search.spec.ts` | Content search, filtering, saved |
+| Notifications | 25-30 | 🔴 PLANNED | `e2e/notifications.spec.ts` | Real-time alerts, preferences |
+| Profile & Settings | 20-25 | 🔴 PLANNED | `e2e/profile.spec.ts` | Edit profile, trades, privacy |
+| Mentorship System | 35-40 | 🔴 PLANNED | `e2e/mentorship.spec.ts` | Browse, request, progress |
+| Credentials & Wallet | 20-25 | 🔴 PLANNED | `e2e/credentials.spec.ts` | Upload, export, verification |
+| Union Coordinator | 30-35 | 🔴 PLANNED | `e2e/coordinator-dashboard.spec.ts` | Directory, program mgmt |
+| Employer Dashboard | 25-30 | 🔴 PLANNED | `e2e/employer-dashboard.spec.ts` | Credentials, gap analysis |
+| **TOTAL** | **47 / 380-420** | **15% Complete** | | |
 
 ---
 
