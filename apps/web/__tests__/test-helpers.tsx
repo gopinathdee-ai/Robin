@@ -27,11 +27,14 @@ export function clearDevUserId() {
   }
 }
 
-// Helper to fetch with auth headers
+// Helper to fetch with auth headers and base URL
+const BASE_URL = process.env.VITEST ? 'http://localhost:3000' : ''
+
 export async function authFetch(url: string, options: RequestInit = {}, userId?: string) {
   const headers = new Headers(options.headers)
   if (userId) {
     headers.set('x-dev-user-id', userId)
   }
-  return fetch(url, { ...options, headers })
+  const fullUrl = url.startsWith('http') ? url : `${BASE_URL}${url}`
+  return fetch(fullUrl, { ...options, headers })
 }

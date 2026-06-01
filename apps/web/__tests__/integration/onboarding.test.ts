@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest'
 import { createTestUser, deleteTestUser, TestUser } from '../fixtures/users'
-import { authFetch } from '../test-helpers'
+import { authFetch } from '../test-helpers.tsx'
 
 describe('Onboarding: Role Selection (TC1)', () => {
   let testUser: TestUser

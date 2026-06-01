@@ -20,7 +20,8 @@ vi.mock('next/navigation', () => ({
 // Mock Next.js Image
 vi.mock('next/image', () => ({
   default: (props: any) => {
+    const React = require('react')
     // eslint-disable-next-line jsx-a11y/alt-text
-    return <img {...props} />
+    return React.createElement('img', props)
   },
 }))
