@@ -2,7 +2,7 @@
 
 import { useRef, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBold, faItalic, faUnderline, faCircleQuestion, faHeading, faList, faListOl, faQuoteLeft, faLink } from '@fortawesome/free-solid-svg-icons'
+import { faBold, faItalic, faUnderline, faCircleQuestion, faHeading, faList, faListOl } from '@fortawesome/free-solid-svg-icons'
 
 interface MarkdownEditorProps {
   value: string
@@ -53,9 +53,6 @@ export function MarkdownEditor({
   const handleHeading = () => insertMarkdown('# ', '')
   const handleList = () => insertMarkdown('- ', '')
   const handleNumList = () => insertMarkdown('1. ', '')
-  const handleBlockquote = () => insertMarkdown('> ', '')
-  const handleStrikethrough = () => insertMarkdown('~~', '~~')
-  const handleLink = () => insertMarkdown('[', '](url)')
 
   const charCount = value.length
   const isValid = charCount >= (minLength || 0) && charCount <= (maxLength || Infinity)
@@ -119,38 +116,6 @@ export function MarkdownEditor({
           <FontAwesomeIcon icon={faListOl} className="h-3 w-3 md:h-4 md:w-4" />
         </button>
 
-        <div className="border-l border-ink-300 mx-0.5 md:mx-1" />
-
-        {/* Block elements */}
-        <button
-          onClick={handleBlockquote}
-          type="button"
-          title="Blockquote"
-          className="flex items-center justify-center w-7 h-7 md:w-9 md:h-9 rounded bg-white border border-ink-300 hover:bg-ink-100 transition text-ink-700"
-        >
-          <FontAwesomeIcon icon={faQuoteLeft} className="h-3 w-3 md:h-4 md:w-4" />
-        </button>
-        <button
-          onClick={handleStrikethrough}
-          type="button"
-          title="Strikethrough"
-          className="flex items-center justify-center w-7 h-7 md:w-9 md:h-9 rounded bg-white border border-ink-300 hover:bg-ink-100 transition text-ink-700 line-through text-xs md:text-base"
-        >
-          S
-        </button>
-
-        <div className="border-l border-ink-300 mx-0.5 md:mx-1" />
-
-        {/* Link */}
-        <button
-          onClick={handleLink}
-          type="button"
-          title="Link"
-          className="flex items-center justify-center w-7 h-7 md:w-9 md:h-9 rounded bg-white border border-ink-300 hover:bg-ink-100 transition text-ink-700"
-        >
-          <FontAwesomeIcon icon={faLink} className="h-3 w-3 md:h-4 md:w-4" />
-        </button>
-
         <div className="border-l border-ink-300 mx-0.5 md:mx-1 ml-auto" />
 
         {/* Help */}
@@ -200,12 +165,9 @@ export function MarkdownEditor({
             <div><span className="font-semibold">**bold**</span> for bold</div>
             <div><span className="italic">*italic*</span> for italic</div>
             <div><span className="underline">__underline__</span> for underline</div>
-            <div><span className="line-through">~~strikethrough~~</span></div>
             <div><span className="font-semibold"># Heading</span> for heading</div>
             <div><span>- item</span> for bullet list</div>
             <div><span>1. item</span> for numbered list</div>
-            <div><span className="text-ink-600">[text](url)</span> for link</div>
-            <div className="col-span-2"><span>{'>'}  quote</span> for blockquote</div>
           </div>
         </div>
       )}
