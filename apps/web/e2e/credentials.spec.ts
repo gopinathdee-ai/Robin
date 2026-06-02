@@ -24,7 +24,7 @@ test.describe('Credential Import', () => {
     await expect(heading).toContainText(/credential|wallet|import/i)
 
     // Then: Import button visible
-    const importBtn = page.locator('[data-testid="import-credential"], button:has-text(/import|upload|add/i)').first()
+    const importBtn = page.locator('[data-testid="import-credential"]').or(page.getByRole('button', { name: /import|upload|add/ })).first()
     await expect(importBtn).toBeVisible({ timeout: 5000 })
   })
 
@@ -33,7 +33,7 @@ test.describe('Credential Import', () => {
     await page.goto('http://localhost:3000/credentials')
 
     // When: User clicks import button
-    const importBtn = page.locator('[data-testid="import-credential"], button:has-text(/import|upload|add/i)').first()
+    const importBtn = page.locator('[data-testid="import-credential"]').or(page.getByRole('button', { name: /import|upload|add/ })).first()
     await importBtn.click()
 
     // Then: File input or dialog appears
@@ -56,7 +56,7 @@ test.describe('Credential Import', () => {
     const credentials = page.locator('[data-testid="credential-card"]')
 
     // Check if any credential has "Verified" status
-    const verifiedBadge = page.locator('[data-testid="verified-badge"], text=/verified/i')
+    const verifiedBadge = page.locator('[data-testid="verified-badge"]').filter({ hasText: /verified/ })
 
     // If credentials exist, at least one should be verified
     const credentialCount = await credentials.count()
@@ -73,15 +73,15 @@ test.describe('Credential Import', () => {
 
     // When: Credential is displayed
     // Then: Credential card shows trade name
-    const tradeName = page.locator('[data-testid="credential-trade"], text=/electrician|plumber|carpenter/i').first()
+    const tradeName = page.locator('[data-testid="credential-trade"]').filter({ hasText: /electrician|plumber|carpenter/ }).first()
     await expect(tradeName).toBeVisible({ timeout: 5000 })
 
     // Then: Credential card shows ticket/reference number
-    const ticketNumber = page.locator('[data-testid="credential-number"], text=/ticket|number|ref/i').first()
+    const ticketNumber = page.locator('[data-testid="credential-number"]').filter({ hasText: /ticket|number|ref/ }).first()
     await expect(ticketNumber).toBeVisible({ timeout: 5000 })
 
     // Then: Issue date displayed
-    const issueDate = page.locator('[data-testid="issue-date"], text=/issued|date/i').first()
+    const issueDate = page.locator('[data-testid="issue-date"]').filter({ hasText: /issued|date/ }).first()
     await expect(issueDate).toBeVisible({ timeout: 5000 })
   })
 
@@ -95,11 +95,11 @@ test.describe('Credential Import', () => {
     await page.goto('http://localhost:3000/credentials')
 
     // Then: Safety credential shows as verified
-    const safetyCredentials = page.locator('[data-testid="credential-card"]:has-text(/safety|csa|wsib/i)')
+    const safetyCredentials = page.locator('[data-testid="credential-card"]').filter({ hasText: /safety|csa|wsib/ })
     const firstSafety = safetyCredentials.first()
 
     if (await firstSafety.isVisible({ timeout: 2000 }).catch(() => false)) {
-      const badge = firstSafety.locator('[data-testid="verified-badge"], text=/verified/i')
+      const badge = firstSafety.locator('[data-testid="verified-badge"]').filter({ hasText: /verified/ })
       await expect(badge).toBeVisible({ timeout: 5000 })
     }
   })
@@ -112,11 +112,11 @@ test.describe('Credential Import', () => {
     await page.goto('http://localhost:3000/credentials')
 
     // Then: Credential shows as pending verification
-    const pendingCredentials = page.locator('[data-testid="credential-card"]:has-text(/pending|review/i)')
+    const pendingCredentials = page.locator('[data-testid="credential-card"]').filter({ hasText: /pending|review/ })
     const firstPending = pendingCredentials.first()
 
     if (await firstPending.isVisible({ timeout: 2000 }).catch(() => false)) {
-      const badge = firstPending.locator('[data-testid="pending-badge"], text=/pending/i')
+      const badge = firstPending.locator('[data-testid="pending-badge"]').filter({ hasText: /pending/ })
       await expect(badge).toBeVisible({ timeout: 5000 })
     }
   })
@@ -128,7 +128,7 @@ test.describe('Credential Import', () => {
     await page.goto('http://localhost:3000/credentials')
 
     // When: User clicks edit on pending credential
-    const pendingCard = page.locator('[data-testid="credential-card"]:has-text(/pending/i)').first()
+    const pendingCard = page.locator('[data-testid="credential-card"]').filter({ hasText: /pending/ }).first()
 
     if (await pendingCard.isVisible({ timeout: 2000 }).catch(() => false)) {
       const editBtn = pendingCard.locator('[data-testid="edit-credential"], button')
@@ -139,7 +139,7 @@ test.describe('Credential Import', () => {
       await expect(issuerField).toBeVisible({ timeout: 5000 })
 
       // Then: Can submit updated info
-      const submitBtn = page.locator('[data-testid="submit-verification"], button:has-text(/submit|save/i)')
+      const submitBtn = page.locator('[data-testid="submit-verification"]').or(page.getByRole('button', { name: /submit|save/ }))
       await expect(submitBtn).toBeVisible({ timeout: 5000 })
     }
   })
@@ -151,7 +151,7 @@ test.describe('Credential Import', () => {
     await page.goto('http://localhost:3000/credentials')
 
     // When: User clicks download button on credential
-    const downloadBtn = page.locator('[data-testid="download-credential"], button:has-text(/download|export|pdf/i)').first()
+    const downloadBtn = page.locator('[data-testid="download-credential"]').or(page.getByRole('button', { name: /download|export|pdf/ })).first()
 
     if (await downloadBtn.isVisible({ timeout: 2000 }).catch(() => false)) {
       const downloadPromise = page.waitForEvent('download')
@@ -200,7 +200,7 @@ test.describe('Credential Import', () => {
     await page.goto('http://localhost:3000/credentials')
 
     // When: User clicks "Export as Badge" button
-    const exportBtn = page.locator('[data-testid="export-badge"], button:has-text(/badge|export|open badge/i)').first()
+    const exportBtn = page.locator('[data-testid="export-badge"]').or(page.getByRole('button', { name: /badge|export|open badge/ })).first()
 
     if (await exportBtn.isVisible({ timeout: 2000 }).catch(() => false)) {
       const downloadPromise = page.waitForEvent('download')
@@ -245,13 +245,13 @@ test.describe('Credential Import', () => {
     await page.goto('http://localhost:3000/credentials')
 
     // When: User clicks QR icon
-    const qrBtn = page.locator('[data-testid="qr-button"], button:has-text(/qr|share/i)').first()
+    const qrBtn = page.locator('[data-testid="qr-button"]').or(page.getByRole('button', { name: /qr|share/ })).first()
 
     if (await qrBtn.isVisible({ timeout: 2000 }).catch(() => false)) {
       await qrBtn.click()
 
       // Then: QR code modal displays
-      const qrModal = page.locator('[data-testid="qr-modal"], [role="dialog"]:has-text(/qr/i)')
+      const qrModal = page.locator('[data-testid="qr-modal"]').or(page.locator('[role="dialog"]').filter({ hasText: /qr/ }))
       await expect(qrModal).toBeVisible({ timeout: 5000 })
 
       // Then: QR code image visible
@@ -308,13 +308,13 @@ test.describe('Credential Import', () => {
 
     // When: Credentials page loads
     // Then: Expired credentials shown
-    const expiredBadge = page.locator('[data-testid="expired-badge"], text=/expired/i')
+    const expiredBadge = page.locator('[data-testid="expired-badge"]').filter({ hasText: /expired/ })
 
     if (await expiredBadge.isVisible({ timeout: 2000 }).catch(() => false)) {
       await expect(expiredBadge).toBeVisible()
 
       // Then: Expiry date highlighted in red
-      const expiredCard = page.locator('[data-testid="credential-card"]:has-text(/expired/i)').first()
+      const expiredCard = page.locator('[data-testid="credential-card"]').filter({ hasText: /expired/ }).first()
       const expiryDate = expiredCard.locator('[data-testid="expiry-date"]')
 
       // Check if style indicates red/warning color
@@ -330,18 +330,18 @@ test.describe('Credential Import', () => {
     await page.goto('http://localhost:3000/credentials')
 
     // When: User clicks delete on expired credential
-    const expiredCard = page.locator('[data-testid="credential-card"]:has-text(/expired/i)').first()
+    const expiredCard = page.locator('[data-testid="credential-card"]').filter({ hasText: /expired/ }).first()
 
     if (await expiredCard.isVisible({ timeout: 2000 }).catch(() => false)) {
       const deleteBtn = expiredCard.locator('[data-testid="delete-credential"], button')
       await deleteBtn.click()
 
       // Then: Confirmation dialog appears
-      const confirmDialog = page.locator('[role="dialog"]:has-text(/delete|confirm/i)')
+      const confirmDialog = page.locator('[role="dialog"]').filter({ hasText: /delete|confirm/ })
       await expect(confirmDialog).toBeVisible({ timeout: 5000 })
 
       // Then: User confirms deletion
-      const confirmBtn = confirmDialog.locator('button:has-text(/confirm|delete|yes/i)')
+      const confirmBtn = confirmDialog.locator('button').filter({ hasText: /confirm|delete|yes/ })
       await confirmBtn.click()
 
       // Then: Credential removed from wallet
@@ -356,7 +356,7 @@ test.describe('Credential Import', () => {
     await page.goto('http://localhost:3000/credentials')
 
     // When: User clicks renew button
-    const renewBtn = page.locator('[data-testid="renew-credential"], button:has-text(/renew/i)').first()
+    const renewBtn = page.locator('[data-testid="renew-credential"]').or(page.getByRole('button', { name: /renew/ })).first()
 
     if (await renewBtn.isVisible({ timeout: 2000 }).catch(() => false)) {
       await renewBtn.click()

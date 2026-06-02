@@ -15,39 +15,39 @@ import { test, expect } from '@playwright/test'
 test.describe('Onboarding: Role Selection (UC1)', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('http://localhost:3000/auth/sign-in')
-    await page.click('button:has-text("Create new test user")')
+    await page.getByRole('button', { name: 'Create new test user' }).click()
     await expect(page).toHaveURL('/onboarding/role')
   })
 
   test('TC1.1: Role selection page displays all role options', async ({ page }) => {
     // Verify all role options are visible
-    await expect(page.locator('button:has-text("Apprentice")')).toBeVisible()
-    await expect(page.locator('button:has-text("Journeyperson")')).toBeVisible()
-    await expect(page.locator('button:has-text("Master")')).toBeVisible()
-    await expect(page.locator('button:has-text("Employer")')).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Apprentice' })).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Journeyperson' })).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Master' })).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Employer' })).toBeVisible()
   })
 
   test('TC1.2: Selecting apprentice role progresses to trade selection', async ({
     page,
   }) => {
-    await page.click('button:has-text("Apprentice")')
-    await page.click('button:has-text("Continue")')
+    await page.getByRole('button', { name: 'Apprentice' }).click()
+    await page.getByRole('button', { name: 'Continue' }).click()
     await expect(page).toHaveURL('/onboarding/trade')
   })
 
   test('TC1.3: Selecting journeyperson role progresses to trade selection', async ({
     page,
   }) => {
-    await page.click('button:has-text("Journeyperson")')
-    await page.click('button:has-text("Continue")')
+    await page.getByRole('button', { name: 'Journeyperson' }).click()
+    await page.getByRole('button', { name: 'Continue' }).click()
     await expect(page).toHaveURL('/onboarding/trade')
   })
 
   test('TC1.4: Selecting master role progresses to trade selection', async ({
     page,
   }) => {
-    await page.click('button:has-text("Master")')
-    await page.click('button:has-text("Continue")')
+    await page.getByRole('button', { name: 'Master' }).click()
+    await page.getByRole('button', { name: 'Continue' }).click()
     await expect(page).toHaveURL('/onboarding/trade')
   })
 
@@ -55,12 +55,12 @@ test.describe('Onboarding: Role Selection (UC1)', () => {
     page,
   }) => {
     // Try to continue without selecting a role
-    const continueButton = page.locator('button:has-text("Continue")')
+    const continueButton = page.getByRole('button', { name: 'Continue' })
     // Button should be disabled or form should not submit
     const isDisabled = await continueButton.isDisabled()
     if (!isDisabled) {
       // If button is enabled, clicking should not navigate away
-      await page.click('button:has-text("Continue")')
+      await continueButton.click()
       await expect(page).toHaveURL('/onboarding/role')
     }
   })
@@ -70,9 +70,9 @@ test.describe('Onboarding: Trade Selection (UC2)', () => {
   test.beforeEach(async ({ page }) => {
     // Create user and complete role selection
     await page.goto('http://localhost:3000/auth/sign-in')
-    await page.click('button:has-text("Create new test user")')
-    await page.click('button:has-text("Journeyperson")')
-    await page.click('button:has-text("Continue")')
+    await page.getByRole('button', { name: 'Create new test user' }).click()
+    await page.getByRole('button', { name: 'Journeyperson' }).click()
+    await page.getByRole('button', { name: 'Continue' }).click()
     await expect(page).toHaveURL('/onboarding/trade')
   })
 
@@ -90,15 +90,15 @@ test.describe('Onboarding: Trade Selection (UC2)', () => {
   test('TC2.2: Can select a trade and proceed to tutorial', async ({ page }) => {
     const select = page.locator('select')
     await select.selectOption({ index: 1 }) // Select first trade option
-    await page.click('button:has-text("Continue")')
+    await page.getByRole('button', { name: 'Continue' }).click()
     await expect(page).toHaveURL('/onboarding/tutorial')
   })
 
   test('TC2.3: Trade selection is required before proceeding', async ({ page }) => {
-    const continueButton = page.locator('button:has-text("Continue")')
+    const continueButton = page.getByRole('button', { name: 'Continue' })
     const isDisabled = await continueButton.isDisabled()
     if (!isDisabled) {
-      await page.click('button:has-text("Continue")')
+      await continueButton.click()
       // Should remain on trade page if not selected
       await expect(page).toHaveURL('/onboarding/trade')
     }
@@ -109,30 +109,30 @@ test.describe('Onboarding: Tutorial (UC4)', () => {
   test.beforeEach(async ({ page }) => {
     // Create user, select role, select trade
     await page.goto('http://localhost:3000/auth/sign-in')
-    await page.click('button:has-text("Create new test user")')
-    await page.click('button:has-text("Journeyperson")')
-    await page.click('button:has-text("Continue")')
+    await page.getByRole('button', { name: 'Create new test user' }).click()
+    await page.getByRole('button', { name: 'Journeyperson' }).click()
+    await page.getByRole('button', { name: 'Continue' }).click()
     await page.locator('select').selectOption({ index: 1 })
-    await page.click('button:has-text("Continue")')
+    await page.getByRole('button', { name: 'Continue' }).click()
     await expect(page).toHaveURL('/onboarding/tutorial')
   })
 
   test('TC4.1: Tutorial displays introduction screens', async ({ page }) => {
     // Verify tutorial intro content
     await expect(page.locator('text=/Your record|Yours forever/i')).toBeVisible()
-    await expect(page.locator('button:has-text("Got it")')).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Got it' })).toBeVisible()
   })
 
   test('TC4.2: Clicking "Got it" progresses through tutorial steps', async ({
     page,
   }) => {
     // Step through tutorial
-    const gotItButtons = page.locator('button:has-text("Got it")')
+    const gotItButtons = page.getByRole('button', { name: 'Got it' })
     const initialCount = await gotItButtons.count()
 
-    await page.click('button:has-text("Got it")')
+    await gotItButtons.first().click()
     // After clicking, either on next step or at contribution
-    const nextGotItButtons = page.locator('button:has-text("Got it")')
+    const nextGotItButtons = page.getByRole('button', { name: 'Got it' })
     const updatedCount = await nextGotItButtons.count()
 
     // Should have progressed (count might decrease or we're on next screen)
@@ -141,11 +141,11 @@ test.describe('Onboarding: Tutorial (UC4)', () => {
 
   test('TC4.3: Tutorial ends with first contribution prompt', async ({ page }) => {
     // Complete tutorial steps
-    const gotItButtons = page.locator('button:has-text("Got it")')
-    const count = await gotItButtons.count()
+    let gotItButtons = page.getByRole('button', { name: 'Got it' })
+    let count = await gotItButtons.count()
 
     for (let i = 0; i < count; i++) {
-      const buttons = page.locator('button:has-text("Got it")')
+      const buttons = page.getByRole('button', { name: 'Got it' })
       if ((await buttons.count()) > 0) {
         await buttons.first().click()
       }
@@ -161,17 +161,17 @@ test.describe('Onboarding: First Contribution (UC5)', () => {
   test.beforeEach(async ({ page }) => {
     // Complete up to tutorial
     await page.goto('http://localhost:3000/auth/sign-in')
-    await page.click('button:has-text("Create new test user")')
-    await page.click('button:has-text("Journeyperson")')
-    await page.click('button:has-text("Continue")')
+    await page.getByRole('button', { name: 'Create new test user' }).click()
+    await page.getByRole('button', { name: 'Journeyperson' }).click()
+    await page.getByRole('button', { name: 'Continue' }).click()
     await page.locator('select').selectOption({ index: 1 })
-    await page.click('button:has-text("Continue")')
+    await page.getByRole('button', { name: 'Continue' }).click()
 
     // Skip tutorial steps
-    let gotItButtons = page.locator('button:has-text("Got it")')
+    let gotItButtons = page.getByRole('button', { name: 'Got it' })
     let count = await gotItButtons.count()
     for (let i = 0; i < count; i++) {
-      const buttons = page.locator('button:has-text("Got it")')
+      const buttons = page.getByRole('button', { name: 'Got it' })
       if ((await buttons.count()) > 0) {
         await buttons.first().click()
       }
@@ -182,7 +182,7 @@ test.describe('Onboarding: First Contribution (UC5)', () => {
     const textarea = page.locator('textarea').first()
     await textarea.fill('This is my first contribution to the community')
 
-    const submitButton = page.locator('button:has-text(/Submit|Continue/i)').first()
+    const submitButton = page.getByRole('button', { name: /Submit|Continue/ }).first()
     await submitButton.click()
 
     // After contribution, should see success feedback or proceed to profile
@@ -199,7 +199,7 @@ test.describe('Onboarding: First Contribution (UC5)', () => {
     // Try submitting empty or very short content
     await textarea.fill('x')
 
-    const submitButton = page.locator('button:has-text(/Submit|Continue/i)').first()
+    const submitButton = page.getByRole('button', { name: /Submit|Continue/ }).first()
     await submitButton.click()
 
     // Should either show error or remain on page
@@ -217,7 +217,7 @@ test.describe('Onboarding: Profile Setup (UC3)', () => {
 
     // If redirected to sign-in, create user first
     if (page.url().includes('/auth/sign-in')) {
-      await page.click('button:has-text("Create new test user")')
+      await page.getByRole('button', { name: 'Create new test user' }).click()
       await page.goto('http://localhost:3000/onboarding/profile')
     }
   })
@@ -241,24 +241,24 @@ test.describe('Onboarding: Complete Flow', () => {
   }) => {
     // Step 1: Sign in and create user
     await page.goto('http://localhost:3000/auth/sign-in')
-    await page.click('button:has-text("Create new test user")')
+    await page.getByRole('button', { name: 'Create new test user' }).click()
     await expect(page).toHaveURL('/onboarding/role')
 
     // Step 2: Select role
-    await page.click('button:has-text("Apprentice")')
-    await page.click('button:has-text("Continue")')
+    await page.getByRole('button', { name: 'Apprentice' }).click()
+    await page.getByRole('button', { name: 'Continue' }).click()
     await expect(page).toHaveURL('/onboarding/trade')
 
     // Step 3: Select trade
     await page.locator('select').selectOption({ index: 1 })
-    await page.click('button:has-text("Continue")')
+    await page.getByRole('button', { name: 'Continue' }).click()
     await expect(page).toHaveURL('/onboarding/tutorial')
 
     // Step 4: Progress through tutorial
-    const gotItButtons = page.locator('button:has-text("Got it")')
-    const count = await gotItButtons.count()
+    let gotItButtons = page.getByRole('button', { name: 'Got it' })
+    let count = await gotItButtons.count()
     for (let i = 0; i < Math.min(count, 3); i++) {
-      const buttons = page.locator('button:has-text("Got it")')
+      const buttons = page.getByRole('button', { name: 'Got it' })
       if ((await buttons.count()) > 0) {
         await buttons.first().click()
       }
@@ -269,7 +269,7 @@ test.describe('Onboarding: Complete Flow', () => {
     if (await textarea.isVisible()) {
       await textarea.fill('My first contribution to the trades community')
       const submitButton = page
-        .locator('button:has-text(/Submit|Continue|Finish/i)')
+        .getByRole('button', { name: /Submit|Continue|Finish/ })
         .first()
       await submitButton.click()
     }
@@ -299,7 +299,7 @@ test.describe('Onboarding: Complete Flow', () => {
   }) => {
     // Create user and get to role selection
     await page.goto('http://localhost:3000/auth/sign-in')
-    await page.click('button:has-text("Create new test user")')
+    await page.getByRole('button', { name: 'Create new test user' }).click()
 
     const userId = await page.evaluate(() => {
       const cookie = document.cookie
@@ -309,8 +309,8 @@ test.describe('Onboarding: Complete Flow', () => {
     })
 
     // Select role
-    await page.click('button:has-text("Journeyperson")')
-    await page.click('button:has-text("Continue")')
+    await page.getByRole('button', { name: 'Journeyperson' }).click()
+    await page.getByRole('button', { name: 'Continue' }).click()
 
     // Navigate away
     await page.goto('http://localhost:3000')
@@ -318,7 +318,7 @@ test.describe('Onboarding: Complete Flow', () => {
     // Sign in again and should resume
     await page.goto('http://localhost:3000/auth/sign-in')
     if (userId) {
-      const resumeButton = page.locator(`button:has-text("${userId}")`)
+      const resumeButton = page.getByRole('button', { name: userId })
       if (await resumeButton.isVisible()) {
         await resumeButton.click()
         // Should return to onboarding at the right step

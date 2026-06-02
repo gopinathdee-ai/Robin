@@ -72,12 +72,12 @@ test.describe('Community: Ask a Question (UC2)', () => {
     const signInButton = page.locator('text=Sign In').first()
     if (await signInButton.isVisible()) {
       await signInButton.click()
-      await page.click('button:has-text("Create new test user")')
+      await page.getByRole('button', { name: 'Create new test user' }).click()
     }
   })
 
   test('TC2.1: "Ask a Question" button opens question form', async ({ page }) => {
-    const askButton = page.locator('button:has-text(/Ask a Question|Ask|Question/)').first()
+    const askButton = page.getByRole('button', { name: /Ask a Question|Ask|Question/ }).first()
     if (await askButton.isVisible()) {
       await askButton.click()
 
@@ -93,11 +93,11 @@ test.describe('Community: Ask a Question (UC2)', () => {
   })
 
   test('TC2.2: Question requires title and body', async ({ page }) => {
-    const askButton = page.locator('button:has-text(/Ask|Question/)').first()
+    const askButton = page.getByRole('button', { name: /Ask|Question/ }).first()
     if (await askButton.isVisible()) {
       await askButton.click()
 
-      const submitButton = page.locator('button:has-text(/Submit|Post|Create/i)').first()
+      const submitButton = page.getByRole('button', { name: /Submit|Post|Create/ }).first()
 
       // Submit button should be disabled if form is empty
       const isDisabled = await submitButton.isDisabled().catch(() => false)
@@ -108,14 +108,14 @@ test.describe('Community: Ask a Question (UC2)', () => {
   })
 
   test('TC2.3: Can submit a question with trade and topic', async ({ page }) => {
-    const askButton = page.locator('button:has-text(/Ask|Question/)').first()
+    const askButton = page.getByRole('button', { name: /Ask|Question/ }).first()
     if (await askButton.isVisible()) {
       await askButton.click()
 
       // Fill form
       const titleInput = page.locator('input[name*="title" i], input[placeholder*="title" i]').first()
       const bodyTextarea = page.locator('textarea').first()
-      const submitButton = page.locator('button:has-text(/Submit|Post/i)').first()
+      const submitButton = page.getByRole('button', { name: /Submit|Post/ }).first()
 
       if (await titleInput.isVisible()) {
         await titleInput.fill('How do I properly size a circuit breaker?')
@@ -139,12 +139,12 @@ test.describe('Community: Create a Post (UC3)', () => {
     const signInButton = page.locator('text=Sign In').first()
     if (await signInButton.isVisible()) {
       await signInButton.click()
-      await page.click('button:has-text("Create new test user")')
+      await page.getByRole('button', { name: 'Create new test user' }).click()
     }
   })
 
   test('TC3.1: "Create Post" button opens post form', async ({ page }) => {
-    const createPostButton = page.locator('button:has-text(/Create|Post/)').first()
+    const createPostButton = page.getByRole('button', { name: /Create|Post/ }).first()
     if (await createPostButton.isVisible()) {
       await createPostButton.click()
 
@@ -159,7 +159,7 @@ test.describe('Community: Create a Post (UC3)', () => {
 
   test('TC3.2: Post form has different title from Question form', async ({ page }) => {
     // Check that post button exists separately from question button
-    const buttons = page.locator('button:has-text(/Ask|Create|Post/)')
+    const buttons = page.getByRole('button', { name: /Ask|Create|Post/ })
     const count = await buttons.count()
 
     // Should have at least 2 separate buttons for Ask vs Create
@@ -167,13 +167,13 @@ test.describe('Community: Create a Post (UC3)', () => {
   })
 
   test('TC3.3: Can submit a post with title and body', async ({ page }) => {
-    const createPostButton = page.locator('button:has-text(/Create|Post/)').first()
+    const createPostButton = page.getByRole('button', { name: /Create|Post/ }).first()
     if (await createPostButton.isVisible()) {
       await createPostButton.click()
 
       const titleInput = page.locator('input[name*="title" i], input[placeholder*="title" i]').first()
       const bodyTextarea = page.locator('textarea').first()
-      const submitButton = page.locator('button:has-text(/Submit|Post/i)').first()
+      const submitButton = page.getByRole('button', { name: /Submit|Post/ }).first()
 
       if (await titleInput.isVisible()) {
         await titleInput.fill('Best Practices for Electrical Safety in Residential Wiring')
@@ -198,7 +198,7 @@ test.describe('Community: Answer a Question (UC4)', () => {
     const signInButton = page.locator('text=Sign In').first()
     if (await signInButton.isVisible()) {
       await signInButton.click()
-      await page.click('button:has-text("Create new test user")')
+      await page.getByRole('button', { name: 'Create new test user' }).click()
     }
 
     // Find and click first question
@@ -232,7 +232,7 @@ test.describe('Community: Answer a Question (UC4)', () => {
     if (await answerTextarea.isVisible()) {
       await answerTextarea.fill('short')
 
-      const submitButton = page.locator('button:has-text(/Post|Submit/i)').first()
+      const submitButton = page.getByRole('button', { name: /Post|Submit/ }).first()
       const isDisabled = await submitButton.isDisabled()
 
       expect(isDisabled).toBe(true)
@@ -247,7 +247,7 @@ test.describe('Community: Answer a Question (UC4)', () => {
 
       await answerTextarea.fill(validAnswer)
 
-      const submitButton = page.locator('button:has-text(/Post|Submit/i)').first()
+      const submitButton = page.getByRole('button', { name: /Post|Submit/ }).first()
       await submitButton.click()
 
       // Verify answer was posted
@@ -322,13 +322,13 @@ test.describe('Community: Voting (UC8)', () => {
     const signInButton = page.locator('text=Sign In').first()
     if (await signInButton.isVisible()) {
       await signInButton.click()
-      await page.click('button:has-text("Create new test user")')
+      await page.getByRole('button', { name: 'Create new test user' }).click()
     }
 
     await page.waitForLoadState('networkidle')
 
     // Find upvote button
-    const upvoteButton = page.locator('button:has-text(/upvote|👍|like/i)').first()
+    const upvoteButton = page.getByRole('button', { name: /upvote|like/ }).first()
     if (await upvoteButton.isVisible()) {
       const initialText = await upvoteButton.textContent()
       await upvoteButton.click()
@@ -359,11 +359,11 @@ test.describe('Community: Bookmarks (UC9)', () => {
     const signInButton = page.locator('text=Sign In').first()
     if (await signInButton.isVisible()) {
       await signInButton.click()
-      await page.click('button:has-text("Create new test user")')
+      await page.getByRole('button', { name: 'Create new test user' }).click()
     }
 
     // Find bookmark button
-    const bookmarkButton = page.locator('button:has-text(/bookmark|save/i)').first()
+    const bookmarkButton = page.getByRole('button', { name: /bookmark|save/ }).first()
     if (await bookmarkButton.isVisible()) {
       await bookmarkButton.click()
 
@@ -419,11 +419,11 @@ test.describe('Community: AI Quality Scoring (UC10)', () => {
     const signInButton = page.locator('text=Sign In').first()
     if (await signInButton.isVisible()) {
       await signInButton.click()
-      await page.click('button:has-text("Create new test user")')
+      await page.getByRole('button', { name: 'Create new test user' }).click()
     }
 
     // Create a question
-    const askButton = page.locator('button:has-text(/Ask/)').first()
+    const askButton = page.getByRole('button', { name: /Ask/ }).first()
     if (await askButton.isVisible()) {
       await askButton.click()
 
@@ -434,7 +434,7 @@ test.describe('Community: AI Quality Scoring (UC10)', () => {
         await titleInput.fill('Test question for AI scoring')
         await bodyTextarea.fill('This is a test question to verify AI quality scoring works correctly.')
 
-        const submitButton = page.locator('button:has-text(/Submit/i)').first()
+        const submitButton = page.getByRole('button', { name: /Submit/ }).first()
         await submitButton.click()
 
         // Should show status after submission
@@ -458,13 +458,13 @@ test.describe('Community: Full User Flow', () => {
     const signInButton = page.locator('text=Sign In').first()
     if (await signInButton.isVisible()) {
       await signInButton.click()
-      await page.click('button:has-text("Create new test user")')
+      await page.getByRole('button', { name: 'Create new test user' }).click()
     }
 
     await page.waitForLoadState('networkidle')
 
     // 3. Ask a question
-    const askButton = page.locator('button:has-text(/Ask/)').first()
+    const askButton = page.getByRole('button', { name: /Ask/ }).first()
     if (await askButton.isVisible()) {
       await askButton.click()
 
@@ -475,7 +475,7 @@ test.describe('Community: Full User Flow', () => {
         await titleInput.fill('What is the proper way to install a GFCI outlet?')
         await bodyTextarea.fill('I am installing outlets in a kitchen near a sink. Should I use GFCI protection? How do I wire it?')
 
-        const submitButton = page.locator('button:has-text(/Submit/i)').first()
+        const submitButton = page.getByRole('button', { name: /Submit/ }).first()
         await submitButton.click()
 
         // Wait for post to appear in feed

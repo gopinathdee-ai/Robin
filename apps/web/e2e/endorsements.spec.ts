@@ -61,7 +61,7 @@ test.describe('Peer Endorsement System', () => {
     await expect(userName).toBeVisible({ timeout: 5000 })
 
     // - User tier
-    const userTier = userCard.locator('[data-testid="user-tier"], text=/apprentice|journeyperson|expert|mentor/i')
+    const userTier = userCard.locator('[data-testid="user-tier"]').filter({ hasText: /apprentice|journeyperson|expert|mentor/ })
     await expect(userTier).toBeVisible({ timeout: 5000 })
 
     // - Main trades
@@ -69,11 +69,11 @@ test.describe('Peer Endorsement System', () => {
     await expect(userTrades).toBeVisible({ timeout: 5000 })
 
     // - Reputation score
-    const userScore = userCard.locator('[data-testid="user-score"], text=/points?|reputation/i')
+    const userScore = userCard.locator('[data-testid="user-score"]').filter({ hasText: /points?|reputation/ })
     await expect(userScore).toBeVisible({ timeout: 5000 })
 
     // - Endorsement count
-    const endorsementCount = userCard.locator('[data-testid="endorsement-count"], text=/endorsement/i')
+    const endorsementCount = userCard.locator('[data-testid="endorsement-count"]').filter({ hasText: /endorsement/ })
     await expect(endorsementCount).toBeVisible({ timeout: 5000 })
   })
 
@@ -104,7 +104,7 @@ test.describe('Peer Endorsement System', () => {
 
     // When: User card is displayed
     // Then: "Endorse" button visible
-    const endorseBtn = page.locator('[data-testid="endorse-button"], button:has-text(/endorse/i)').first()
+    const endorseBtn = page.locator('[data-testid="endorse-button"]').or(page.getByRole('button', { name: /endorse/ })).first()
 
     if (await endorseBtn.isVisible({ timeout: 2000 }).catch(() => false)) {
       await expect(endorseBtn).toBeVisible()
@@ -119,7 +119,7 @@ test.describe('Peer Endorsement System', () => {
     await page.goto('http://localhost:3000/community')
 
     // When: User clicks endorse button
-    const endorseBtn = page.locator('[data-testid="endorse-button"], button:has-text(/endorse/i)').first()
+    const endorseBtn = page.locator('[data-testid="endorse-button"]').or(page.getByRole('button', { name: /endorse/ })).first()
 
     if (await endorseBtn.isVisible({ timeout: 2000 }).catch(() => false)) {
       await endorseBtn.click()
@@ -138,7 +138,7 @@ test.describe('Peer Endorsement System', () => {
       await expect(rationaleField).toBeVisible({ timeout: 5000 })
 
       // - Submit button
-      const submitBtn = modal.locator('[data-testid="endorse-submit"], button:has-text(/submit|endorse/i)')
+      const submitBtn = modal.locator('[data-testid="endorse-submit"]').or(modal.getByRole('button', { name: /submit|endorse/ }))
       await expect(submitBtn).toBeVisible({ timeout: 5000 })
     }
   })
@@ -164,7 +164,7 @@ test.describe('Peer Endorsement System', () => {
       const isDisabled = await submitBtn.isDisabled()
 
       // Check for error message
-      const errorMsg = modal.locator('[data-testid="rationale-error"], text=/minimum|80|characters/i')
+      const errorMsg = modal.locator('[data-testid="rationale-error"]').filter({ hasText: /minimum|80|characters/ })
 
       if (isDisabled || (await errorMsg.isVisible({ timeout: 1000 }).catch(() => false))) {
         // Either submit is disabled or error shown
@@ -226,7 +226,7 @@ test.describe('Peer Endorsement System', () => {
     const isDisabled = await endorseBtn.first().isDisabled().catch(() => false)
 
     // Or check for error message
-    const restrictionMsg = page.locator('[data-testid="endorse-restriction"], text=/journeyperson|required/i')
+    const restrictionMsg = page.locator('[data-testid="endorse-restriction"]').filter({ hasText: /journeyperson|required/ })
 
     // One of these should be true:
     // - Button is disabled, OR
@@ -243,7 +243,7 @@ test.describe('Peer Endorsement System', () => {
     await page.goto('http://localhost:3000/community')
 
     // Then: Endorse button is enabled
-    const endorseBtn = page.locator('[data-testid="endorse-button"], button:has-text(/endorse/i)').first()
+    const endorseBtn = page.locator('[data-testid="endorse-button"]').or(page.getByRole('button', { name: /endorse/ })).first()
 
     // Button may be disabled for self-endorsement, but not due to tier
     // Verify either button exists or no tier restriction shown
@@ -280,11 +280,11 @@ test.describe('Peer Endorsement System', () => {
     await page.goto('http://localhost:3000/reputation')
 
     // Then: Points updated
-    const scoreElement = page.locator('[data-testid="total-points"], text=/\d+/')
+    const scoreElement = page.locator('[data-testid="total-points"]').filter({ hasText: /\d+/ })
     await expect(scoreElement).toBeVisible({ timeout: 5000 })
 
     // Then: Endorsement event visible in log
-    const endorsementEvent = page.locator('[data-testid="reputation-event"]:has-text(/endorse/i)').first()
+    const endorsementEvent = page.locator('[data-testid="reputation-event"]').filter({ hasText: /endorse/ }).first()
     // May or may not be visible if no endorsements yet
   })
 
@@ -328,7 +328,7 @@ test.describe('Peer Endorsement System', () => {
     await page.goto('http://localhost:3000/reputation')
 
     // Then: Endorsements section visible
-    const endorsementsSection = page.locator('[data-testid="endorsements-section"], text=/endorsement/i').first()
+    const endorsementsSection = page.locator('[data-testid="endorsements-section"]').filter({ hasText: /endorsement/ }).first()
     await expect(endorsementsSection).toBeVisible({ timeout: 5000 })
   })
 
@@ -347,11 +347,11 @@ test.describe('Peer Endorsement System', () => {
       await expect(endorserName).toBeVisible({ timeout: 5000 })
 
       // Then: Shows topic
-      const topic = endorsement.locator('[data-testid="endorsement-topic"], text=/topic|trade/i')
+      const topic = endorsement.locator('[data-testid="endorsement-topic"]').filter({ hasText: /topic|trade/ })
       await expect(topic).toBeVisible({ timeout: 5000 })
 
       // Then: Shows date
-      const date = endorsement.locator('[data-testid="endorsement-date"], text=/ago|date/i')
+      const date = endorsement.locator('[data-testid="endorsement-date"]').filter({ hasText: /ago|date/ })
       await expect(date).toBeVisible({ timeout: 5000 })
 
       // Then: Shows rationale (private, only user sees)
@@ -384,7 +384,7 @@ test.describe('Peer Endorsement System', () => {
     await page.goto(endpoint)
 
     // Then: Revoke button available (only on endorsements user gave)
-    const revokeBtn = page.locator('[data-testid="revoke-endorsement"], button:has-text(/revoke/i)').first()
+    const revokeBtn = page.locator('[data-testid="revoke-endorsement"]').or(page.getByRole('button', { name: /revoke/ })).first()
 
     // Revoke button may only appear if user gave the endorsement
     // Tested during implementation
@@ -426,7 +426,7 @@ test.describe('Peer Endorsement System', () => {
 
     // When: Profile loads
     // Then: Endorsement count displayed
-    const endorsementCount = page.locator('[data-testid="endorsement-count"], text=/endorsement/i')
+    const endorsementCount = page.locator('[data-testid="endorsement-count"]').filter({ hasText: /endorsement/ })
     await expect(endorsementCount).toBeVisible({ timeout: 5000 })
   })
 
@@ -495,7 +495,7 @@ test.describe('Peer Endorsement System', () => {
     await page.goto('http://localhost:3000/community')
 
     // Step 1: Find and click endorse button
-    const endorseBtn = page.locator('[data-testid="endorse-button"], button:has-text(/endorse/i)').first()
+    const endorseBtn = page.locator('[data-testid="endorse-button"]').or(page.getByRole('button', { name: /endorse/ })).first()
 
     if (await endorseBtn.isVisible({ timeout: 2000 }).catch(() => false)) {
       // Step 2: Fill endorsement form
