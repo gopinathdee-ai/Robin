@@ -97,18 +97,18 @@ export function AppHeader() {
         </div>
       </header>
 
-      {/* Mobile Menu - Fixed Overlay */}
+      {/* Mobile Menu - Slide Down from Header */}
       {isMenuOpen && (
         <>
           {/* Backdrop */}
           <div
-            className="fixed inset-0 bg-black/50 md:hidden z-30"
+            className="fixed inset-0 bg-black/30 md:hidden z-30"
             onClick={closeMenu}
             aria-hidden="true"
           />
-          {/* Menu Panel */}
-          <nav className="fixed top-0 left-0 right-0 bottom-0 bg-white md:hidden z-40 flex flex-col pt-16">
-            <div className="max-w-6xl mx-auto w-full px-4 py-4 space-y-2">
+          {/* Menu Panel - Compact, slides from header */}
+          <nav className="fixed top-16 left-0 right-0 bg-white md:hidden z-40 border-b border-ink-200 shadow-lg">
+            <div className="max-w-6xl mx-auto w-full px-4 py-3 space-y-1">
               {navItems.map(({ href, icon, label }) => (
                 <Link
                   key={href}
