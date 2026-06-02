@@ -97,27 +97,36 @@ export function AppHeader() {
         </div>
       </header>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu - Fixed Overlay */}
       {isMenuOpen && (
-        <div className="md:hidden border-b border-ink-200 bg-white">
-          <nav className="max-w-6xl mx-auto px-4 py-4 space-y-2">
-            {navItems.map(({ href, icon, label }) => (
-              <Link
-                key={href}
-                href={href}
-                onClick={closeMenu}
-                className={`flex items-center gap-3 px-4 py-3 rounded-lg font-semibold transition-colors ${
-                  isActive(href)
-                    ? 'text-trades-600 bg-trades-50'
-                    : 'text-ink-700 hover:bg-ink-50'
-                }`}
-              >
-                <FontAwesomeIcon icon={icon} className="h-5 w-5" />
-                {label}
-              </Link>
-            ))}
+        <>
+          {/* Backdrop */}
+          <div
+            className="fixed inset-0 bg-black/50 md:hidden z-30"
+            onClick={closeMenu}
+            aria-hidden="true"
+          />
+          {/* Menu Panel */}
+          <nav className="fixed top-0 left-0 right-0 bottom-0 bg-white md:hidden z-40 flex flex-col pt-16">
+            <div className="max-w-6xl mx-auto w-full px-4 py-4 space-y-2">
+              {navItems.map(({ href, icon, label }) => (
+                <Link
+                  key={href}
+                  href={href}
+                  onClick={closeMenu}
+                  className={`flex items-center gap-3 px-4 py-3 rounded-lg font-semibold transition-colors ${
+                    isActive(href)
+                      ? 'text-trades-600 bg-trades-50'
+                      : 'text-ink-700 hover:bg-ink-50'
+                  }`}
+                >
+                  <FontAwesomeIcon icon={icon} className="h-5 w-5" />
+                  {label}
+                </Link>
+              ))}
+            </div>
           </nav>
-        </div>
+        </>
       )}
     </>
   )
