@@ -1,5 +1,8 @@
 import { defineConfig, devices } from '@playwright/test'
 
+const baseURL = process.env.TEST_URL || 'http://localhost:3000'
+const isRemote = process.env.TEST_URL && process.env.TEST_URL !== 'http://localhost:3000'
+
 export default defineConfig({
   testDir: 'e2e',
   fullyParallel: true,
@@ -11,17 +14,19 @@ export default defineConfig({
     ['json', { outputFile: 'test-results.json' }],
   ],
   use: {
-    baseURL: 'http://localhost:3000',
+    baseURL,
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
   },
-  webServer: {
-    command: 'pnpm dev',
-    url: 'http://localhost:3000',
-    reuseExistingServer: !process.env.CI,
-    timeout: 120 * 1000,
-  },
+  webServer: isRemote
+    ? undefined
+    : {
+        command: 'pnpm dev',
+        url: 'http://localhost:3000',
+        reuseExistingServer: !process.env.CI,
+        timeout: 120 * 1000,
+      },
   projects: [
     {
       name: 'chromium',
