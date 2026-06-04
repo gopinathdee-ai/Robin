@@ -2,7 +2,7 @@
 
 import { useRef, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBold, faItalic, faUnderline, faCircleQuestion, faHeading, faList, faListOl, faQuoteLeft, faLink } from '@fortawesome/free-solid-svg-icons'
+import { faBold, faItalic, faUnderline, faCircleQuestion, faHeading, faList, faListOl } from '@fortawesome/free-solid-svg-icons'
 
 interface MarkdownEditorProps {
   value: string
@@ -53,9 +53,6 @@ export function MarkdownEditor({
   const handleHeading = () => insertMarkdown('# ', '')
   const handleList = () => insertMarkdown('- ', '')
   const handleNumList = () => insertMarkdown('1. ', '')
-  const handleBlockquote = () => insertMarkdown('> ', '')
-  const handleStrikethrough = () => insertMarkdown('~~', '~~')
-  const handleLink = () => insertMarkdown('[', '](url)')
 
   const charCount = value.length
   const isValid = charCount >= (minLength || 0) && charCount <= (maxLength || Infinity)
@@ -63,13 +60,13 @@ export function MarkdownEditor({
   return (
     <div className="space-y-3">
       {/* Toolbar */}
-      <div className="flex gap-2 p-2 bg-ink-50 border border-ink-200 rounded-t-lg items-center flex-wrap">
+      <div className="flex gap-1 md:gap-2 p-1 md:p-2 bg-ink-50 border border-ink-200 rounded-t-lg items-center flex-wrap">
         {/* Text formatting */}
         <button
           onClick={handleBold}
           type="button"
           title="Bold"
-          className="flex items-center justify-center w-9 h-9 rounded bg-white border border-ink-300 hover:bg-ink-100 transition text-ink-700 font-bold"
+          className="flex items-center justify-center w-7 h-7 md:w-9 md:h-9 rounded bg-white border border-ink-300 hover:bg-ink-100 transition text-ink-700 font-bold text-xs md:text-base"
         >
           B
         </button>
@@ -77,7 +74,7 @@ export function MarkdownEditor({
           onClick={handleItalic}
           type="button"
           title="Italic"
-          className="flex items-center justify-center w-9 h-9 rounded bg-white border border-ink-300 hover:bg-ink-100 transition text-ink-700 italic"
+          className="flex items-center justify-center w-7 h-7 md:w-9 md:h-9 rounded bg-white border border-ink-300 hover:bg-ink-100 transition text-ink-700 italic text-xs md:text-base"
         >
           I
         </button>
@@ -85,82 +82,50 @@ export function MarkdownEditor({
           onClick={handleUnderline}
           type="button"
           title="Underline"
-          className="flex items-center justify-center w-9 h-9 rounded bg-white border border-ink-300 hover:bg-ink-100 transition text-ink-700 underline"
+          className="flex items-center justify-center w-7 h-7 md:w-9 md:h-9 rounded bg-white border border-ink-300 hover:bg-ink-100 transition text-ink-700 underline text-xs md:text-base"
         >
           U
         </button>
 
-        <div className="border-l border-ink-300 mx-1" />
+        <div className="border-l border-ink-300 mx-0.5 md:mx-1" />
 
         {/* Block formatting */}
         <button
           onClick={handleHeading}
           type="button"
           title="Heading"
-          className="flex items-center justify-center w-9 h-9 rounded bg-white border border-ink-300 hover:bg-ink-100 transition text-ink-700"
+          className="flex items-center justify-center w-7 h-7 md:w-9 md:h-9 rounded bg-white border border-ink-300 hover:bg-ink-100 transition text-ink-700"
         >
-          <FontAwesomeIcon icon={faHeading} className="h-4 w-4" />
+          <FontAwesomeIcon icon={faHeading} className="h-3 w-3 md:h-4 md:w-4" />
         </button>
         <button
           onClick={handleList}
           type="button"
           title="List"
-          className="flex items-center justify-center w-9 h-9 rounded bg-white border border-ink-300 hover:bg-ink-100 transition text-ink-700"
+          className="flex items-center justify-center w-7 h-7 md:w-9 md:h-9 rounded bg-white border border-ink-300 hover:bg-ink-100 transition text-ink-700"
         >
-          <FontAwesomeIcon icon={faList} className="h-4 w-4" />
+          <FontAwesomeIcon icon={faList} className="h-3 w-3 md:h-4 md:w-4" />
         </button>
 
         <button
           onClick={handleNumList}
           type="button"
           title="Numbered list"
-          className="flex items-center justify-center w-9 h-9 rounded bg-white border border-ink-300 hover:bg-ink-100 transition text-ink-700"
+          className="flex items-center justify-center w-7 h-7 md:w-9 md:h-9 rounded bg-white border border-ink-300 hover:bg-ink-100 transition text-ink-700"
         >
-          <FontAwesomeIcon icon={faListOl} className="h-4 w-4" />
+          <FontAwesomeIcon icon={faListOl} className="h-3 w-3 md:h-4 md:w-4" />
         </button>
 
-        <div className="border-l border-ink-300 mx-1" />
-
-        {/* Block elements */}
-        <button
-          onClick={handleBlockquote}
-          type="button"
-          title="Blockquote"
-          className="flex items-center justify-center w-9 h-9 rounded bg-white border border-ink-300 hover:bg-ink-100 transition text-ink-700"
-        >
-          <FontAwesomeIcon icon={faQuoteLeft} className="h-4 w-4" />
-        </button>
-        <button
-          onClick={handleStrikethrough}
-          type="button"
-          title="Strikethrough"
-          className="flex items-center justify-center w-9 h-9 rounded bg-white border border-ink-300 hover:bg-ink-100 transition text-ink-700 line-through"
-        >
-          S
-        </button>
-
-        <div className="border-l border-ink-300 mx-1" />
-
-        {/* Link */}
-        <button
-          onClick={handleLink}
-          type="button"
-          title="Link"
-          className="flex items-center justify-center w-9 h-9 rounded bg-white border border-ink-300 hover:bg-ink-100 transition text-ink-700"
-        >
-          <FontAwesomeIcon icon={faLink} className="h-4 w-4" />
-        </button>
-
-        <div className="border-l border-ink-300 mx-1 ml-auto" />
+        <div className="border-l border-ink-300 mx-0.5 md:mx-1 ml-auto" />
 
         {/* Help */}
         <button
           onClick={() => setShowHelp(!showHelp)}
           type="button"
           title="Show markdown help"
-          className="flex items-center justify-center w-9 h-9 rounded bg-white border border-ink-300 hover:bg-ink-100 transition text-ink-700"
+          className="flex items-center justify-center w-7 h-7 md:w-9 md:h-9 rounded bg-white border border-ink-300 hover:bg-ink-100 transition text-ink-700"
         >
-          <FontAwesomeIcon icon={faCircleQuestion} className="h-4 w-4" />
+          <FontAwesomeIcon icon={faCircleQuestion} className="h-3 w-3 md:h-4 md:w-4" />
         </button>
       </div>
 
@@ -200,12 +165,9 @@ export function MarkdownEditor({
             <div><span className="font-semibold">**bold**</span> for bold</div>
             <div><span className="italic">*italic*</span> for italic</div>
             <div><span className="underline">__underline__</span> for underline</div>
-            <div><span className="line-through">~~strikethrough~~</span></div>
             <div><span className="font-semibold"># Heading</span> for heading</div>
             <div><span>- item</span> for bullet list</div>
             <div><span>1. item</span> for numbered list</div>
-            <div><span className="text-ink-600">[text](url)</span> for link</div>
-            <div className="col-span-2"><span>{'>'}  quote</span> for blockquote</div>
           </div>
         </div>
       )}

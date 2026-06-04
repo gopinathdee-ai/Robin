@@ -97,27 +97,36 @@ export function AppHeader() {
         </div>
       </header>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu - Slide Down from Header */}
       {isMenuOpen && (
-        <div className="md:hidden border-b border-ink-200 bg-white">
-          <nav className="max-w-6xl mx-auto px-4 py-4 space-y-2">
-            {navItems.map(({ href, icon, label }) => (
-              <Link
-                key={href}
-                href={href}
-                onClick={closeMenu}
-                className={`flex items-center gap-3 px-4 py-3 rounded-lg font-semibold transition-colors ${
-                  isActive(href)
-                    ? 'text-trades-600 bg-trades-50'
-                    : 'text-ink-700 hover:bg-ink-50'
-                }`}
-              >
-                <FontAwesomeIcon icon={icon} className="h-5 w-5" />
-                {label}
-              </Link>
-            ))}
+        <>
+          {/* Backdrop */}
+          <div
+            className="fixed inset-0 bg-black/30 md:hidden z-30"
+            onClick={closeMenu}
+            aria-hidden="true"
+          />
+          {/* Menu Panel - Compact, slides from header */}
+          <nav className="fixed top-16 left-0 right-0 bg-white md:hidden z-40 border-b border-ink-200 shadow-lg">
+            <div className="max-w-6xl mx-auto w-full px-4 py-3 space-y-1">
+              {navItems.map(({ href, icon, label }) => (
+                <Link
+                  key={href}
+                  href={href}
+                  onClick={closeMenu}
+                  className={`flex items-center gap-3 px-4 py-3 rounded-lg font-semibold transition-colors ${
+                    isActive(href)
+                      ? 'text-trades-600 bg-trades-50'
+                      : 'text-ink-700 hover:bg-ink-50'
+                  }`}
+                >
+                  <FontAwesomeIcon icon={icon} className="h-5 w-5" />
+                  {label}
+                </Link>
+              ))}
+            </div>
           </nav>
-        </div>
+        </>
       )}
     </>
   )
